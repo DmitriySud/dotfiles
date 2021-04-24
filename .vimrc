@@ -6,13 +6,18 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 " Colorscheme
 Plug 'mhartington/oceanic-next'
 
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 Plug 'easymotion/vim-easymotion'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" Plug 'chiel92/vim-autoformat'
 Plug 'cdelledonne/vim-cmake'
 Plug 'vim-airline/vim-airline'
+
+" Нашёл в яндексе
+Plug 'Raimondi/delimitMate'
+Plug 'preservim/nerdcommenter'
+Plug 'Yggdroot/indentLine'
+
 
 call plug#end()
 
@@ -21,19 +26,21 @@ let g:airline#extensions#tabline#left_sep = '|'
 let g:airline#extensions#tabline#left_alt_sep = '>'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+
 syntax on
 set background=dark
 " colorscheme OceanicNext
 " hi Normal guibg=NONE ctermbg=NONE
-color transparent
+"color transparent
 
 set number
 set expandtab
-set tabstop=4
+set tabstop=2
 set smarttab
-set softtabstop=4
-set shiftwidth=4
-set colorcolumn=81
+set softtabstop=2
+set shiftwidth=2
+set colorcolumn=121
 highlight ColorColumn guibg=LightYellow
 
 let mapleader = "\<Space>"
@@ -69,7 +76,6 @@ endfunction
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 let g:formatter_yapf_style = "pep8"
-let g:formatterpath = '/home/dimasya/sources/formaters'
 " au BufWrite * :Autoformat
 
 "mapping
