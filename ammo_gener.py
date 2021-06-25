@@ -34,7 +34,6 @@ def make_ammo(method, url, headers, case, body):
 
 
 def main():
-    tvm_ticket = input()
     for i in range(100000):
         body = bson.json_util.dumps(
             {
@@ -47,15 +46,14 @@ def main():
         )
 
         headers = (
-            'Host: usample.sas.yp-c.yandex.net\r\n'
+            'Host: taxi-userver-load-tank-2.vla.yp-c.yandex.net\r\n'
             + 'User-Agent: tank\r\n'
             + 'Accept: */*\r\n'
-            + 'Connection: Close\r\n'
+            + 'Connection: keep-alive\r\n'
             + 'Content-Type: application/json\r\n'
-            + f'X-Ya-Service-Ticket: ticket'
         )
 
-        sys.stdout.write(make_ammo('POST', '/queue', headers, 'good', body))
+        sys.stdout.write(make_ammo('GET', '/hello', headers, 'good', None))
 
 
 if __name__ == '__main__':
