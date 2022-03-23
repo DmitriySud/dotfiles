@@ -9,7 +9,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/dyusudakov/.oh-my-zsh"
+export ZSH="~/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -107,7 +107,7 @@ antigen bundle completion
 antigen bundle git
 antigen bundle anton-rudeshko/zsh-arc
 
-
+antigen theme romkatv/powerlevel10k
 # Specify additional external plugins we want
 antigen bundle zsh-users/zsh-syntax-highlighting
 
@@ -118,8 +118,8 @@ antigen apply
 prompt belak
 bindkey -e
 
-source $ZSH/oh-my-zsh.sh
-source ~/git/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+# source $ZSH/oh-my-zsh.sh
+source "$HOME/repos/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
 
 export HISTSIZE=1000000
 export SAVEHIST=$HISTSIZE
@@ -163,3 +163,11 @@ export NVM_DIR="$HOME/.nvm"
 bindkey -s '^[OP' 'vim \"$(pwd)/$(xclip -o)\"\n'
 # Press f2 --> last selection is an absolute path
 bindkey -s '^[OQ' 'vim \"$(xclip -o)\"\n'
+
+
+echo '(( ! ${+functions[p10k]} )) || p10k finalize' >>! ~/.zshrc
+(( ! ${+functions[p10k]} )) || p10k finalize
+(( ! ${+functions[p10k]} )) || p10k finalize
+(( ! ${+functions[p10k]} )) || p10k finalize
+(( ! ${+functions[p10k]} )) || p10k finalize
+(( ! ${+functions[p10k]} )) || p10k finalize
