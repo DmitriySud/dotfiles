@@ -17,6 +17,21 @@ export ZSH="/home/dyusudakov/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
+alias ucd='cd ~/arc/arcadia/taxi/uservices'
+alias uucd='cd ~/uservices/userver'
+alias bcd='cd /tmp/uservices-build/build'
+alias pycd='cd ~/arc/arcadia/taxi/backend-py3'
+alias rgcpp='rg -t=cpp -F'
+alias rgpy='rg -t=py -F'
+alias rgcmake='rg -t=cmake -F'
+alias rgyaml='rg -t=yaml -F'
+alias als='arc status'
+
+alias vj='vim ~/temp.json'
+alias vt='vim ~/temp.txt'
+alias vy='vim ~/temp.yaml'
+alias vtr='vim ~/test.txt'
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
@@ -90,6 +105,8 @@ antigen bundle prompt
 antigen bundle utility
 antigen bundle completion
 antigen bundle git
+antigen bundle anton-rudeshko/zsh-arc
+
 
 # Specify additional external plugins we want
 antigen bundle zsh-users/zsh-syntax-highlighting
@@ -103,6 +120,10 @@ bindkey -e
 
 source $ZSH/oh-my-zsh.sh
 source ~/git/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
+export HISTSIZE=1000000
+export SAVEHIST=$HISTSIZE
+setopt EXTENDED_HISTORY
 
 # User configuration
 
@@ -132,3 +153,13 @@ source ~/git/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+## Open file on Vscode
+# Press f1 --> last selection is a relative path 
+bindkey -s '^[OP' 'vim \"$(pwd)/$(xclip -o)\"\n'
+# Press f2 --> last selection is an absolute path
+bindkey -s '^[OQ' 'vim \"$(xclip -o)\"\n'

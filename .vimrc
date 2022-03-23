@@ -12,11 +12,14 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'cdelledonne/vim-cmake'
 Plug 'vim-airline/vim-airline'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'mhinz/vim-startify'
 
 " Нашёл в яндексе
 Plug 'Raimondi/delimitMate'
 Plug 'preservim/nerdcommenter'
 Plug 'Yggdroot/indentLine'
+Plug 'tarekbecker/vim-yaml-formatter'
 
 
 call plug#end()
@@ -26,7 +29,10 @@ let g:airline#extensions#tabline#left_sep = '|'
 let g:airline#extensions#tabline#left_alt_sep = '>'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
+let g:yaml_formatter_indent_collection=2
+
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:indentLine_enabled = 1
 
 syntax on
 set background=dark
@@ -279,3 +285,35 @@ nnoremap <Leader>7 :7b<CR>
 nnoremap <Leader>8 :8b<CR>
 nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
+
+nnoremap <Leader>sw Pldw
+
+set pastetoggle=<F2>
+
+let g:coc_enabled = 1
+
+function CocToggle()
+  if (g:coc_enabled == 1)
+    CocDisable
+    let g:coc_enabled = 0 
+  else 
+    CocEnable
+    let g:coc_enabled = 1
+  endif
+endfunction
+
+nnoremap <F3> :set invnumber<CR> :call CocToggle()<CR> :IndentLinesToggle<CR>
+
+let g:arc_prefix = 'https://a.yandex-team.ru/arc/'
+function GetFileLink()
+  let l:file_name = expand('%:p')
+  let l:nodes = split(l:file_name, '/')
+  if len(l:nodes) > 2 && l:nodes[0] ==# 'home' && l:nodes[1] ==# 'dyusudakov' && l:nodes[2] ==# 'arc'
+    let l:link = g:arc_prefix . 'trunk/' . join(l:nodes[3:], '/') 
+    echo l:link
+  else
+    echo 'cant get arc link =_('
+  endif
+endfunction
+
+nnoremap <F4> :call GetFileLink()
