@@ -59,27 +59,27 @@ set autoread
 au CursorHold * checktime
 
 
-function! WrapForTmux(s)
-    if !exists('$TMUX')
-        return a:s
-    endif
+"function! WrapForTmux(s)
+    "if !exists('$TMUX')
+        "return a:s
+    "endif
 
-    let tmux_start = "\<Esc>Ptmux;"
-    let tmux_end = "\<Esc>\\"
+    "let tmux_start = "\<Esc>Ptmux;"
+    "let tmux_end = "\<Esc>\\"
 
-    return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
-endfunction
+    "return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+"endfunction
 
-let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+"let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+"let &t_EI .= WrapForTmux("\<Esc>[?2004l")
 
-function! XTermPasteBegin()
-    set pastetoggle=<Esc>[201~
-    set paste
-    return ""
-endfunction
+"function! XTermPasteBegin()
+    "set pastetoggle=<Esc>[201~
+    "set paste
+    "return ""
+"endfunction
 
-inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+"inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 let g:formatter_yapf_style = "pep8"
 " au BufWrite * :Autoformat
@@ -211,6 +211,7 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
+nmap <leader>cl  <Plug>(coc-codelens-actions)
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -316,4 +317,11 @@ function GetFileLink()
   endif
 endfunction
 
-nnoremap <F4> :call GetFileLink()
+nnoremap <F4> :call GetFileLink()<CR>
+
+function FirstInstall()
+  PlugInstall<CR>
+  CocInstall coc-snippets coc-diagnostic coc-yaml coc-python coc-pyright coc-json coc-cmake coc-clangd
+  echo 'press any key' <bar>
+  call getcahr() <bar>
+endfunction
