@@ -8,6 +8,9 @@ apt install npm
 node -v
 npm -v
 
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+	    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
 vim -c "autocmd! CursorHold * PlugInstall qall!""
 sleep 5
 

@@ -46,14 +46,12 @@ def main():
         )
 
         headers = (
-            'Host: taxi-userver-load-tank-2.vla.yp-c.yandex.net\r\n'
-            + 'User-Agent: tank\r\n'
+            'User-Agent: tank\r\n'
             + 'Accept: */*\r\n'
             + 'Connection: keep-alive\r\n'
-            + 'Content-Type: application/json\r\n'
         )
 
-        sys.stdout.write(make_ammo('GET', '/hello', headers, 'good', None))
+        sys.stdout.write(make_ammo('GET', '/ping', headers, 'good', None))
 
 
 if __name__ == '__main__':
