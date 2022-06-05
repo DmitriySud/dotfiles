@@ -1,0 +1,11 @@
+#!/bin/bash
+
+aliases="$HOME/regrun/aliases.json"
+res_file="$HOME/regrun/result.txt"
+
+case $1 in
+  {% for key,value in data.items() %} 
+  {{ key }}) {{ value }} >> $res_file || vim $res_file;;
+  {% endfor %}
+  *) echo unknown alias $1; exit 1;;
+esac
