@@ -8,6 +8,9 @@ apt -y install pip
 apt -y install telegram-desktop
 apt -y install curl 
 apt -y install cmake
+apt -y install clang-format
+apt -y install clang-tidy
+apt -y install clangd
 #+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 # git 
