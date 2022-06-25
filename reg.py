@@ -7,12 +7,12 @@ import jinja2
 import typing
 
 HOME_PATH = str(Path.home())
-SOURCE_PATH = f'{HOME_PATH}/dotfiles/'
+SOURCE_PATH = f'{HOME_PATH}/repos/dotfiles/'
 RUNNER_TEMPLATE_FILE = f'{SOURCE_PATH}/runner.jinja'
 
 WORK_PATH = f'{HOME_PATH}/regrun/'
 RUNNER_FILE = f'{HOME_PATH}/regrun/runner.sh'
-ALIASES_FILE = f'{WORK_PATH}/aliases.json'
+ALIASES_FILE = f'{SOURCE_PATH}/aliases.txt'
 
 USAGE: typing.Dict[str, str] = {
     'add': 'Add new alias.\t\t\t Usage: def add [-l] %new_name% %cmd%',
@@ -29,13 +29,14 @@ def load_data(path: str) -> typing.Dict[str, str]:
         return {}
 
     with open(path) as f:
-        data = json.load(f)
-        return data
+        lines = f.readlines()
+        return {x[0:x.find(' ')]: x[x.find(' ')+1:] for x in lines}
 
 
 def save_data(path: str, data: typing.Dict[str, str]):
     with open(path, 'w') as f:
-        json.dump(data, fp=f)
+        for key, value in data.items():
+            f.write(f'{key} {value}')
 
 
 def generate_runner(
