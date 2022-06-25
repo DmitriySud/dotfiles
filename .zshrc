@@ -9,7 +9,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="~/.oh-my-zsh"
+export ZSH="/home/dyusudakov/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -26,11 +26,14 @@ alias rgpy='rg -t=py -F'
 alias rgcmake='rg -t=cmake -F'
 alias rgyaml='rg -t=yaml -F'
 alias als='arc status'
+alias run='sh $HOME/regrun/runner.sh'
+alias def='python3 $HOME/dotfiles/reg.py'
 
 alias vj='vim ~/temp.json'
 alias vt='vim ~/temp.txt'
 alias vy='vim ~/temp.yaml'
 alias vtr='vim ~/test.txt'
+alias vrr='vim ~/regrun/result.txt'
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -107,7 +110,7 @@ antigen bundle completion
 antigen bundle git
 antigen bundle anton-rudeshko/zsh-arc
 
-antigen theme romkatv/powerlevel10k
+
 # Specify additional external plugins we want
 antigen bundle zsh-users/zsh-syntax-highlighting
 
@@ -118,8 +121,8 @@ antigen apply
 prompt belak
 bindkey -e
 
-# source $ZSH/oh-my-zsh.sh
-source "$HOME/repos/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
+source $ZSH/oh-my-zsh.sh
+source ~/git/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 
 export HISTSIZE=1000000
 export SAVEHIST=$HISTSIZE
@@ -163,11 +166,3 @@ export NVM_DIR="$HOME/.nvm"
 bindkey -s '^[OP' 'vim \"$(pwd)/$(xclip -o)\"\n'
 # Press f2 --> last selection is an absolute path
 bindkey -s '^[OQ' 'vim \"$(xclip -o)\"\n'
-
-
-echo '(( ! ${+functions[p10k]} )) || p10k finalize' >>! ~/.zshrc
-(( ! ${+functions[p10k]} )) || p10k finalize
-(( ! ${+functions[p10k]} )) || p10k finalize
-(( ! ${+functions[p10k]} )) || p10k finalize
-(( ! ${+functions[p10k]} )) || p10k finalize
-(( ! ${+functions[p10k]} )) || p10k finalize
