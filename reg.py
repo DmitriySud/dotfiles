@@ -3,12 +3,10 @@ import stat
 import os
 import json
 from pathlib import Path
-import jinja2
 import typing
 
 HOME_PATH = str(Path.home())
 SOURCE_PATH = f'{HOME_PATH}/repos/dotfiles/'
-RUNNER_TEMPLATE_FILE = f'{SOURCE_PATH}/runner.jinja'
 
 WORK_PATH = f'{HOME_PATH}/regrun/'
 RUNNER_FILE = f'{HOME_PATH}/regrun/runner.sh'
@@ -39,19 +37,6 @@ def save_data(path: str, data: typing.Dict[str, str]):
             f.write(f'{key} {value}')
 
 
-def generate_runner(
-        template_path: str, res_path: str, data: typing.Dict[str, str],
-):
-    templateLoader = jinja2.FileSystemLoader(
-        searchpath=os.path.dirname(template_path),
-    )
-    templateEnv = jinja2.Environment(loader=templateLoader)
-    template = templateEnv.get_template(os.path.basename(template_path))
-    template.stream(data=data).dump(res_path)
-
-    perms = stat.S_IMODE(os.stat(res_path).st_mode)
-
-    os.chmod(res_path, perms | stat.S_IXUSR)
 
 def print_usage(mode: str):
     print(f'{mode}\t{USAGE[mode]}')
@@ -126,7 +111,6 @@ def main() -> int:
         return 0
 
     save_data(ALIASES_FILE, data)
-    generate_runner(RUNNER_TEMPLATE_FILE, RUNNER_FILE, data)
 
     return 0
 

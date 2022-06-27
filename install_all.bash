@@ -68,3 +68,15 @@ curl -sL install-node.vercel.app/lts | bash
 
 #TODO: install extentions
 #...............................................................................
+
+#def->run
+DOTFILES_PATH="$HOME/repos/dotfiles"
+RUN_FILE="/usr/local/share/run.sh"
+
+cp $DOTFILES_PATH/run.sh "$RUN_FILE"
+
+if [ "$(grep -c "source $RUN_FILE" "$HOME/.zshrc")" == "0" ]; then
+  # Append source to RC file
+  echo -e "\\n\\n# Source goto\\n[[ -s \"$RUN_FILE\" ]] && source $RUN_FILE\\n" >> "$HOME/.zshrc"
+fi
+
