@@ -17,6 +17,24 @@ export ZSH="/home/dyusudakov/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
+alias ucd='cd ~/arc/arcadia/taxi/uservices'
+alias uucd='cd ~/uservices/userver'
+alias bcd='cd /tmp/uservices-build/build'
+alias pycd='cd ~/arc/arcadia/taxi/backend-py3'
+alias rgcpp='rg -t=cpp -F'
+alias rgpy='rg -t=py -F'
+alias rgcmake='rg -t=cmake -F'
+alias rgyaml='rg -t=yaml -F'
+alias als='arc status'
+alias run='sh $HOME/regrun/runner.sh'
+alias def='python3 $HOME/dotfiles/reg.py'
+
+alias vj='vim ~/temp.json'
+alias vt='vim ~/temp.txt'
+alias vy='vim ~/temp.yaml'
+alias vtr='vim ~/test.txt'
+alias vrr='vim ~/regrun/result.txt'
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
@@ -90,6 +108,8 @@ antigen bundle prompt
 antigen bundle utility
 antigen bundle completion
 antigen bundle git
+antigen bundle anton-rudeshko/zsh-arc
+
 
 # Specify additional external plugins we want
 antigen bundle zsh-users/zsh-syntax-highlighting
@@ -103,6 +123,10 @@ bindkey -e
 
 source $ZSH/oh-my-zsh.sh
 source ~/git/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+
+export HISTSIZE=1000000
+export SAVEHIST=$HISTSIZE
+setopt EXTENDED_HISTORY
 
 # User configuration
 
@@ -156,5 +180,4 @@ else
     fi
 fi
 unset __conda_setup
-# <<< conda initialize <<<
 

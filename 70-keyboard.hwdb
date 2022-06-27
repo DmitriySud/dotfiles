@@ -1,0 +1,6 @@
+evdev:input:b0003v*p*
+ KEYBOARD_KEY_700e0=leftctrl
+ KEYBOARD_KEY_700e2=leftalt
+ KEYBOARD_KEY_700e6=rightctrl
+ KEYBOARD_KEY_700e4=rightalt
+

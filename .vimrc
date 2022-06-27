@@ -12,11 +12,14 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'cdelledonne/vim-cmake'
 Plug 'vim-airline/vim-airline'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'mhinz/vim-startify'
 
 " Нашёл в яндексе
 Plug 'Raimondi/delimitMate'
 Plug 'preservim/nerdcommenter'
 Plug 'Yggdroot/indentLine'
+Plug 'tarekbecker/vim-yaml-formatter'
 
 
 call plug#end()
@@ -26,7 +29,10 @@ let g:airline#extensions#tabline#left_sep = '|'
 let g:airline#extensions#tabline#left_alt_sep = '>'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 
+let g:yaml_formatter_indent_collection=2
+
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:indentLine_enabled = 1
 
 syntax on
 set background=dark
@@ -53,27 +59,27 @@ set autoread
 au CursorHold * checktime
 
 
-function! WrapForTmux(s)
-    if !exists('$TMUX')
-        return a:s
-    endif
+"function! WrapForTmux(s)
+    "if !exists('$TMUX')
+        "return a:s
+    "endif
 
-    let tmux_start = "\<Esc>Ptmux;"
-    let tmux_end = "\<Esc>\\"
+    "let tmux_start = "\<Esc>Ptmux;"
+    "let tmux_end = "\<Esc>\\"
 
-    return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
-endfunction
+    "return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
+"endfunction
 
-let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+"let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+"let &t_EI .= WrapForTmux("\<Esc>[?2004l")
 
-function! XTermPasteBegin()
-    set pastetoggle=<Esc>[201~
-    set paste
-    return ""
-endfunction
+"function! XTermPasteBegin()
+    "set pastetoggle=<Esc>[201~
+    "set paste
+    "return ""
+"endfunction
 
-inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
+"inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 
 let g:formatter_yapf_style = "pep8"
 " au BufWrite * :Autoformat
@@ -205,6 +211,7 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
 nmap <leader>qf  <Plug>(coc-fix-current)
+nmap <leader>cl  <Plug>(coc-codelens-actions)
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -279,3 +286,42 @@ nnoremap <Leader>7 :7b<CR>
 nnoremap <Leader>8 :8b<CR>
 nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
+
+nnoremap <Leader>sw Pldw
+
+set pastetoggle=<F2>
+
+let g:coc_enabled = 1
+
+function CocToggle()
+  if (g:coc_enabled == 1)
+    CocDisable
+    let g:coc_enabled = 0 
+  else 
+    CocEnable
+    let g:coc_enabled = 1
+  endif
+endfunction
+
+nnoremap <F3> :set invnumber<CR> :call CocToggle()<CR> :IndentLinesToggle<CR>
+
+let g:arc_prefix = 'https://a.yandex-team.ru/arc/'
+function GetFileLink()
+  let l:file_name = expand('%:p')
+  let l:nodes = split(l:file_name, '/')
+  if len(l:nodes) > 2 && l:nodes[0] ==# 'home' && l:nodes[1] ==# 'dyusudakov' && l:nodes[2] ==# 'arc'
+    let l:link = g:arc_prefix . 'trunk/' . join(l:nodes[3:], '/') 
+    echo l:link
+  else
+    echo 'cant get arc link =_('
+  endif
+endfunction
+
+nnoremap <F4> :call GetFileLink()<CR>
+
+function FirstInstall()
+  PlugInstall<CR>
+  CocInstall coc-snippets coc-diagnostic coc-yaml coc-python coc-pyright coc-json coc-cmake coc-clangd
+  echo 'press any key' <bar>
+  call getcahr() <bar>
+endfunction
