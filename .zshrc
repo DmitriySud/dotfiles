@@ -153,16 +153,31 @@ setopt EXTENDED_HISTORY
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias bcd="cd /tmp/hse-build/build"
+alias hcd="cd ~/source/hse-cpp-practice"
+alias zshba="echo 🐸"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+eval $(skotty ssh env)
+
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-## Open file on Vscode
-# Press f1 --> last selection is a relative path 
-bindkey -s '^[OP' 'vim \"$(pwd)/$(xclip -o)\"\n'
-# Press f2 --> last selection is an absolute path
-bindkey -s '^[OQ' 'vim \"$(xclip -o)\"\n'
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/dyusudakov/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/dyusudakov/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/dyusudakov/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/dyusudakov/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+
