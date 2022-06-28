@@ -80,3 +80,8 @@ if [ "$(grep -c "source $RUN_FILE" "$HOME/.zshrc")" == "0" ]; then
   echo -e "\\n\\n# Source goto\\n[[ -s \"$RUN_FILE\" ]] && source $RUN_FILE\\n" >> "$HOME/.zshrc"
 fi
 
+
+#keyboard swap right ctrl and alt
+cp 70-keyboard.hwdb /etc/udev/hwdb.d/.
+sudo systemd-hwdb update && sudo udevadm trigger
+
