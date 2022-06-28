@@ -1,3 +1,6 @@
+
+DOTFILES="$HOME/repos/dotfiles"
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -9,7 +12,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/dyusudakov/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -26,8 +29,7 @@ alias rgpy='rg -t=py -F'
 alias rgcmake='rg -t=cmake -F'
 alias rgyaml='rg -t=yaml -F'
 alias als='arc status'
-alias run='sh $HOME/regrun/runner.sh'
-alias def='python3 $HOME/dotfiles/reg.py'
+alias def='python3 $DOTFILES/reg.py'
 
 alias vj='vim ~/temp.json'
 alias vt='vim ~/temp.txt'
@@ -160,24 +162,13 @@ alias zshba="echo 🐸"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-eval $(skotty ssh env)
+
+(eval $(skotty ssh env)) 2>/dev/null
 
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/dyusudakov/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/dyusudakov/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/dyusudakov/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/dyusudakov/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
+
+# Source goto
+[[ -s "/usr/local/share/goto.sh" ]] && source /usr/local/share/goto.sh
+[[ -s "/usr/local/share/run.sh" ]] && source /usr/local/share/run.sh
 

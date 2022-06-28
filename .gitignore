@@ -1,0 +1,11 @@
+/userver
+/.cache
+
+*.sw*
+
+compile_commands.json
+
+/build
+__pycache__/
+
+generated/
