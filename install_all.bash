@@ -61,6 +61,9 @@ chsr -s /bin/zsh
 
 #vim 
 #...............................................................................
+apt install -y neovim
+nvm install neovim
+pip install neovim
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 #nodejs
@@ -84,4 +87,5 @@ fi
 #keyboard swap right ctrl and alt
 cp 70-keyboard.hwdb /etc/udev/hwdb.d/.
 sudo systemd-hwdb update && sudo udevadm trigger
+
 

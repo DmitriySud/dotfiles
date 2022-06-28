@@ -1,6 +1,9 @@
 
 DOTFILES="$HOME/repos/dotfiles"
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -20,10 +23,6 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-alias ucd='cd ~/arc/arcadia/taxi/uservices'
-alias uucd='cd ~/uservices/userver'
-alias bcd='cd /tmp/uservices-build/build'
-alias pycd='cd ~/arc/arcadia/taxi/backend-py3'
 alias rgcpp='rg -t=cpp -F'
 alias rgpy='rg -t=py -F'
 alias rgcmake='rg -t=cmake -F'
@@ -31,11 +30,12 @@ alias rgyaml='rg -t=yaml -F'
 alias als='arc status'
 alias def='python3 $DOTFILES/reg.py'
 
+alias b='byobu'
+
 alias vj='vim ~/temp.json'
 alias vt='vim ~/temp.txt'
 alias vy='vim ~/temp.yaml'
 alias vtr='vim ~/test.txt'
-alias vrr='vim ~/regrun/result.txt'
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -147,25 +147,7 @@ setopt EXTENDED_HISTORY
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-alias bcd="cd /tmp/hse-build/build"
-alias hcd="cd ~/source/hse-cpp-practice"
-alias zshba="echo 🐸"
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-
 (eval $(skotty ssh env)) 2>/dev/null
-
-
 
 
 # Source goto

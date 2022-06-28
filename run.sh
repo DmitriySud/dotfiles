@@ -35,9 +35,16 @@ _exec_comand()
     result+=" || vim $OUT_FILE $ERR_FILE"
   fi
 
+  LOG_COMMAND=false
+  OPEN_VIM=false
+
   echo "run: $result"
 
+  local save_pwd=$(pwd)
+
   eval $result
+
+  cd $save_pwd
 }
 
 
@@ -51,6 +58,7 @@ run()
         ;;
       -v|--vim) 
         OPEN_VIM=true
+        LOG_COMMAND=true
         shift
         ;;
       *) 

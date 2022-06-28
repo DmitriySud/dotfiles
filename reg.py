@@ -28,12 +28,14 @@ def load_data(path: str) -> typing.Dict[str, str]:
 
     with open(path) as f:
         lines = f.readlines()
-        return {x[0:x.find(' ')]: x[x.find(' ')+1:] for x in lines}
+        return {x[0:x.find(' ')]: x[x.find(' ')+1:] for x in lines if x.strip()}
 
 
 def save_data(path: str, data: typing.Dict[str, str]):
     with open(path, 'w') as f:
         for key, value in data.items():
+            if value[-1] != '\n':
+                value += '\n'
             f.write(f'{key} {value}')
 
 
