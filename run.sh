@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-ALIASES="$HOME/repos/dotfiles/aliases.txt"
+ALIASES="$HOME/.config/aliases.txt"
 LOG_COMMAND=false
 OPEN_VIM=false
 OUT_FILE="$HOME/run.log"

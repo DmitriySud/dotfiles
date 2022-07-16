@@ -10,7 +10,7 @@ SOURCE_PATH = f'{HOME_PATH}/repos/dotfiles/'
 
 WORK_PATH = f'{HOME_PATH}/regrun/'
 RUNNER_FILE = f'{HOME_PATH}/regrun/runner.sh'
-ALIASES_FILE = f'{SOURCE_PATH}/aliases.txt'
+ALIASES_FILE = f'{HOME_PATH}/.config/aliases.txt'
 
 USAGE: typing.Dict[str, str] = {
     'add': 'Add new alias.\t\t\t Usage: def add [-l] %new_name% %cmd%',
