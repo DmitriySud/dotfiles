@@ -1,3 +1,8 @@
-aba echo caba
-cde echo 1
-err gcc suka
+create_env goto py && ./runtests -vvs services/clownductor/test_clownductor/cubes_handles/recipes/test_create_and_load_host.py
+format goto py && make smart-format
+lint goto py && make smart-check-lint
+regen_clown goto py && make gen-clownductor
+test_load_host goto py && ./runtests -vvs services/clownductor/test_clownductor/cubes_handles/recipes/test_start_load_host.py
+fix arc add . && arc commit -m fix && (arc push || arc push --force)
+test_handler goto py && ./runtests -vss services/clownductor/test_clownductor/web/test_load.py
+test_api_admin goto py &&  ./runtests -vss services/taxi-api-admin/test_taxi_api_admin/test_check_all_real_schemes.py
