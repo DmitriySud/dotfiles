@@ -11,6 +11,7 @@ apt -y install cmake
 apt -y install clang-format
 apt -y install clang-tidy
 apt -y install clangd
+apt -y install stow
 #+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 # git 
@@ -33,28 +34,16 @@ apt -y install zsh
 apt -y install fonts-powerline
 
 curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-cp repos/dotfiles/.zshrc .
 
 # # p10k
 cd repos 
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 git clone --depth 1 -- https://github.com/marlonrichert/zsh-autocomplete.git
-cp dotfiles/.p10k.zsh "$HOME/." 
 
 # # fonts 
-cd $HOME
-mkdir -p .fonts
-cd .fonts
-
-wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf
-wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf
-wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf
-wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf
-
 fc-cache -f -v
-
 # 
-chsr -s /bin/zsh
+chsh -s /bin/zsh
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,4 +77,9 @@ fi
 cp 70-keyboard.hwdb /etc/udev/hwdb.d/.
 sudo systemd-hwdb update && sudo udevadm trigger
 
+
+#tmux + byobu
+apt install -y byobu
+mkdir -p $HOME/.byobu
+touch $HOME/.byobu/.reuse-session
 
