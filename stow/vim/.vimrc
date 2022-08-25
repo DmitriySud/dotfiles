@@ -6,7 +6,7 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 " Colorscheme
 Plug 'mhartington/oceanic-next'
 
-" Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'
 Plug 'easymotion/vim-easymotion'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
@@ -318,10 +318,3 @@ function GetFileLink()
 endfunction
 
 nnoremap <F4> :call GetFileLink()<CR>
-
-function FirstInstall()
-  PlugInstall<CR>
-  CocInstall coc-snippets coc-diagnostic coc-yaml coc-python coc-pyright coc-json coc-cmake coc-clangd
-  echo 'press any key' <bar>
-  call getcahr() <bar>
-endfunction
