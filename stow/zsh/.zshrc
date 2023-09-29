@@ -12,7 +12,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+ #export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+export PATH="$PATH:$HOME/.local/bin"
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -27,7 +29,12 @@ alias rgcpp='rg -t=cpp -F'
 alias rgpy='rg -t=py -F'
 alias rgcmake='rg -t=cmake -F'
 alias rgyaml='rg -t=yaml -F'
-alias als='arc status'
+
+alias vrgcpp='vrg -t=cpp -F'
+alias vrgpy='vrg -t=py -F'
+alias vrgcmake='vrg -t=cmake -F'
+alias vrgyaml='vrg -t=yaml -F'
+
 alias def='python3 $DOTFILES/reg.py'
 
 alias b='byobu'
@@ -37,6 +44,12 @@ alias vt='vim ~/temp.txt'
 alias vy='vim ~/temp.yaml'
 alias vtr='vim ~/test.txt'
 
+alias findf='find -type f -name '
+alias findd='find -type d -name '
+
+alias arc-new='arc checkout trunk && arc pull trunk && arc checkout -b'
+alias retrunk='arc pull trunk && arc rebase trunk'
+alias tt='ya tool tt'
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
@@ -153,4 +166,11 @@ setopt EXTENDED_HISTORY
 # Source goto
 [[ -s "/usr/local/share/goto.sh" ]] && source /usr/local/share/goto.sh
 [[ -s "/usr/local/share/run.sh" ]] && source /usr/local/share/run.sh
+[[ -s "/usr/local/share/vrg.sh" ]] && source /usr/local/share/vrg.sh
 
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
