@@ -63,9 +63,10 @@ curl -sL install-node.vercel.app/lts | bash
 
 #def->run
 DOTFILES_PATH="$HOME/repos/dotfiles"
-RUN_FILE="/usr/local/share/run.sh"
+RUN_FILE="/usr/local/share/"
 
 cp $DOTFILES_PATH/run.sh "$RUN_FILE"
+cp $DOTFILES_PATH/rfv.sh "$RUN_FILE"
 
 if [ "$(grep -c "source $RUN_FILE" "$HOME/.zshrc")" == "0" ]; then
   # Append source to RC file
