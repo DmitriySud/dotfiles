@@ -1,4 +1,3 @@
-set rtp^=~/.vim 
-set rtp+=~/.vim/after
-let &packpath=&rtp
-source ~/.vimrc
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &packpath = &runtimepath
+source ~/.vimrc
