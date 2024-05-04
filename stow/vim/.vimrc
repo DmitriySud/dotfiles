@@ -36,7 +36,7 @@ let g:yaml_formatter_indent_collection=2
 
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 let g:indentLine_enabled = 1
-let g:coc_node_path = '/home/dsudakov/.nvm/versions/node/v20.8.0/bin/node'
+let g:coc_node_path = 'nodejs'
 
 syntax on
 set background=dark
