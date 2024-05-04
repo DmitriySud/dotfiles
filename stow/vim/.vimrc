@@ -36,7 +36,7 @@ let g:yaml_formatter_indent_collection=2
 
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 let g:indentLine_enabled = 1
-let g:coc_node_path = '/home/dyusudakov/.nvm/versions/node/v16.18.0/bin/node'
+let g:coc_node_path = '/home/dsudakov/.nvm/versions/node/v20.8.0/bin/node'
 
 syntax on
 set background=dark
@@ -46,10 +46,10 @@ set background=dark
 
 set number
 set expandtab
-set tabstop=2
+set tabstop=4
 set smarttab
-set softtabstop=2
-set shiftwidth=2
+set softtabstop=4
+set shiftwidth=4
 set colorcolumn=121
 highlight ColorColumn guibg=LightYellow
 
@@ -281,6 +281,7 @@ nnoremap <Leader>l :ls<CR>
 nnoremap <Leader>b :bp<CR>
 nnoremap <Leader>f :bn<CR>
 nnoremap <Leader>g :e#<CR>
+nnoremap <Leader>d :bp \| bd # <CR>
 nnoremap <Leader>1 :1b<CR>
 nnoremap <Leader>2 :2b<CR>
 nnoremap <Leader>3 :3b<CR>
@@ -356,14 +357,15 @@ let g:lightline = {
       \ }
 
 "" Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
-"let g:vista#renderer#enable_icon = 1
+let g:vista#renderer#enable_icon = 1
 
 "" The default icons can't be suitable for all the filetypes, you can extend it as you wish.
 "let g:vista#renderer#icons = {
 "\  }
+"
 "" Executive used when opening vista sidebar without specifying it.
 "" See all the avaliable executives via `:echo g:vista#executives`.
-"let g:vista_default_executive = 'ctags'
+let g:vista_default_executive = 'coc'
 
 "" Set the executive for some filetypes explicitly. Use the explicit executive
 "" instead of the default one for these filetypes when using `:Vista` without
@@ -382,7 +384,7 @@ let g:lightline = {
 "" To enable fzf's preview window set g:vista_fzf_preview.
 "" The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
 "" For example:
-"let g:vista_fzf_preview = ['right:50%']
+let g:vista_fzf_preview = ['right:50%']
 
 noremap <silent><leader>zb :Buffer<CR>
 noremap <silent><leader>zf :Files<CR>

@@ -1,4 +1,4 @@
-
+DISABLE_AUTO_TITLE="true"
 DOTFILES="$HOME/repos/dotfiles"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -11,18 +11,11 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
- #export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 export PATH="$PATH:$HOME/.local/bin"
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 alias rgcpp='rg -t=cpp -F'
@@ -34,6 +27,7 @@ alias vrgcpp='vrg -t=cpp -F'
 alias vrgpy='vrg -t=py -F'
 alias vrgcmake='vrg -t=cmake -F'
 alias vrgyaml='vrg -t=yaml -F'
+alias vrgnix='vrg -t=nix -F'
 
 alias def='python3 $DOTFILES/reg.py'
 
@@ -47,84 +41,18 @@ alias vtr='vim ~/test.txt'
 alias findf='find -type f -name '
 alias findd='find -type d -name '
 
-alias arc-new='arc checkout trunk && arc pull trunk && arc checkout -b'
-alias retrunk='arc pull trunk && arc rebase trunk'
-alias tt='ya tool tt'
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+alias replace="find ./ -type f -exec sed -i"
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+#alias arc-new='arc checkout trunk && arc pull trunk && arc checkout -b'
+#alias retrunk='arc pull trunk && arc rebase trunk'
+#alias tt='ya tool tt'
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+alias tlogin='tsh login || tsh logout && tsh login --user=dsudakov --proxy=port.bidderstack.com'
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+source $ZSH/oh-my-zsh.sh
 
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 [[ ! -d "$HOME/.antigen" ]] && git clone https://github.com/zsh-users/antigen.git "$HOME/.antigen"
 source "$HOME/.antigen/antigen.zsh"
-
-# Set the default plugin repo to be zsh-utils
-antigen use belak/zsh-utils
-
-# Specify plugins we want
-antigen bundle editor
-antigen bundle history
-antigen bundle prompt
-antigen bundle utility
-antigen bundle completion
-antigen bundle git
-antigen bundle anton-rudeshko/zsh-arc
-
 
 # Specify additional external plugins we want
 antigen bundle zsh-users/zsh-syntax-highlighting
@@ -132,45 +60,38 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 # Load everything
 antigen apply
 
-# Set any settings or overrides here
-prompt belak
-bindkey -e
-
-source $ZSH/oh-my-zsh.sh
-source ~/git/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-
 export HISTSIZE=1000000
 export SAVEHIST=$HISTSIZE
 setopt EXTENDED_HISTORY
 
-# User configuration
+function connect_to_test_container() {
+    local containers
+    containers=$(machinectl -l | grep "^bstack-${USER}" | awk '{print $1}')
 
-# export MANPATH="/usr/local/man:$MANPATH"
+    if [ "$(echo "$containers" | wc -l)" -gt 2 ]; then
+        echo "Error: More than two matching containers found."
+        return 1
+    elif [ -z "$containers" ]; then
+        echo "No matching containers found."
+        return 1
+    else
+        echo "Matching containers found:"
+        echo "$containers"
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+        # Connect to the container
+        sudo machinectl login "$containers"
+    fi
+}
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-(eval $(skotty ssh env)) 2>/dev/null
+alias tc="connect_to_test_container"
 
 
 # Source goto
 [[ -s "/usr/local/share/goto.sh" ]] && source /usr/local/share/goto.sh
-[[ -s "/usr/local/share/run.sh" ]] && source /usr/local/share/run.sh
 [[ -s "/usr/local/share/vrg.sh" ]] && source /usr/local/share/vrg.sh
-
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
