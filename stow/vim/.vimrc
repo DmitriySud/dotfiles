@@ -25,6 +25,8 @@ Plug 'tarekbecker/vim-yaml-formatter'
 
 Plug 'liuchengxu/vista.vim'
 
+Plug 'catppuccin/nvim', { 'as': 'catppuccin'  }
+
 call plug#end()
 
 let g:airline#extensions#tabline#enabled = 1
@@ -40,7 +42,9 @@ let g:coc_node_path = 'nodejs'
 
 syntax on
 set background=dark
-" colorscheme OceanicNext
+
+:lua require("catppuccin").setup({transparent_background = true})
+colorscheme catppuccin
 " hi Normal guibg=NONE ctermbg=NONE
 "color transparent
 
@@ -297,6 +301,14 @@ nnoremap <Leader>sw Pldw
 
 set pastetoggle=<F2>
 
+"highlight CocErrorFloat ctermfg=121 guibg=DarkGray
+"highlight CocNotificationError links CocErrorFloat
+"highlight CocNotificationWarning links CocErrorFloat
+"highlight CocWarningFloat links CocErrorFloat
+"highlight CocNotificationInfo links CocErrorFloat
+"highlight CocInfoFloat links CocErrorFloat
+"highlight CocHintFloat links CocErrorFloat
+
 "let g:coc_enabled = 1
 
 "function CocToggle()
@@ -356,34 +368,10 @@ let g:lightline = {
       \ },
       \ }
 
-"" Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
 let g:vista#renderer#enable_icon = 1
 
-"" The default icons can't be suitable for all the filetypes, you can extend it as you wish.
-"let g:vista#renderer#icons = {
-"\  }
-"
-"" Executive used when opening vista sidebar without specifying it.
-"" See all the avaliable executives via `:echo g:vista#executives`.
 let g:vista_default_executive = 'coc'
 
-"" Set the executive for some filetypes explicitly. Use the explicit executive
-"" instead of the default one for these filetypes when using `:Vista` without
-"" specifying the executive.
-"let g:vista_executive_for = {
-  "\ 'cpp': 'vim_lsp',
-  "\ }
-
-"" Declare the command including the executable and options used to generate ctags output
-"" for some certain filetypes.The file path will be appened to your custom command.
-"" For example:
-""let g:vista_ctags_cmd = {
-      ""\ 'haskell': 'hasktags -x -o - -c',
-      ""\ }
-
-"" To enable fzf's preview window set g:vista_fzf_preview.
-"" The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
-"" For example:
 let g:vista_fzf_preview = ['right:50%']
 
 noremap <silent><leader>zb :Buffer<CR>
