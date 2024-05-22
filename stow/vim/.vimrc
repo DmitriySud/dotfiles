@@ -1,41 +1,3 @@
-call plug#begin('~/.vim/plugged')
-
-" On-demand loading
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-
-" Colorscheme
-Plug 'mhartington/oceanic-next'
-
-Plug 'jiangmiao/auto-pairs'
-Plug 'easymotion/vim-easymotion'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-Plug 'cdelledonne/vim-cmake'
-Plug 'vim-airline/vim-airline'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'mhinz/vim-startify'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
-" Нашёл в яндексе
-"Plug 'Raimondi/delimitMate'
-Plug 'preservim/nerdcommenter'
-Plug 'Yggdroot/indentLine'
-Plug 'tarekbecker/vim-yaml-formatter'
-
-Plug 'liuchengxu/vista.vim'
-
-Plug 'catppuccin/nvim', { 'as': 'catppuccin'  }
-
-call plug#end()
-
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = '|'
-let g:airline#extensions#tabline#left_alt_sep = '>'
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-
-let g:yaml_formatter_indent_collection=2
-
 let g:indentLine_char_list = ['|', '¦', '┆', '┊']
 let g:indentLine_enabled = 1
 let g:coc_node_path = 'nodejs'
@@ -66,46 +28,12 @@ set incsearch
 set autoread
 au CursorHold * checktime
 
-
-"function! WrapForTmux(s)
-    "if !exists('$TMUX')
-        "return a:s
-    "endif
-
-    "let tmux_start = "\<Esc>Ptmux;"
-    "let tmux_end = "\<Esc>\\"
-
-    "return tmux_start . substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g') . tmux_end
-"endfunction
-
-"let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-"let &t_EI .= WrapForTmux("\<Esc>[?2004l")
-
-"function! XTermPasteBegin()
-    "set pastetoggle=<Esc>[201~
-    "set paste
-    "return ""
-"endfunction
-
-"inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
-
-let g:formatter_yapf_style = "pep8"
-" au BufWrite * :Autoformat
-
 "mapping
 map <C-n> :NERDTreeToggle<CR>
 map <Leader> <Plug>(easymotion-prefix)
 inoremap <C-o> <esc>o
 imap <C-l> <esc>A{<CR>
 imap <C-e> <esc>A;<CR>
-
-nnoremap <J> <PageDown>
-nnoremap <K> <PageUp>
-
-noremap <F4> :Autoformat<CR>
-
-noremap <C-w><H> :10winc <<CR>
-noremap <C-w><L> :10winc ><CR>
 
 noremap <Up> <Nop>
 noremap <Down> <Nop>
@@ -258,11 +186,6 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 " Add `:OR` command for organize imports of the current buffer
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
-" Add (Neo)Vim's native statusline support
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
 " Mappings for CoCList
 " Show all diagnostics.
 nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
@@ -282,8 +205,8 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 nnoremap <Leader>l :ls<CR>
-nnoremap <Leader>b :bp<CR>
-nnoremap <Leader>f :bn<CR>
+nnoremap <Leader>p :bp<CR>
+nnoremap <Leader>n :bn<CR>
 nnoremap <Leader>g :e#<CR>
 nnoremap <Leader>d :bp \| bd # <CR>
 nnoremap <Leader>1 :1b<CR>
@@ -298,30 +221,6 @@ nnoremap <Leader>9 :9b<CR>
 nnoremap <Leader>0 :10b<CR>
 
 nnoremap <Leader>sw Pldw
-
-set pastetoggle=<F2>
-
-"highlight CocErrorFloat ctermfg=121 guibg=DarkGray
-"highlight CocNotificationError links CocErrorFloat
-"highlight CocNotificationWarning links CocErrorFloat
-"highlight CocWarningFloat links CocErrorFloat
-"highlight CocNotificationInfo links CocErrorFloat
-"highlight CocInfoFloat links CocErrorFloat
-"highlight CocHintFloat links CocErrorFloat
-
-"let g:coc_enabled = 1
-
-"function CocToggle()
-  "if (g:coc_enabled == 1)
-    "CocDisable
-    "let g:coc_enabled = 0 
-  "else 
-    "CocEnable
-    "let g:coc_enabled = 1
-  "endif
-"endfunction
-
-"nnoremap <F3> :set invnumber<CR> :call CocToggle()<CR> :IndentLinesToggle<CR>
 
 let g:arc_prefix = 'https://a.yandex-team.ru/arc/'
 function GetFileLink()
@@ -357,22 +256,13 @@ set statusline+=%{NearestMethodOrFunction()}
 " you can add the following line to your vimrc
 autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified', 'method' ] ]
-      \ },
-      \ 'component_function': {
-      \   'method': 'NearestMethodOrFunction'
-      \ },
-      \ }
-
 let g:vista#renderer#enable_icon = 1
 
 let g:vista_default_executive = 'coc'
 
 let g:vista_fzf_preview = ['right:50%']
 
-noremap <silent><leader>zb :Buffer<CR>
-noremap <silent><leader>zf :Files<CR>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
