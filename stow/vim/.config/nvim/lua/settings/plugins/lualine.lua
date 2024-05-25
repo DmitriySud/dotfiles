@@ -1,4 +1,4 @@
-return {
+require('lualine').setup {
     options = { theme = 'dracula' },
     sections = { 
         lualine_a = { 'bo:filetype' },
@@ -35,6 +35,5 @@ return {
           },
         }
       }
-
     }
 }

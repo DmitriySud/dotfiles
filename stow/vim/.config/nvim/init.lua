@@ -41,9 +41,6 @@ vim.cmd('set runtimepath^=~/.vim runtimepath+=~/.vim/after')
 vim.cmd('let &packpath = &runtimepath')
 vim.cmd('source ~/.vimrc')
 
-local settings = require('settings.plugins')
-
-require('lualine').setup(settings.lualine)
-require('nvim-treesitter.configs').setup(settings.treesitter)
+require('settings.plugins')
 
 require("ibl").setup()
