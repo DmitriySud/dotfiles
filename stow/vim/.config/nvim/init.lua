@@ -58,9 +58,7 @@ require('lualine').setup({
                     -- 3: Shows buffer number
                     -- 4: Shows buffer name + buffer number
 
-          max_length = vim.o.columns * 2 / 3, -- Maximum width of buffers component,
-                                              -- it can also be a function that returns
-                                              -- the value of `max_length` dynamically.
+          max_length = vim.o.columns,
 
           use_mode_colors = true,
 
