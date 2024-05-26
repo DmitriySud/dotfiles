@@ -3,33 +3,29 @@ local Plug = vim.fn['plug#']
 
 vim.call('plug#begin')
 
-Plug('scrooloose/nerdtree', { ['on'] =  'NERDTreeToggle' })
-
-Plug('mhartington/oceanic-next')
-
-Plug('jiangmiao/auto-pairs')
-Plug('easymotion/vim-easymotion')
-Plug('neoclide/coc.nvim', {['branch'] = 'release'})
-
-Plug('cdelledonne/vim-cmake')
---Plug('vim-airline/vim-airline')
-Plug('ctrlpvim/ctrlp.vim')
+--- Files navigation
 Plug('mhinz/vim-startify')
 Plug('nvim-lua/plenary.nvim')
 Plug('nvim-telescope/telescope.nvim', { ['tag'] = '0.1.6' })
+Plug('scrooloose/nerdtree', { ['on'] =  'NERDTreeToggle' })
 
+--- Code navigation
+Plug('easymotion/vim-easymotion')
+
+-- Code manipulation
 Plug('preservim/nerdcommenter')
---Plug('Yggdroot/indentLine')
-Plug('tarekbecker/vim-yaml-formatter')
+Plug 'windwp/nvim-autopairs'
 
+-- Code complete and explore
+Plug('neoclide/coc.nvim', {['branch'] = 'release'})
 Plug('liuchengxu/vista.vim')
+
+-- Code appearance
+Plug 'nvim-tree/nvim-web-devicons'
 
 Plug('catppuccin/nvim', { ['as'] = 'catppuccin'  })
 
 Plug 'nvim-lualine/lualine.nvim'
---" If you want to have icons in your statusline choose one of these
-Plug 'nvim-tree/nvim-web-devicons'
-
 Plug "lukas-reineke/indent-blankline.nvim"
 
 Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate'})

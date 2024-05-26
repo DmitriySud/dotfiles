@@ -3,4 +3,5 @@ return {
     treesitter = require('settings.plugins.treesitter'),
     catppuccin = require('settings.plugins.catppuccin'),
     coc = require('settings.plugins.coc-nvim'),
+    autopairs = require('settings.plugins.autopairs'),
 }

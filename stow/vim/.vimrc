@@ -37,11 +37,6 @@ nnoremap <silent><C-k> m`:silent -g/\m^\s*$/d<CR>``:noh<CR>
 
 nnoremap <silent><C-h> :call coc#float#close_all()<CR>
 
-" coc....
-"autocmd VimEnter * CocStart
-" 
-" May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
-" utf-8 byte sequence
 set encoding=utf-8
 
 
