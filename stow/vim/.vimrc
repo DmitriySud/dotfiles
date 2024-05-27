@@ -42,20 +42,10 @@ set encoding=utf-8
 
 
 nnoremap <Leader>l :ls<CR>
-nnoremap <Leader>p :bp<CR>
-nnoremap <Leader>n :bn<CR>
+nnoremap <TAB> :bn<CR>
+nnoremap <S-TAB> :bp<CR>
 nnoremap <Leader>g :e#<CR>
 nnoremap <Leader>d :bp \| bd # <CR>
-nnoremap <Leader>1 :1b<CR>
-nnoremap <Leader>2 :2b<CR>
-nnoremap <Leader>3 :3b<CR>
-nnoremap <Leader>4 :4b<CR>
-nnoremap <Leader>5 :5b<CR>
-nnoremap <Leader>6 :6b<CR>
-nnoremap <Leader>7 :7b<CR>
-nnoremap <Leader>8 :8b<CR>
-nnoremap <Leader>9 :9b<CR>
-nnoremap <Leader>0 :10b<CR>
 
 nnoremap <Leader>sw Pldw
 

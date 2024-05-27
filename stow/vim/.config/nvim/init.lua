@@ -38,5 +38,3 @@ vim.cmd('let &packpath = &runtimepath')
 vim.cmd('source ~/.vimrc')
 
 require('settings.plugins')
-
-require("ibl").setup()
