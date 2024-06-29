@@ -1,4 +1,3 @@
-DISABLE_AUTO_TITLE="true"
 DOTFILES="$HOME/repos/dotfiles"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -12,12 +11,48 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 export PATH="$PATH:$HOME/.local/bin"
+export ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+source $ZSH/oh-my-zsh.sh
 
-ZSH_THEME="powerlevel10k/powerlevel10k"
+plugins=( 
+    git
+    history
+    zsh-autosuggestions
+)
 
+
+setopt SHARE_HISTORY
+export HISTSIZE=1000000
+export SAVEHIST=$HISTSIZE
+setopt HIST_EXPIRE_DUPS_FIRST
+
+bindkey '\e[A' history-search-backward
+bindkey '\e[B' history-search-forward
+
+function connect_to_test_container() {
+    local containers
+    containers=$(machinectl -l | grep "^bstack-${USER}" | awk '{print $1}')
+
+    if [ "$(echo "$containers" | wc -l)" -gt 2 ]; then
+        echo "Error: More than two matching containers found."
+        return 1
+    elif [ -z "$containers" ]; then
+        echo "No matching containers found."
+        return 1
+    else
+        echo "Matching containers found:"
+        echo "$containers"
+
+        # Connect to the container
+        sudo machinectl login "$containers"
+    fi
+}
+
+# Aliases
+alias tc="connect_to_test_container"
 alias rgcpp='rg -t=cpp -F'
 alias rgpy='rg -t=py -F'
 alias rgcmake='rg -t=cmake -F'
@@ -43,47 +78,7 @@ alias findd='find -type d -name '
 
 alias replace="find ./ -type f -exec sed -i"
 
-#alias arc-new='arc checkout trunk && arc pull trunk && arc checkout -b'
-#alias retrunk='arc pull trunk && arc rebase trunk'
-#alias tt='ya tool tt'
-
 alias tlogin='tsh login || tsh logout && tsh login --user=dsudakov --proxy=port.bidderstack.com'
-
-source $ZSH/oh-my-zsh.sh
-
-[[ ! -d "$HOME/.antigen" ]] && git clone https://github.com/zsh-users/antigen.git "$HOME/.antigen"
-source "$HOME/.antigen/antigen.zsh"
-
-# Specify additional external plugins we want
-antigen bundle zsh-users/zsh-syntax-highlighting
-
-# Load everything
-antigen apply
-
-export HISTSIZE=1000000
-export SAVEHIST=$HISTSIZE
-setopt EXTENDED_HISTORY
-
-function connect_to_test_container() {
-    local containers
-    containers=$(machinectl -l | grep "^bstack-${USER}" | awk '{print $1}')
-
-    if [ "$(echo "$containers" | wc -l)" -gt 2 ]; then
-        echo "Error: More than two matching containers found."
-        return 1
-    elif [ -z "$containers" ]; then
-        echo "No matching containers found."
-        return 1
-    else
-        echo "Matching containers found:"
-        echo "$containers"
-
-        # Connect to the container
-        sudo machinectl login "$containers"
-    fi
-}
-
-alias tc="connect_to_test_container"
 
 
 # Source goto
@@ -95,3 +90,10 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Clippy
+if [ -f '/home/dsudakov/repos/cworkspace/concurrency-course/client/activate' ]; then . '/home/dsudakov/repos/cworkspace/concurrency-course/client/activate'; fi
+if [ -f '/home/dsudakov/repos/cworkspace/concurrency-course/client/complete.bash' ]; then source /home/dsudakov/repos/cworkspace/concurrency-course/client/complete.bash; fi
+
+# IDK why this cant be just be installed by oh-my-zsh... but im too lazy for nailing it down
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
