@@ -6,6 +6,8 @@
     "clangd.fallbackFlags": ["-std=c++20"],
     "clangd.path": "clangd-17",
     "python.pythonPath": "python3",
-    "python.formatting.provider": "yapf"
+    "python.formatting.provider": "yapf",
+    "cmake.formatter": "cmake-format"
+
 
 }
