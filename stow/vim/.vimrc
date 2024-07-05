@@ -39,6 +39,7 @@ nnoremap <silent><C-h> :call coc#float#close_all()<CR>
 
 set encoding=utf-8
 
+map m <Plug>(easymotion-prefix)
 
 
 nnoremap <Leader>l :ls<CR>
