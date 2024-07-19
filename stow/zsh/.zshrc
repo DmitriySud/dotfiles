@@ -51,8 +51,42 @@ function connect_to_test_container() {
     fi
 }
 
+function bidder_develop_environment() {
+    # Save current directory
+    local current_dir=$(pwd)
+
+    # Go to repository root
+    local repo_root=$(git rev-parse --show-toplevel)
+    if [ -z "$repo_root" ]; then
+        echo "Not in a Git repository"
+        return 1
+    fi
+    cd "$repo_root" || return 1
+
+    # Go to 'nix' directory
+    local nix_dir="$repo_root/nix"
+    if [ ! -d "$nix_dir" ]; then
+        echo "'nix' directory not found"
+        return 1
+    fi
+    cd "$nix_dir" || return 1
+
+    # Run nix develop
+    nix develop .#bidder --command bash -c "\
+        cd $current_dir;\
+        echo \"Entered nix develop environment. Shell level \$SHLVL\";\
+        $SHELL\
+        "
+
+    cd $current_dir || 1
+}
+
+
+
 # Aliases
+alias devenv="bidder_develop_environment"
 alias tc="connect_to_test_container"
+
 alias rgcpp='rg -t=cpp -F'
 alias rgpy='rg -t=py -F'
 alias rgcmake='rg -t=cmake -F'
