@@ -15,14 +15,16 @@ export ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-source $ZSH/oh-my-zsh.sh
 
 plugins=( 
+    zsh-syntax-highlighting
     git
     history
     zsh-autosuggestions
+    zsh-fzf-history-search
 )
 
+source $ZSH/oh-my-zsh.sh
 
 setopt SHARE_HISTORY
 export HISTSIZE=1000000
@@ -129,5 +131,3 @@ export NVM_DIR="$HOME/.nvm"
 if [ -f '/home/dsudakov/repos/cworkspace/concurrency-course/client/activate' ]; then . '/home/dsudakov/repos/cworkspace/concurrency-course/client/activate'; fi
 if [ -f '/home/dsudakov/repos/cworkspace/concurrency-course/client/complete.bash' ]; then source /home/dsudakov/repos/cworkspace/concurrency-course/client/complete.bash; fi
 
-# IDK why this cant be just be installed by oh-my-zsh... but im too lazy for nailing it down
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
