@@ -115,6 +115,7 @@ alias findd='find -type d -name '
 alias replace="find ./ -type f -exec sed -i"
 
 alias tlogin='tsh login || tsh logout && tsh login --user=dsudakov --proxy=port.bidderstack.com'
+alias gitu='git push -u origin HEAD'
 
 
 # Source goto
