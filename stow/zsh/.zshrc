@@ -34,7 +34,7 @@ setopt HIST_EXPIRE_DUPS_FIRST
 bindkey '\e[A' history-search-backward
 bindkey '\e[B' history-search-forward
 
-function connect_to_test_container() {
+tc() {
     local containers
     containers=$(machinectl -l | grep "^bstack-${USER}" | awk '{print $1}')
 
@@ -53,28 +53,21 @@ function connect_to_test_container() {
     fi
 }
 
-function bidder_develop_environment() {
+devenv() {
     # Save current directory
     local current_dir=$(pwd)
 
-    # Go to repository root
-    local repo_root=$(git rev-parse --show-toplevel)
-    if [ -z "$repo_root" ]; then
-        echo "Not in a Git repository"
-        return 1
-    fi
-    cd "$repo_root" || return 1
-
-    # Go to 'nix' directory
-    local nix_dir="$repo_root/nix"
+    # Go to 'bidderstack' directory
+    local nix_dir="$HOME/repos/bidderstack"
     if [ ! -d "$nix_dir" ]; then
-        echo "'nix' directory not found"
+        echo "'bidderstack' directory not found"
         return 1
     fi
     cd "$nix_dir" || return 1
 
     # Run nix develop
-    nix develop .#bidder --command bash -c "\
+    nix develop .#bidder --override-input bidderstack-bidder ../bidderstack-bidder \
+        --command bash -c "\
         cd $current_dir;\
         echo \"Entered nix develop environment. Shell level \$SHLVL\";\
         $SHELL\
@@ -83,11 +76,79 @@ function bidder_develop_environment() {
     cd $current_dir || 1
 }
 
+bshell() {
+    # Define the module mappings
+    declare -A MODULES=(
+        [bidder]="bidderstack-bidder:$HOME/repos/bidderstack-bidder"
+        [tests]="bidderstack-tests:$HOME/repos/bidderstack-tests"
+        [schemas]="bidderstack-schemas:$HOME/repos/bidderstack-bidder/models/schemas"
+    )
 
+    # Define flag-to-module key mapping
+    declare -A FLAG_TO_MODULE=(
+        [b]="bidder"
+        [t]="tests"
+        [s]="schemas"
+    )
 
-# Aliases
-alias devenv="bidder_develop_environment"
-alias tc="connect_to_test_container"
+    OVERRIDE_INPUTS=()
+    EXTRA_ARGS=()
+
+    # Function to add module details to OVERRIDE_INPUTS
+    add_module() {
+        local key="$1"
+        if [[ -n "${MODULES[$key]}" ]]; then
+            IFS=":" read -r module_name module_path <<< "${MODULES[$key]}"
+            OVERRIDE_INPUTS+=("--override-input" "$module_name" "$module_path")
+        else
+            echo "Error: Unknown module '$key'"
+            return 1
+        fi
+    }
+
+    # Parse the arguments
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -[bts]*)  # Handle single and combined flags like -b, -t, -s, -bt, -bs, etc.
+                combined="${1:1}"  # Strip the leading dash
+                for flag in $(echo "$combined" | sed 's/./& /g'); do
+                    module_key="${FLAG_TO_MODULE[$flag]}"
+                    if [[ -n "$module_key" ]]; then
+                        add_module "$module_key" || return 1
+                    else
+                        echo "Error: Unknown flag '-$flag'"
+                        return 1
+                    fi
+                done
+                shift
+                ;;
+            --bidder|--tests|--schema)
+                long_flag="${1#--}"  # Remove leading --
+                module_key="${FLAG_TO_MODULE[${long_flag:0:1}]}"
+                add_module "$module_key" || return 1
+                shift
+                ;;
+            *)  
+                # Capture extra arguments to forward them to shell.sh
+                EXTRA_ARGS+=("$1")
+                shift
+                ;;
+        esac
+    done
+
+    cleanup() {
+        set +x
+    }
+
+    trap cleanup EXIT
+
+    set -x
+
+    # Run the command
+    cd ~/repos/bidderstack || { echo "Error: Could not change directory to ~/repos/bidderstack"; return 1; }
+    ./shell.sh ${EXTRA_ARGS[@]} ${OVERRIDE_INPUTS[@]}
+}
+
 
 alias rgcpp='rg -t=cpp -F'
 alias rgpy='rg -t=py -F'

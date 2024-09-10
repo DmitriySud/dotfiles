@@ -16,6 +16,7 @@ let mapleader = "\<Space>"
 
 set hlsearch
 set incsearch
+set ignorecase
 
 set autoread
 au CursorHold * checktime
