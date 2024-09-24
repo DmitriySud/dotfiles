@@ -136,11 +136,14 @@ bshell() {
         esac
     done
 
+    local current_dir=$(pwd)
+
     cleanup() {
+        cd $1
         set +x
     }
 
-    trap cleanup EXIT
+    trap "cleanup $current_dir" INT TERM EXIT
 
     set -x
 
