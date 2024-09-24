@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/usr/bin/Telegram
+sh /usr/local/bin/telegram-desktop
