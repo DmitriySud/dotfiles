@@ -80,7 +80,7 @@ bshell() {
     # Define the module mappings
     declare -A MODULES=(
         [bidder]="bidderstack-bidder:$HOME/repos/bidderstack-bidder"
-        [tests]="bidderstack-tests:$HOME/repos/bidderstack-tests"
+        [tests]="bidderstack-tests:$HOME/repos/bidderstack/bidderstack-tests"
         [schemas]="bidderstack-schemas:$HOME/repos/bidderstack-bidder/models/schemas"
     )
 
