@@ -1,4 +1,7 @@
 
+git clone https://github.com/iridakos/goto.git
+cd goto
+sudo ./install
 # base utils
 #+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 apt -y install git 

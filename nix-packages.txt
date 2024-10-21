@@ -1,0 +1,10 @@
+zsh
+tmux
+byobu
+
+neovim
+node
+clang_16
+clang-tools_16
+gcc
+

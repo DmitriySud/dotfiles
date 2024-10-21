@@ -1,5 +1,6 @@
 DOTFILES="$HOME/repos/dotfiles"
 
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -29,6 +30,7 @@ source $ZSH/oh-my-zsh.sh
 setopt SHARE_HISTORY
 export HISTSIZE=1000000
 export SAVEHIST=$HISTSIZE
+export LC_ALL="en_US.UTF-8"
 setopt HIST_EXPIRE_DUPS_FIRST
 
 bindkey '\e[A' history-search-backward
@@ -168,6 +170,7 @@ alias def='python3 $DOTFILES/reg.py'
 
 alias b='byobu'
 
+alias vim='nvim'
 alias vj='vim ~/temp.json'
 alias vt='vim ~/temp.txt'
 alias vy='vim ~/temp.yaml'

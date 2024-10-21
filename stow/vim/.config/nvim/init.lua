@@ -1,3 +1,4 @@
+
 local vim = vim
 local Plug = vim.fn['plug#']
 
@@ -31,7 +32,6 @@ Plug "lukas-reineke/indent-blankline.nvim"
 Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate'})
 
 vim.call('plug#end')
-
 
 vim.cmd('set runtimepath^=~/.vim runtimepath+=~/.vim/after')
 vim.cmd('let &packpath = &runtimepath')
