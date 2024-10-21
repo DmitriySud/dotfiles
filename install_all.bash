@@ -1,4 +1,7 @@
 
+git clone https://github.com/iridakos/goto.git
+cd goto
+sudo ./install
 # base utils
 #+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 apt -y install git 
@@ -14,16 +17,17 @@ apt -y install clangd
 apt -y install stow
 #+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
+stow -R -v -t ~ zsh
 # git 
 #\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 #\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 # yandex-browser
 #===============================================================================
-deb_browser_name='/tmp/yandex_browser.deb'
-python3 ~/repos/dotfiles/install_yandex_browser.py $deb_browser_name
+#deb_browser_name='/tmp/yandex_browser.deb'
+#python3 ~/repos/dotfiles/install_yandex_browser.py $deb_browser_name
 
-dpkg -i $deb_broser_name 
+#dpkg -i $deb_broser_name 
 #===============================================================================
 
 
@@ -33,7 +37,8 @@ cd ~
 apt -y install zsh
 apt -y install fonts-powerline
 
-curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+sh install.sh
 
 # # p10k
 cd repos 
@@ -62,21 +67,21 @@ curl -sL install-node.vercel.app/lts | bash
 #...............................................................................
 
 #def->run
-DOTFILES_PATH="$HOME/repos/dotfiles"
-RUN_FILE="/usr/local/share/"
-
-cp $DOTFILES_PATH/run.sh "$RUN_FILE"
-cp $DOTFILES_PATH/rfv.sh "$RUN_FILE"
-
-if [ "$(grep -c "source $RUN_FILE" "$HOME/.zshrc")" == "0" ]; then
-  # Append source to RC file
-  echo -e "\\n\\n# Source goto\\n[[ -s \"$RUN_FILE\" ]] && source $RUN_FILE\\n" >> "$HOME/.zshrc"
-fi
+#DOTFILES_PATH="$HOME/repos/dotfiles"
+#RUN_FILE="/usr/local/share/"
+#
+#cp $DOTFILES_PATH/run.sh "$RUN_FILE"
+#cp $DOTFILES_PATH/rfv.sh "$RUN_FILE"
+#
+#if [ "$(grep -c "source $RUN_FILE" "$HOME/.zshrc")" == "0" ]; then
+#  # Append source to RC file
+#  echo -e "\\n\\n# Source goto\\n[[ -s \"$RUN_FILE\" ]] && source $RUN_FILE\\n" >> "$HOME/.zshrc"
+#fi
 
 
 #keyboard swap right ctrl and alt
-cp 70-keyboard.hwdb /etc/udev/hwdb.d/.
-sudo systemd-hwdb update && sudo udevadm trigger
+#cp 70-keyboard.hwdb /etc/udev/hwdb.d/.
+#sudo systemd-hwdb update && sudo udevadm trigger
 
 
 #tmux + byobu
