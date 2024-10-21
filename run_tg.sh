@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/usr/bin/Telegram
+ssh-askpass | sudo -S /usr/local/bin/Telegram
