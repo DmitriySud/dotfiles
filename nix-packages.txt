@@ -7,4 +7,12 @@ node
 clang_16
 clang-tools_16
 gcc
+gdb
 
+gnumake 
+cmake
+
+fzf
+ripgrep
+
+htop

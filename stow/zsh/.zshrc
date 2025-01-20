@@ -17,6 +17,8 @@ export ZSH_THEME="powerlevel10k/powerlevel10k"
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
+export LOGNAME=$USER
+
 plugins=( 
     zsh-syntax-highlighting
     git
@@ -82,14 +84,12 @@ bshell() {
     # Define the module mappings
     declare -A MODULES=(
         [bidder]="bidderstack-bidder:$HOME/repos/bidderstack-bidder"
-        [tests]="bidderstack-tests:$HOME/repos/bidderstack/bidderstack-tests"
         [schemas]="bidderstack-schemas:$HOME/repos/bidderstack-bidder/models/schemas"
     )
 
     # Define flag-to-module key mapping
     declare -A FLAG_TO_MODULE=(
         [b]="bidder"
-        [t]="tests"
         [s]="schemas"
     )
 
@@ -150,8 +150,8 @@ bshell() {
     set -x
 
     # Run the command
-    cd ~/repos/bidderstack || { echo "Error: Could not change directory to ~/repos/bidderstack"; return 1; }
-    ./shell.sh ${EXTRA_ARGS[@]} ${OVERRIDE_INPUTS[@]}
+    cd ~/repos/bidderstack-tests || { echo "Error: Could not change directory to ~/repos/bidderstack-tests"; return 1; }
+    ./container/shell.sh ${EXTRA_ARGS[@]} ${OVERRIDE_INPUTS[@]}
 }
 
 

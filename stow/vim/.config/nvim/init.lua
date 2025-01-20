@@ -7,7 +7,7 @@ vim.call('plug#begin')
 --- Files navigation
 Plug('mhinz/vim-startify')
 Plug('nvim-lua/plenary.nvim')
-Plug('nvim-telescope/telescope.nvim', { ['tag'] = '0.1.6' })
+Plug('nvim-telescope/telescope.nvim', { ['tag'] = '0.1.8' })
 Plug('scrooloose/nerdtree', { ['on'] =  'NERDTreeToggle' })
 
 --- Code navigation
