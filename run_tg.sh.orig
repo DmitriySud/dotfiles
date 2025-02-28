@@ -1,0 +1,7 @@
+#!/bin/bash
+
+<<<<<<< HEAD
+ssh-askpass | sudo -S /usr/local/bin/Telegram
+=======
+sh /usr/local/bin/telegram-desktop
+>>>>>>> 98e2baeb84769b24bb825d37359664b59df7bc05
