@@ -1,10 +1,10 @@
 {
     "signature.enable": true,
     "signature.target": "float",
-    "signature.maxWindowHeight": 100,
 
-    "clangd.fallbackFlags": ["-std=c++20"],
-    "clangd.path": "clangd-17",
+    "clangd.fallbackFlags": ["-std=c++23"],
+    "clangd.path": "clangd",
+    "inlayHint.enable": false,
     "python.pythonPath": "python3",
     "python.formatting.provider": "yapf",
     "cmake.formatter": "cmake-format"
