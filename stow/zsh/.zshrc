@@ -183,6 +183,9 @@ alias replace="find ./ -type f -exec sed -i"
 
 alias tlogin='tsh login || tsh logout && tsh login --user=dsudakov --proxy=port.bidderstack.com'
 alias gitu='git push -u origin HEAD'
+alias tmysql='tsh db connect mysql --db-user teleport --db-name dsp_router'
+alias tch='tsh db connect ch --db-user default'
+alias tmongo='tsh db connect mongo --db-user teleport --db-name main'
 
 
 # Source goto
