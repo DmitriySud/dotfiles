@@ -10,6 +10,13 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 git clone https://github.com/joshskidmore/zsh-fzf-history-search ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search
 ```
 
+goto install 
+```
+git clone git@github.com:iridakos/goto.git
+cd goto 
+sudo ./install
+```
+
 packages from apt:
 - pulseaudio
 - autorandr

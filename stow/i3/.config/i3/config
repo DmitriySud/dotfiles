@@ -140,6 +140,17 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
+workspace "1: P1" output HDMI-1
+workspace "2: P2" output HDMI-1
+workspace "3: P3" output HDMI-1
+workspace "4: P4" output HDMI-1
+workspace "5: P5" output HDMI-1
+workspace "6: S1" output eDP-1 
+workspace "7: S2" output eDP-1
+workspace "8: S3" output eDP-1
+workspace "9: S4" output eDP-1
+workspace "10: S5" output eDP-1
+
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2

@@ -106,6 +106,7 @@ interval=10
 # The battery instance defaults to 0.
 [battery]
 label=BAT
+command=$SCRIPT_DIR/battery/battery
 label=⚡
 interval=30
 
