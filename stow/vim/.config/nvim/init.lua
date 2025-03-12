@@ -31,6 +31,8 @@ Plug "lukas-reineke/indent-blankline.nvim"
 
 Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate'})
 
+Plug('chenasraf/text-transform.nvim', { ['tag'] = 'stable' })
+
 vim.call('plug#end')
 
 vim.cmd('set runtimepath^=~/.vim runtimepath+=~/.vim/after')
