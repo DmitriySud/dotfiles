@@ -22,3 +22,12 @@ packages from apt:
 - autorandr
 - imagemagick
 - maim
+
+brightness install 
+```
+sudo apt install brightnessctl
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+sudo usermod -aG video $USER
+
+```
