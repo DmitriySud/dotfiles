@@ -25,89 +25,20 @@
 # The top properties below are applied to every block, but can be overridden.
 # Each block command defaults to the script name to avoid boilerplate.
 # Change $SCRIPT_DIR to the location of your scripts!
-command=$SCRIPT_DIR/$BLOCK_NAME
 separator_block_width=15
 markup=none
 
-# Volume indicator
-#
-# The first parameter sets the step (and units to display)
-# The second parameter overrides the mixer selection
-# See the script for details.
 
 [volume]
-command=$SCRIPT_DIR/volume/volume
+command=i3b-gate 39
 #label=♪
 label=VOL
 interval=once
 signal=10
-#STEP=5%
 
-# Memory usage
-#
-# The type defaults to "mem" if the instance is not specified.
-[memory]
-label=MEM
-separator=false
-interval=30
-
-[memory]
-label=SWAP
-instance=swap
-separator=false
-interval=30
-
-# Disk usage
-#
-# The directory defaults to $HOME if the instance is not specified.
-# The script may be called with a optional argument to set the alert
-# (defaults to 10 for 10%).
-[disk]
-label=HOME
-#DIR=/mnt/data
-interval=30
-
-# Network interface monitoring
-#
-# If the instance is not specified, use the interface used for default route.
-# The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
-[iface]
-#IFACE=wlan0
-color=#00FF00
-interval=10
-separator=false
-
-[wifi]
-#INTERFACE=wlp3s0
-label=wifi:
-interval=10
-separator=false
-
-[bandwidth]
-#INTERFACE=eth0
-interval=5
-
-# CPU usage
-#
-# The script may be called with -w and -c switches to specify thresholds,
-# see the script for details.
-[cpu_usage]
-label=CPU
-interval=10
-min_width=CPU 100.00%
-#separator=false
-
-[load_average]
-label=LOAD
-interval=10
-
-# Battery indicator
-#
-# The battery instance defaults to 0.
 [battery]
 label=BAT
-command=$SCRIPT_DIR/battery/battery
-label=⚡
+command=i3b-gate 6
 interval=30
 
 # Date Time
@@ -115,6 +46,12 @@ interval=30
 [time]
 command=date '+%Y-%m-%d %H:%M:%S'
 interval=1
+
+[layout]
+command=i3b-gate 8
+signal=10
+interval=once
+
 
 # Generic media player support
 #

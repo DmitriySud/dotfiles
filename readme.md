@@ -31,3 +31,12 @@ sudo udevadm trigger
 sudo usermod -aG video $USER
 
 ```
+
+xkblayout:
+```
+sudo apt install libx11-dev
+git clone git@github.com:nonpop/xkblayout-state.git
+cd xkblayout-state
+make
+cp xkblayout-state /home/$USER/.local/bin/
+```
