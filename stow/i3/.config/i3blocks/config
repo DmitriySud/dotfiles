@@ -31,8 +31,13 @@ markup=none
 
 [volume]
 command=i3b-gate 39
-#label=♪
 label=VOL
+interval=once
+signal=10
+
+[volume]
+command=i3b-gate 40
+label=BR
 interval=once
 signal=10
 
