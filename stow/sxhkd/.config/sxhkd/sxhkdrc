@@ -1,0 +1,8 @@
+# Switch to US layout with Ctrl + Alt + 1
+ctrl + alt + 1
+    xset r on && xkb-switch -s us && pkill -SIGRTMIN+10 i3blocks
+
+# Switch to RU layout with Ctrl + Alt + 2
+ctrl + alt + 2
+    xset r on && xkb-switch -s ru && pkill -SIGRTMIN+10 i3blocks
+
