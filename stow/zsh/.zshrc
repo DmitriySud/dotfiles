@@ -197,8 +197,3 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# Clippy
-if [ -f '/home/dsudakov/repos/cworkspace/concurrency-course/client/activate' ]; then . '/home/dsudakov/repos/cworkspace/concurrency-course/client/activate'; fi
-if [ -f '/home/dsudakov/repos/cworkspace/concurrency-course/client/complete.bash' ]; then source /home/dsudakov/repos/cworkspace/concurrency-course/client/complete.bash; fi
-
