@@ -40,3 +40,14 @@ cd xkblayout-state
 make
 cp xkblayout-state /home/$USER/.local/bin/
 ```
+
+xkb-switch
+```
+sudo apt install libxkbfile-dev
+git clone git@github.com:sergei-mironov/xkb-switch.git
+cd xkb-switch
+mkdir build && cd build
+cmake ..
+make
+make DESTDIR=$HOME/.local install
+```

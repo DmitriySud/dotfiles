@@ -9,8 +9,9 @@ RET=$?
 
 if [ $RET -eq 1 ] 
 then
-  login='tsh login --user=dsudakov --proxy=port.bidderstack.com'
+  
+  #login='tsh login --user=dsudakov --proxy=port.bidderstack.com'
   connect="ssh $MACHINE -ldsudakov -t \"byobu\""
-  gnome-terminal --window --maximize -- sh -c "$connect || $login && $connect"
+  gnome-terminal --window --maximize -- sh -c 'eval $(ssh-agent -s) && ssh dsudakov@dev -t byobu'
 fi
 
