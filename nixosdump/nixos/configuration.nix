@@ -45,10 +45,9 @@
 	WLR_NO_HARDWARE_CURSORS = "1";
   };
 
-  programs.hyprland = {
-  	enable = true;
-	xwayland.enable = true;
-  };
+  programs.hyprland.enable = true; 
+  programs.xwayland.enable = true;
+
   security.pam.services.hyprlock = {};
 
   services.dbus.enable = true;
@@ -123,11 +122,6 @@
   #   enable = true;
   #   enableSSHSupport = true;
   # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

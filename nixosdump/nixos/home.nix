@@ -63,12 +63,18 @@ in {
   #   };
   # };
 
+  wayland.windowManager.hyprland = {
+  	enable = true;
+	systemd.enable = true;
+	xwayland.enable = true;
+  };
 
   xdg.configFile."hypr/hyprland.conf".text = ''
 	exec-once = waybar &
 	exec-once = nm-applet &
 	exec-once = blueman-applet &
 	exec-once = hyprpaper &
+	exec-once = hypridle &
 
 	input {
 		kb_layout = us,ru
@@ -204,9 +210,22 @@ in {
 	    format-icons = ["" "" "" "" ""];
 	  };
 
-	  clock = {
-	    format = "󰥔  {:%H:%M}";
-	  };
+	  "clock"= {
+        "format"= "{:%H:%M    %Y-%m-%d    }";
+        "tooltip-format"= "<tt><small>{calendar}</small></tt>";
+        "calendar"= {
+            "mode"          = "year";
+            "mode-mon-col"  = 3;
+            "weeks-pos"     = "right";
+            "format"= {
+                "months"=     "<span color='#ffead3'><b>{}</b></span>";
+                "days"=       "<span color='#ecc6d9'><b>{}</b></span>";
+                "weeks"=      "<span color='#99ffdd'><b>W{}</b></span>";
+                "weekdays"=   "<span color='#ffcc66'><b>{}</b></span>";
+                "today"=      "<span color='#ff6699'><b><u>{}</u></b></span>";
+            };
+        };
+      };
       };
     };
 
@@ -226,6 +245,30 @@ in {
     '';
   };
 
+  services.hypridle = {
+    enable = true;
+    settings = {
+        general = {
+            lock_cmd = "pidof hyprlock || hyprlock";
+            before_sleep_cmd = "loginctl lock-session";
+            after_sleep_cmd = "hyprctl dispatch dpms on";
+        };
+ 
+        listener = [
+            {
+                timeout = 300; 
+                on-timeout = "loginctl lock-session";         
+            }
+            {
+                timeout = 600;                                
+                on-timeout = "hyprctl dispatch dpms off";
+                on-resume = "hyprctl dispatch dpms on";
+            }
+        ];
+    };
+  };
+  
+
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -244,6 +287,7 @@ in {
 	hyprlock
 	hyprpaper
 	hyprshot
+	hypridle
 	alacritty
 	firefox
 	chromium
@@ -345,10 +389,13 @@ in {
   '';
 
   # Let Home Manager install and manage itself.
-  programs.git.enable = true;
-  programs.home-manager.enable = true;
+  programs.git = {
+    enable = true;
+    userName = "DmitriySud";
+    userEmail = "dmitriy.sudakov2001@gmail.com";
+  };
 
-  programs.ssh.enable = true;
+  programs.home-manager.enable = true;
 
   services.gnome-keyring = {
     enable = true;
