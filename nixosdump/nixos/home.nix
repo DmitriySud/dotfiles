@@ -67,98 +67,99 @@ in {
   	enable = true;
 	systemd.enable = true;
 	xwayland.enable = true;
+
+    plugins = [
+        pkgs.hypridle
+        pkgs.hyprpaper
+        pkgs.hyprlock
+    ];
+
+    settings = {
+        exec-once = [
+            "waybar &"
+            "nm-applet &"
+            "blueman-applet"
+        ];
+
+        input = {
+            kb_layout = "us,ru";
+            kb_options = "grp:caps_toggle";
+            follow_mouse = 1;
+            touchpad.natural_scroll = false;
+        };
+
+        "$mod" = "SUPER";
+
+        bind = [
+            "$mod, RETURN, exec, alacritty"
+            "$mod, Q, killactive,"
+            "$mod SHIFT, E, exit, "
+            "$mod, D, exec, wofi --show drun"
+            "$mod SHIFT, L, exec, hyprlock"
+            "$mod, F, fullscreen"
+            "CTRL ALT, 1, exec, hyprctl switchxkblayout all 0"
+            "CTRL ALT, 2, exec, hyprctl switchxkblayout all 1"
+            "$mod, PRINT, exec, hyprshot -m window"
+            ", PRINT, exec, hyprshot -m output"
+            "$mod SHIFT, PRINT, exec, hyprshot -m region --clipboard-only --freeze"
+            "$mod, h, movefocus, l"
+            "$mod, l, movefocus, r"
+            "$mod, k, movefocus, u"
+            "$mod, j, movefocus, d"
+            "$mod, 1, workspace, 1"
+            "$mod, 2, workspace, 2"
+            "$mod, 3, workspace, 3"
+            "$mod, 4, workspace, 4"
+            "$mod, 5, workspace, 5"
+            "$mod, 6, workspace, 6"
+            "$mod, 7, workspace, 7"
+            "$mod, 8, workspace, 8"
+            "$mod, 9, workspace, 9"
+            "$mod, 0, workspace, 0"
+            "$mod SHIFT, 1, movetoworkspace, 1"
+            "$mod SHIFT, 2, movetoworkspace, 2"
+            "$mod SHIFT, 3, movetoworkspace, 3"
+            "$mod SHIFT, 4, movetoworkspace, 4"
+            "$mod SHIFT, 5, movetoworkspace, 5"
+            "$mod SHIFT, 6, movetoworkspace, 6"
+            "$mod SHIFT, 7, movetoworkspace, 7"
+            "$mod SHIFT, 8, movetoworkspace, 8"
+            "$mod SHIFT, 9, movetoworkspace, 9"
+            "$mod SHIFT, 0, movetoworkspace, 0"
+        ];
+
+        monitor = [
+            "desc:Dell Inc. DELL U2724D C78GF34, 2460x1440, -2560x0, 1"
+            "desc:Huawei Technologies Co. Inc. ZQE-CBA 0xC080F622, 2560x1440, 0x-1440, 1"
+            "eDP-1, preferred, 0x0, 1"
+        ];
+
+        workspace = [
+            "1, monitor:HDMI-A-1"
+            "2, monitor:HDMI-A-1"
+            "3, monitor:HDMI-A-1"
+            "4, monitor:HDMI-A-1"
+            "5, monitor:HDMI-A-1"
+            "6, monitor:eDP-1"
+            "7, monitor:eDP-1"
+            "8, monitor:eDP-1"
+            "9, monitor:eDP-1"
+            "0, monitor:eDP-1"
+        ];
+        decoration = {
+            rounding = 4;
+            border_part_of_window = false;
+            active_opacity = 1 ;
+            inactive_opacity = 0.9;
+        };
+
+        general = {
+            border_size = 3 ;
+            gaps_in = 2;
+            gaps_out = 5;
+        };
+    };
   };
-
-  xdg.configFile."hypr/hyprland.conf".text = ''
-	exec-once = waybar &
-	exec-once = nm-applet &
-	exec-once = blueman-applet &
-	exec-once = hyprpaper &
-	exec-once = hypridle &
-
-	input {
-		kb_layout = us,ru
-        kb_options = grp:caps_toggle
-
-		follow_mouse = 1
-		touchpad {
-			natural_scroll = false
-		}
-	}
-
-	$mod = SUPER
-
-	bind = $mod, RETURN, exec, alacritty
-	bind = $mod, Q, killactive,
-	bind = $mod SHIFT, E, exit, 
-	bind = $mod, D, exec, wofi --show drun
-	bind = $mod SHIFT, L, exec, hyprlock
-	bind = $mod, F, fullscreen
-
-	bind = CTRL ALT, 1, exec, hyprctl switchxkblayout all 0
-	bind = CTRL ALT, 2, exec, hyprctl switchxkblayout all 1
-
-    bind = $mod, PRINT, exec, hyprshot -m window
-    bind = , PRINT, exec, hyprshot -m output
-    bind = $mod SHIFT, PRINT, exec, hyprshot -m region --clipboard-only --freeze
-
-    bind = $mod, h, movefocus, l
-    bind = $mod, l, movefocus, r
-    bind = $mod, k, movefocus, u
-    bind = $mod, j, movefocus, d
-
-	bind = $mod, 1, workspace, 1
-	bind = $mod, 2, workspace, 2
-	bind = $mod, 3, workspace, 3
-	bind = $mod, 4, workspace, 4
-	bind = $mod, 5, workspace, 5
-	bind = $mod, 6, workspace, 6
-	bind = $mod, 7, workspace, 7
-	bind = $mod, 8, workspace, 8
-	bind = $mod, 9, workspace, 9
-	bind = $mod, 0, workspace, 0
-
-	bind = $mod SHIFT, 1, movetoworkspace, 1
-	bind = $mod SHIFT, 2, movetoworkspace, 2
-	bind = $mod SHIFT, 3, movetoworkspace, 3
-	bind = $mod SHIFT, 4, movetoworkspace, 4
-	bind = $mod SHIFT, 5, movetoworkspace, 5
-	bind = $mod SHIFT, 6, movetoworkspace, 6
-	bind = $mod SHIFT, 7, movetoworkspace, 7
-	bind = $mod SHIFT, 8, movetoworkspace, 8
-	bind = $mod SHIFT, 9, movetoworkspace, 9
-	bind = $mod SHIFT, 0, movetoworkspace, 0
-	
-    monitor = desc:Dell Inc. DELL U2724D C78GF34, 2460x1440, -2560x0, 1
-	monitor = desc:Huawei Technologies Co. Inc. ZQE-CBA 0xC080F622, 2560x1440, 0x-1440, 1
-	monitor = eDP-1, preferred, 0x0, 1
-
-	workspace = 1, monitor:HDMI-A-1
-	workspace = 2, monitor:HDMI-A-1
-	workspace = 3, monitor:HDMI-A-1
-	workspace = 4, monitor:HDMI-A-1
-	workspace = 5, monitor:HDMI-A-1
-
-	workspace = 6, monitor:eDP-1
-	workspace = 7, monitor:eDP-1
-	workspace = 8, monitor:eDP-1
-	workspace = 9, monitor:eDP-1
-	workspace = 0, monitor:eDP-1
-
-
-	decoration {
-		rounding = 4
-		border_part_of_window = false
-		active_opacity = 1 
-		inactive_opacity = 0.9
-	}
-
-	general {
-		border_size = 3 
-		gaps_in = 2
-		gaps_out = 5
-	}
-  '';
 
   xdg.configFile."hypr/hyprpaper.conf".text = ''
 	preload = ${mainscreen_img}
@@ -263,6 +264,10 @@ in {
                 timeout = 600;                                
                 on-timeout = "hyprctl dispatch dpms off";
                 on-resume = "hyprctl dispatch dpms on";
+            }
+            {
+                timeout = 900;
+                on-timeout = "systemd suspend";
             }
         ];
     };
