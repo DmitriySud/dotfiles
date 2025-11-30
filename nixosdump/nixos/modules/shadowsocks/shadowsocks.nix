@@ -13,7 +13,7 @@ in
 			shadowsocks-rust
 		];
 
-		xdg.configFile."shadowsocks/config.json".source = ./config.json;
+		# xdg.configFile."shadowsocks/config.json".source = ./config.json;
 
 		systemd.user.services.shadowsocks-local = {
 			Unit = {
@@ -22,7 +22,7 @@ in
 			};
 
 			Service = {
-				ExecStart = "${pkgs.shadowsocks-rust}/bin/sslocal -c ${config.xdg.configHome}/shadowsocks/config.json";
+				ExecStart = "${pkgs.shadowsocks-rust}/bin/sslocal -c /home/dsudakov/repos/dotfiles/nixosdump/nixos/modules/shadowsocks/config.json";
 				Restart = "on-failure";
 				RestartSec = 5;
 			};

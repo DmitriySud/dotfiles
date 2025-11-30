@@ -1,47 +1,32 @@
 { config, lib, pkgs, ... }:
 
 let 
-	hyprctl_bin = "${pkgs.hyprland}/bin/hyprctl";
-	jq_bin = "${pkgs.jq}/bin/jq";
+  hyprctl_bin = "${pkgs.hyprland}/bin/hyprctl";
+  jq_bin = "${pkgs.jq}/bin/jq";
 
-	switcherScript = pkgs.writeShellScript "switcher.sh" ''
-#!/usr/bin/env bash
+  lockscreen_img = builtins.fetchurl {
+    url = "https://raw.githubusercontent.com/DmitriySud/dotfiles/master/stow/i3/Pictures/lockscreen.png";
+    sha256 = "sha256:0nbi3yygax6ay6pgz07vxdwxw960js2b0kk9fj99vvgvksz1p2ns";
+  };
 
-# Example detection for external screens
-EXTERNAL_COUNT=$(${hyprctl_bin} monitors -j | ${jq_bin} '[.[] | select(.name != env.HYPR_BUILDIN_MON)] | length')
-
-if [ "$EXTERNAL_COUNT" -gt 0 ]; then
-	echo "External monitor connected — disabling built-in"
-	hyprctl keyword monitor "$HYPR_BUILDIN_MON,disable"
-else
-	echo "No external monitors — enabling built-in"
-	hyprctl keyword monitor "$HYPR_BUILDIN_MON,highresxhighrr,0x0,1"
-fi
-	'';
-
-	lockscreen_img = builtins.fetchurl {
-	  url = "https://raw.githubusercontent.com/DmitriySud/dotfiles/master/stow/i3/Pictures/lockscreen.png";
-	  sha256 = "sha256:0nbi3yygax6ay6pgz07vxdwxw960js2b0kk9fj99vvgvksz1p2ns";
-	};
-
-	mainscreen_img = builtins.fetchurl {
-	  url = "https://raw.githubusercontent.com/DmitriySud/dotfiles/master/stow/i3/Pictures/wallpaper.png";
-	  sha256 = "sha256:1yj2g2hqxkprap8g2fzp8385z8lx5pi45x1xib3g8dc3c9sy5v9b";
-	};
+  mainscreen_img = builtins.fetchurl {
+    url = "https://raw.githubusercontent.com/DmitriySud/dotfiles/master/stow/i3/Pictures/wallpaper.png";
+    sha256 = "sha256:1yj2g2hqxkprap8g2fzp8385z8lx5pi45x1xib3g8dc3c9sy5v9b";
+  };
 
 in {
 
   imports = [
-  	./modules/shadowsocks/shadowsocks.nix
-	./modules/firefox.nix
-	./modules/zsh/zsh.nix
-	./modules/nvim/default.nix
+    ./modules/shadowsocks/shadowsocks.nix
+    ./modules/firefox.nix
+    ./modules/zsh/zsh.nix
+    ./modules/nvim/default.nix
   ];
 
   my.zsh.enable = true;
   my.nvim.enable = true;
-	
-	
+  
+  
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "dsudakov";
@@ -49,24 +34,11 @@ in {
 
   services.shadowsocks-local.enable = true;
 
-  # systemd.user.services.hypr-display-switcher = {
-  #   enable = false;
-  #   Unit = {
-  #     Description = "Enables/disables the built-in display on HDMI plug/unplug";
-  #   };
-  #   Service = {
-  #     Type = "oneshot";
-  #     ExecStart = "${switcherScript}";
-  #   };
-  #   Install = {
-  #     WantedBy = [ "default.target" ];
-  #   };
-  # };
 
   wayland.windowManager.hyprland = {
-  	enable = true;
-	systemd.enable = true;
-	xwayland.enable = true;
+    enable = true;
+    systemd.enable = true;
+    xwayland.enable = true;
 
     plugins = [
         pkgs.hypridle
@@ -162,8 +134,8 @@ in {
   };
 
   xdg.configFile."hypr/hyprpaper.conf".text = ''
-	preload = ${mainscreen_img}
-	wallpaper = , ${mainscreen_img}
+  preload = ${mainscreen_img}
+  wallpaper = , ${mainscreen_img}
   '';
 
   programs.waybar = {
@@ -173,45 +145,45 @@ in {
     # Waybar configuration (JSON or JSONC)
     settings = {
       mainBar = {
-	  layer = "top";
-	  position = "top";
+    layer = "top";
+    position = "top";
 
-	  modules-left = [
-	    "hyprland/workspaces"
-	  ];
+    modules-left = [
+      "hyprland/workspaces"
+    ];
 
-	  modules-center = [
-	    "clock"
-	  ];
+    modules-center = [
+      "clock"
+    ];
 
-	  modules-right = [
-	    "cpu"
-	    "memory"
-	    "network"
-	    "battery"
-	    "tray"
-	  ];
+    modules-right = [
+      "cpu"
+      "memory"
+      "network"
+      "battery"
+      "tray"
+    ];
 
-	  cpu = {
-	    format = "   {usage}%";
-	  };
+    cpu = {
+      format = "   {usage}%";
+    };
 
-	  memory = {
-	    format = "   {used}GiB";
-	  };
+    memory = {
+      format = "   {used}GiB";
+    };
 
-	  network = {
-	    format-wifi = "   {signalStrength}%";
-	    format-ethernet = "󰈁  Online";
-	    format-disconnected = "󰖪    Offline";
-	  };
+    network = {
+      format-wifi = "   {signalStrength}%";
+      format-ethernet = "󰈁  Online";
+      format-disconnected = "󰖪    Offline";
+    };
 
-	  battery = {
-	    format = "{icon}   {capacity}%";
-	    format-icons = ["" "" "" "" ""];
-	  };
+    battery = {
+      format = "{icon}   {capacity}%";
+      format-icons = ["" "" "" "" ""];
+    };
 
-	  "clock"= {
+    "clock"= {
         "format"= "{:%H:%M    %Y-%m-%d    }";
         "tooltip-format"= "<tt><small>{calendar}</small></tt>";
         "calendar"= {
@@ -240,8 +212,8 @@ in {
         padding: 0 10px;
       }
       #cpu, #memory, #network, #clock, #battery {
-    	 padding-left: 8px;
-	 padding-right: 8px;
+       padding-left: 8px;
+   padding-right: 8px;
       }
     '';
   };
@@ -287,47 +259,65 @@ in {
   fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
-  	waybar
-	wofi
-	hyprlock
-	hyprpaper
-	hyprshot
-	hypridle
-	alacritty
-	firefox
-	chromium
-	wl-clipboard
+    waybar
+    wofi
+    hyprlock
+    hyprpaper
+    hyprshot
+    hypridle
+    alacritty
+    firefox
+    chromium
+    wl-clipboard
     swayimg
     nemo
-	cliphist
-	networkmanagerapplet
-	blueman
+    cliphist
+    networkmanagerapplet
+    blueman
 
-	telegram-desktop
+    telegram-desktop
 
-	jq
-	git
-	tree
+    jq
+    git
+    tree
   ];
 
   services.blueman-applet.enable = true;
 
   programs.alacritty = {
-  	enable = true;
-	settings = {
-		window = {
-			padding = {
-				x = 8; # horizontal
-				y = 8; # vertical 
-			};
-		};
-	};
+    enable = true;
+    settings = {
+        window = {
+            padding = {
+                x = 8; # horizontal
+                y = 8; # vertical 
+            };
+        };
+        selection.save_to_clipboard = true;
+
+        keyboard.bindings = [
+          { key = "B"; mods = "Alt"; chars = "\\u001bb"; }  # Alt + B (Move backward one word)
+          { key = "F"; mods = "Alt"; chars = "\\u001bf"; }  # Alt + F (Move forward one word)
+          { key = "D"; mods = "Alt"; chars = "\\u001bd"; }  # Alt + D (Delete the word after the cursor)
+          { key = "A"; mods = "Alt"; chars = "\\u0001"; }   # Alt + A (Go to begin)
+          { key = "E"; mods = "Alt"; chars = "\\u0005"; }   # Alt + A (Go to end)
+          { key = "Backspace"; mods = "Alt"; chars = "\\u001b\\u007F"; }  # Alt + Backspace (Delete word before cursor)
+          { key = "U"; mods = "Alt"; chars = "\\u001bu"; }  # Alt + U (Uppercase from cursor to end of word)
+          { key = "L"; mods = "Alt"; chars = "\\u001bl"; }  # Alt + L (Lowercase from cursor to end of word)
+          { key = "C"; mods = "Alt"; chars = "\\u001bc"; }  # Alt + C (Capitalize the current word)
+          { key = "."; mods = "Alt"; chars = "\\u001b."; }  # Alt + . (Insert the last argument of previous command)
+          { key = "T"; mods = "Alt"; chars = "\\u001bt"; }  # Alt + T (Transpose the words around cursor)
+
+          { key = "Y"; mods = "Alt"; action = "Copy";}  # Alt + Y (Yank selected to clipboard) 
+          { key = "P"; mods = "Alt"; action = "Paste";}  # Alt + Y (Paste to clipboard) 
+        ];
+    };
   };
 
   home.file.".local/bin/lock".text = ''
-	#!/bin/sh
-	hyprlock
-	'';
+  #!/bin/sh
+  hyprlock
+  '';
 
   programs.hyprlock = {
     enable = true;
@@ -376,9 +366,9 @@ in {
 
   home.sessionVariables = {
     HYPR_BUILDIN_MON = "eDP-1";
-  	XDG_CURRENT_DESKTOP = "Hyprland";
-	XDG_SESSION_TYPE = "wayland";
-	NIXOS_OZONE_WL = "1";
+    XDG_CURRENT_DESKTOP = "Hyprland";
+  XDG_SESSION_TYPE = "wayland";
+  NIXOS_OZONE_WL = "1";
   };
 
   home.file.".ssh/config".text = ''
@@ -390,7 +380,7 @@ in {
   '';
 
   home.activation.reloadHyprland = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-  	${hyprctl_bin} reload || true
+    ${hyprctl_bin} reload || true
   '';
 
   # Let Home Manager install and manage itself.
