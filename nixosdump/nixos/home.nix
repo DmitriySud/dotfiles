@@ -34,6 +34,10 @@ in {
 
   services.shadowsocks-local.enable = true;
 
+  home.sessionVariables = {
+    SSH_ASKPASS_REQUIRE = "prefer";
+  };
+
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -66,7 +70,7 @@ in {
             "$mod, RETURN, exec, alacritty"
             "$mod, Q, killactive,"
             "$mod SHIFT, E, exit, "
-            "$mod, D, exec, wofi --show drun"
+            "$mod, SPACE, exec, wofi --show drun"
             "$mod SHIFT, L, exec, hyprlock"
             "$mod, F, fullscreen"
             "CTRL ALT, 1, exec, hyprctl switchxkblayout all 0"

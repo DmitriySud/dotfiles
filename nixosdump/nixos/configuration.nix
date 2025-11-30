@@ -104,7 +104,7 @@
   ];
 
   services.gnome.gcr-ssh-agent.enable = true;
-  programs.ssh.askPassword = "${pkgs.gcr_4}/libexec/gcr4-ssh-askpass";
+  # programs.ssh.askPassword = "${pkgs.gcr_4}/libexec/gcr4-ssh-askpass";
 
   systemd.services."lock-on-sleep" = {
     description = "Lock screen on sleep";
