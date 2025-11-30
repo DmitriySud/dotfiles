@@ -98,6 +98,11 @@ in {
             "$mod SHIFT, 8, movetoworkspace, 8"
             "$mod SHIFT, 9, movetoworkspace, 9"
             "$mod SHIFT, 0, movetoworkspace, 0"
+
+            "$mod CTRL, h, resizeactive, -50 0"
+            "$mod CTRL, l, resizeactive, 50 0"
+            "$mod CTRL, k, resizeactive, 0 -50"
+            "$mod CTRL, j, resizeactive, 0 50"
         ];
 
         monitor = [
