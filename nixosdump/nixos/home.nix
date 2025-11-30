@@ -285,6 +285,8 @@ in {
     jq
     git
     tree
+
+    gnome-keyring
   ];
 
   services.blueman-applet.enable = true;
@@ -391,15 +393,16 @@ in {
   # Let Home Manager install and manage itself.
   programs.git = {
     enable = true;
-    userName = "DmitriySud";
-    userEmail = "dmitriy.sudakov2001@gmail.com";
+    settings = {
+        user.name = "DmitriySud";
+        user.email = "dmitriy.sudakov2001@gmail.com";
+    };
   };
 
   programs.home-manager.enable = true;
 
   services.gnome-keyring = {
     enable = true;
-    components = [ "pkcs11" "secrets" "ssh" ];   
+    components = [ "pkcs11" "secrets" ];
   };
-
 }

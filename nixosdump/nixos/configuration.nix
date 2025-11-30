@@ -67,7 +67,7 @@
 
   fonts.packages = with pkgs; [
   	noto-fonts
-	noto-fonts-emoji
+	noto-fonts-color-emoji
 	nerd-fonts.fira-code
   ];
 
@@ -91,15 +91,20 @@
     greetd.enableGnomeKeyring = true;
     greetd-password.enableGnomeKeyring = true;
     login.enableGnomeKeyring = true;
+    gdm-password.enableGnomeKeyring = true;
   };
-  services.dbus.packages = [ pkgs.gnome-keyring pkgs.gcr ];
+  services.dbus.packages = [ pkgs.gnome-keyring ];
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     neovim 
     wget
+    gnome-keyring
   ];
+
+  services.gnome.gcr-ssh-agent.enable = true;
+  programs.ssh.askPassword = "${pkgs.gcr_4}/libexec/gcr4-ssh-askpass";
 
   systemd.services."lock-on-sleep" = {
     description = "Lock screen on sleep";
@@ -109,25 +114,19 @@
   };
 
   services.logind = {
-    lidSwitch = "suspend";
-    lidSwitchDocked = "ignore";
-    powerKey = "suspend";
+    settings = {
+        Login.HandleLidSwitchDocked = "ignore";
+        Login.HandlLidSwitch = "suspend";
+        Login.HandlPowerKey = "suspend";
+    };
   };
 
   services.xserver.enable = true;
-  services.xserver.displayManager.gdm = {
+  services.displayManager.gdm = {
   	enable = true;
 	wayland = true;
   };
 
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
