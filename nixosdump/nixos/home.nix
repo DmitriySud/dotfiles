@@ -52,9 +52,7 @@ in {
 
     settings = {
         exec-once = [
-            "waybar &"
-            "nm-applet &"
-            "blueman-applet"
+            "nm-applet"
         ];
 
         input = {
@@ -149,7 +147,7 @@ in {
 
   programs.waybar = {
     enable = true;
-    package = pkgs.waybar;
+    systemd.enable = true;
 
     # Waybar configuration (JSON or JSONC)
     settings = {
@@ -292,8 +290,6 @@ in {
 
     gnome-keyring
   ];
-
-  services.blueman-applet.enable = true;
 
   programs.alacritty = {
     enable = true;
