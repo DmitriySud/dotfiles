@@ -109,7 +109,7 @@ in {
 
         monitor = [
             "desc:Dell Inc. DELL U2724D C78GF34, 2460x1440, -2560x0, 1"
-            "desc:Huawei Technologies Co. Inc. ZQE-CBA 0xC080F622, 2560x1440, 0x-1440, 1"
+            "desc:Huawei Technologies Co. Inc. ZQE-CBA 0xC080F622, preferred, 0x-1440, 1"
             "eDP-1, preferred, 0x0, 1"
         ];
 
@@ -119,6 +119,11 @@ in {
             "3, monitor:HDMI-A-1"
             "4, monitor:HDMI-A-1"
             "5, monitor:HDMI-A-1"
+            "1, monitor:DP-1"
+            "2, monitor:DP-1"
+            "3, monitor:DP-1"
+            "4, monitor:DP-1"
+            "5, monitor:DP-1"
             "6, monitor:eDP-1"
             "7, monitor:eDP-1"
             "8, monitor:eDP-1"
@@ -139,6 +144,8 @@ in {
         };
     };
   };
+
+  services.hyprpaper.enable = true;
 
   xdg.configFile."hypr/hyprpaper.conf".text = ''
   preload = ${mainscreen_img}
@@ -167,6 +174,7 @@ in {
       "cpu"
       "memory"
       "network"
+      "pulseaudio"
       "battery"
       "tray"
     ];
@@ -183,6 +191,22 @@ in {
       format-wifi = "   {signalStrength}%";
       format-ethernet = "󰈁  Online";
       format-disconnected = "󰖪    Offline";
+    };
+
+    pulseaudio = {
+      format = "{icon} {volume}%";
+      format-muted = "󰖁 muted";
+      format-icons = {
+        headphone = "󰋋";
+        hands-free = "󰋎";
+        headset = "󰋎";
+        phone = "󰄜";
+        portable = "󰄜";
+        car = "󰄋";
+        default = ["󰕿" "󰖀" "󰕾"];
+      };
+      scroll-step = 5;
+      on-click = "pavucontrol";
     };
 
     battery = {
@@ -281,6 +305,8 @@ in {
     cliphist
     networkmanagerapplet
     blueman
+    pavucontrol
+    pamixer
 
     telegram-desktop
 
