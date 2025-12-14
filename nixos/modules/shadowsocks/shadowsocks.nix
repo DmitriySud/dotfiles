@@ -22,7 +22,7 @@ in
 			};
 
 			Service = {
-				ExecStart = "${pkgs.shadowsocks-rust}/bin/sslocal -c /home/dsudakov/repos/dotfiles/nixosdump/nixos/modules/shadowsocks/config.json";
+				ExecStart = "${pkgs.shadowsocks-rust}/bin/sslocal -c /home/dsudakov/repos/dotfiles/nixos/modules/shadowsocks/config.json";
 				Restart = "on-failure";
 				RestartSec = 5;
 			};
