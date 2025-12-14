@@ -13,6 +13,7 @@
   my.zsh.enable = true;
   my.nvim.enable = true;
   
+  
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "dsudakov";
@@ -24,7 +25,10 @@
     SSH_ASKPASS_REQUIRE = "prefer";
   };
 
+  home.stateVersion = "25.11";
+
   fonts.fontconfig.enable = true;
+
   home.packages = with pkgs; [
     alacritty
     firefox

@@ -27,10 +27,6 @@ in {
       type = lib.types.listOf lib.types.str;
       default = [];
     };
-
-    hypridle.enable  = lib.mkEnableOption "Hypridle plugin/service";
-    hyprpaper.enable = lib.mkEnableOption "Hyprpaper plugin/service";
-    hyprlock.enable  = lib.mkEnableOption "Hyprlock plugin/service";
   };
 
   config = lib.mkIf cfg.enable {
