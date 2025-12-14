@@ -12,30 +12,48 @@
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs : let
   	system = "x86_64-linux";
-	pkgs = import nixpkgs {inherit system;};
+    user = "dsudakov";
+
+    allowed-unfree-packages = [
+        "nvidia-x11"
+        "nvidia-settings"
+        "nvidia-persistenced"
+    ];
+
+    mkNixos = envPath:
+      nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit allowed-unfree-packages user; };
+        modules = [
+          (envPath + "/configuration.nix")
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit allowed-unfree-packages user; };
+            home-manager.users.${user} = import (envPath + "/home.nix");
+          }
+        ];
+      };
+
+    mkHome = envPath:
+      home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.${system};
+        extraSpecialArgs = { inherit allowed-unfree-packages user; };
+        modules = [ (envPath + "/home.nix") ];
+      };
+
   in {
-    # use "nixos", or your hostname as the name of the configuration
-    # it's a better practice than "default" shown in the video
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      inherit system;
-
-      modules = [
-        ./configuration.nix
-        home-manager.nixosModules.home-manager 
-	{
-		home-manager.useGlobalPkgs = true;
-		home-manager.useUserPackages = true;
-		home-manager.users.dsudakov = import ./home.nix;
-
-		environment.systemPackages = [
-			home-manager.packages.${system}.home-manager
-		];
-	}
-      ];
+    nixosConfigurations = {
+      desktop-pc      = mkNixos ./envs/desktop-pc;
+      laptop-personal = mkNixos ./envs/laptop-personal;
+      laptop-work     = mkNixos ./envs/laptop-work;
     };
-    homeConfigurations.dsudakov = home-manager.lib.homeManagerConfiguration {
-    	inherit pkgs;
-	modules = [ ./home.nix ];
+
+    homeConfigurations = {
+      "${user}-desktop-pc"      = mkHome ./envs/desktop-pc;
+      "${user}-laptop-personal" = mkHome ./envs/laptop-personal;
+      "${user}-laptop-work"     = mkHome ./envs/laptop-work;
     };
   };
 }

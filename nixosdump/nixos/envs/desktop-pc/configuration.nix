@@ -1,6 +1,10 @@
-{ config, lib,  pkgs, ... }:
+{ config, lib,  pkgs, allowed-unfree-packages, ... }:
 
 {
+  nixpkgs.config = {
+    allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) allowed-unfree-packages;
+
+  };
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -19,6 +23,7 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -79,7 +84,11 @@
 	wireplumber.enable = true;
   };
 
-  hardware.graphics.enable = true;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
+
   hardware.bluetooth = {
   	enable = true;
 	powerOnBoot = true;
@@ -101,6 +110,7 @@
     neovim 
     wget
     gnome-keyring
+    lshw
   ];
 
   services.gnome.gcr-ssh-agent.enable = true;
@@ -121,10 +131,31 @@
     };
   };
 
-  services.xserver.enable = true;
+  services.xserver = {
+    enable = true;
+    videoDrivers = ["nvidia"];
+  };
   services.displayManager.gdm = {
   	enable = true;
 	wayland = true;
+  };
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = true;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
+
+    #prime = {
+    #    offload = {
+    #        enable = true;
+    #        enableOffloadCmd = true;
+    #    };
+    #    nvidiaBusId = "PCI:01:00:0";
+    #};
+
   };
 
 
