@@ -7,6 +7,7 @@
     ./hyprlock.nix
     ./hyprpaper.nix
     ./waybar.nix
+    ./swaync.nix
     ./misc-packages.nix
   ];
 }
