@@ -38,9 +38,20 @@ in {
       xwayland.enable = true;
       plugins = hyprPlugins;
 
+      windowrulev2 = [
+        "workspace 3, class: ^(org.telegram.desktop)$"
+        "noborder, class: ^(org.telegram.desktop)$"
+        "rounding 0, class: ^(org.telegram.desktop)$"
+        "tile, class: ^(org.telegram.desktop)$"
+        "maximize, class: ^(org.telegram.desktop)$"
+      ];
+
 
       settings = {
-        exec-once = [ "nm-applet" ];
+        exec-once = [ 
+            "nm-applet" 
+            "telegram-desktop" 
+        ];
         input = {
           kb_layout = "us,ru";
           kb_options = "grp:caps_toggle";
@@ -93,7 +104,10 @@ in {
         ] ++ cfg.extraBinds;
 
         monitor   = cfg.monitors;
-        workspace = cfg.workspaces;
+        workspace = cfg.workspaces ++ [
+            "3, name: Telegram"
+            "3, on-created-empty: telegram-desktop"
+        ];
 
         decoration = {
           rounding = 4;
