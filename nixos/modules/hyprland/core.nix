@@ -38,13 +38,6 @@ in {
       xwayland.enable = true;
       plugins = hyprPlugins;
 
-      windowrulev2 = [
-        "workspace 3, class: ^(org.telegram.desktop)$"
-        "noborder, class: ^(org.telegram.desktop)$"
-        "rounding 0, class: ^(org.telegram.desktop)$"
-        "tile, class: ^(org.telegram.desktop)$"
-        "maximize, class: ^(org.telegram.desktop)$"
-      ];
 
 
       settings = {
@@ -107,6 +100,13 @@ in {
         workspace = cfg.workspaces ++ [
             "3, name: Telegram"
             "3, on-created-empty: telegram-desktop"
+        ];
+        windowrule = [
+          "workspace 3, class: ^(org.telegram.desktop)$"
+          "noborder, class: ^(org.telegram.desktop)$"
+          "rounding 0, class: ^(org.telegram.desktop)$"
+          "tile, class: ^(org.telegram.desktop)$"
+          "maximize, class: ^(org.telegram.desktop)$"
         ];
 
         decoration = {

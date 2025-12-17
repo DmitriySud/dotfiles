@@ -8,7 +8,7 @@
         enable = true;
         monitors = [
           "eDP-1, preferred, 0x0, 1"
-          "HDMI-A-1, preffered, -2560x0, 0.8"
+          "HDMI-A-1, preffered, -2560x0, 1"
         ];
 
         workspaces = [

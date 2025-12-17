@@ -43,7 +43,6 @@
     gnome-keyring
 
     mission-center
-    home-manager
   ];
 
   programs.alacritty = {
