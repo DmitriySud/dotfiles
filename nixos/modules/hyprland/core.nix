@@ -94,6 +94,10 @@ in {
           ", PRINT, exec, hyprshot -m window"
           "CTRL ALT, 1, exec, hyprctl switchxkblayout all 0"
           "CTRL ALT, 2, exec, hyprctl switchxkblayout all 1"
+          ",XF86AudioLowerVolume, exec, pactl -- set-sink-volume 0 -10%"
+          ",XF86AudioRaiseVolume, exec, pactl -- set-sink-volume 0 +10%"
+          ",XF86AudioMute, exec, pactl -- set-sink-mute 0 toggle"
+          ",XF86AudioMicMute, exec, pactl -- set-source-mute 0 toggle"
         ] ++ cfg.extraBinds;
 
         monitor   = cfg.monitors;

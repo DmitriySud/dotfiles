@@ -53,6 +53,7 @@ in {
       gnome-keyring
 
       mission-center
+      pulseaudio
     ]++ lib.optional cfg.enableBrightness brightnessctl;
 
     my.hyprland.extraBinds = [] ++ lib.optionals cfg.enableBrightness [

@@ -13,7 +13,7 @@ in {
           position = "top";
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "clock" ];
-          modules-right = [ "cpu" "memory" "network" "pulseaudio" "battery" "tray" ];
+          modules-right = [ "cpu" "memory" "network" "pulseaudio" "backlight" "battery" "tray" ];
           cpu.format = "   {usage}%";
           memory.format = "   {used}GiB";
           network = {
@@ -35,6 +35,11 @@ in {
             };
             scroll-step = 5;
             on-click = "pavucontrol";
+          };
+          backlight = {
+            device = "intel_backlight";
+            format = "  {icon}  {percent}%  ";
+            format-icons = ["" ""];
           };
           battery = {
             format = "{icon}   {capacity}%";
