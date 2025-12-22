@@ -6,6 +6,11 @@ let
     lib.optional cfg.hypridle.enable pkgs.hypridle
     ++ lib.optional cfg.hyprpaper.enable pkgs.hyprpaper
     ++ lib.optional cfg.hyprlock.enable pkgs.hyprlock;
+  
+  brightnessControlBinds = [] ++ lib.optionals cfg.enableBrightness [
+        ", XF86MonBrightnessDown, exec, brightnessctl s 10%-"
+        ", XF86MonBrightnessUp, exec, brightnessctl s +10%"
+  ];
 in {
   options.my.hyprland = {
     enable = lib.mkEnableOption "Hyprland stack";
@@ -26,6 +31,12 @@ in {
     extraBinds = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [];
+    };
+
+    enableBrightness = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Enable brightness control";
     };
   };
 
@@ -98,7 +109,9 @@ in {
           ",XF86AudioRaiseVolume, exec, pactl -- set-sink-volume 0 +10%"
           ",XF86AudioMute, exec, pactl -- set-sink-mute 0 toggle"
           ",XF86AudioMicMute, exec, pactl -- set-source-mute 0 toggle"
-        ] ++ cfg.extraBinds;
+        ] 
+        ++ brightnessControlBinds
+        ++ cfg.extraBinds;
 
         monitor   = cfg.monitors;
         workspace = cfg.workspaces ++ [

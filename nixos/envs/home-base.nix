@@ -56,10 +56,7 @@ in {
       pulseaudio
     ]++ lib.optional cfg.enableBrightness brightnessctl;
 
-    my.hyprland.extraBinds = [] ++ lib.optionals cfg.enableBrightness [
-        ", XF86MonBrightnessDown, exec, brightnessctl s 10%-"
-        ", XF86MonBrightnessUp, exec, brightnessctl s +10%"
-    ];
+    my.hyprland.enableBrightness = cfg.enableBrightness;
 
     programs.alacritty = {
       enable = true;

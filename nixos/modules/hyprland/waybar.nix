@@ -3,6 +3,7 @@
 let
   cfg = config.my.hyprland;
 in {
+
   config = lib.mkIf cfg.enable {
     programs.waybar = {
       enable = true;
@@ -13,7 +14,9 @@ in {
           position = "top";
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "clock" ];
-          modules-right = [ "cpu" "memory" "network" "pulseaudio" "backlight" "battery" "tray" ];
+          modules-right = [ "cpu" "memory" "network" "pulseaudio" ]
+                            ++ lib.optionals cfg.enableBrightness ["backlight"] 
+                            ++ [ "battery" "tray" ];
           cpu.format = "   {usage}%";
           memory.format = "   {used}GiB";
           network = {
