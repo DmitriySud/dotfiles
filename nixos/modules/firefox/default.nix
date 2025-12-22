@@ -1,7 +1,9 @@
 { config, pkgs, ...}:
 
 {
-	programs.firefox = {
+    home.packages = with pkgs; [ firefox ];
+
+ 	programs.firefox = {
 		enable = true;
 
 		profiles.default.settings = {
