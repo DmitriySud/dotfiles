@@ -1,8 +1,10 @@
 { config, lib, pkgs, ... }:
 {
     imports = [
-        ../home-base.nix
+        ../home-base.nix 
     ];
+
+    my.home-base.enableBrightness = true;
 
     my.hyprland = {
         enable = true;
@@ -24,4 +26,8 @@
             "10, eDP-1"
         ];
     };
+
+    home.packages = with pkgs; [
+        brightnessctl
+    ];
 }

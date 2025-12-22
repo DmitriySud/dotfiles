@@ -3,6 +3,7 @@
     imports = [
         ../home-base.nix
     ];
+    my.home-base.enableBrightness = true;
 
     my.hyprland = {
         enable = true;
