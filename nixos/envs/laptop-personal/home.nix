@@ -14,20 +14,16 @@
         ];
 
         workspaces = [
-            "1, DP-1"
-            "2, DP-1"
-            "3, DP-1"
-            "4, DP-1"
-            "5, DP-1"
-            "6, eDP-1"
-            "7, eDP-1"
-            "8, eDP-1"
-            "9, eDP-1"
-            "10, eDP-1"
+            "1, monitor:DP-1"
+            "2, monitor:DP-1"
+            "3, monitor:DP-1"
+            "4, monitor:DP-1"
+            "5, monitor:DP-1"
+            "6, monitor:eDP-1"
+            "7, monitor:eDP-1"
+            "8, monitor:eDP-1"
+            "9, monitor:eDP-1"
+            "10, monitor:eDP-1"
         ];
     };
-
-    home.packages = with pkgs; [
-        brightnessctl
-    ];
 }
