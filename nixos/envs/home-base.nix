@@ -54,9 +54,18 @@ in {
 
       mission-center
       pulseaudio
+
+      zathura
     ]++ lib.optional cfg.enableBrightness brightnessctl;
 
     my.hyprland.enableBrightness = cfg.enableBrightness;
+
+    xdg.mimeApps = {
+        enable = true;
+        defaultApplications = {
+            "application/pdf" = "org.pwmt.zathura.desktop";
+        };
+    };
 
     home.file.".ssh/config".text = ''
     Host *
