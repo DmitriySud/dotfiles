@@ -3,7 +3,7 @@
 let
   cfg = config.my.hyprland;
   lockscreen_img = builtins.fetchurl {
-    url = "https://raw.githubusercontent.com/DmitriySud/dotfiles/master/stow/i3/Pictures/lockscreen.png";
+    url = "https://raw.githubusercontent.com/DmitriySud/dotfiles/master/pictures/lockscreen.png";
     sha256 = "sha256:0nbi3yygax6ay6pgz07vxdwxw960js2b0kk9fj99vvgvksz1p2ns";
   };
 in {
