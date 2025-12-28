@@ -11,7 +11,7 @@
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs : let
-  	system = "x86_64-linux";
+  	system = builtins.currentSystem;
     user = "dsudakov";
 
     allowed-unfree-packages = [
@@ -54,7 +54,7 @@
       "${user}-desktop-personal" = mkHome ./envs/desktop-personal;
       "${user}-laptop-personal"  = mkHome ./envs/laptop-personal;
       "${user}-laptop-work"      = mkHome ./envs/laptop-work;
-      "${user}-remote-ssh-work"  = mkHome ./envs/laptop-work;
+      "${user}-remote-ssh-work"  = mkHome ./envs/remote-ssh-work;
     };
   };
 }
