@@ -23,18 +23,18 @@
       vimAlias = true;
 
       plugins = with pkgs.vimPlugins; [
-      	vim-startify
-	plenary-nvim
-	telescope-nvim
-	nerdtree
-	vim-easymotion
-	nvim-autopairs
-	coc-nvim
-	nvim-web-devicons
-	catppuccin-nvim
-	lualine-nvim
-	indent-blankline-nvim
-	nvim-treesitter
+        vim-startify
+        plenary-nvim
+        telescope-nvim
+        nerdtree
+        vim-easymotion
+        nvim-autopairs
+        coc-nvim
+        nvim-web-devicons
+        catppuccin-nvim
+        lualine-nvim
+        indent-blankline-nvim
+        nvim-treesitter
       ];
       extraPackages = with pkgs.tree-sitter-grammars; [
         tree-sitter-bash
@@ -43,12 +43,12 @@
         tree-sitter-markdown
         tree-sitter-python
         tree-sitter-yaml
-	tree-sitter-cpp
-	tree-sitter-c
-	tree-sitter-nix
-	tree-sitter-make
-	tree-sitter-cmake
-	tree-sitter-query
+        tree-sitter-cpp
+        tree-sitter-c
+        tree-sitter-nix
+        tree-sitter-make
+        tree-sitter-cmake
+        tree-sitter-query
       ];
     };
 

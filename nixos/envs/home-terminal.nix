@@ -14,7 +14,6 @@
       jq
       git
       tree
-      neovim
     ];
   };
 }

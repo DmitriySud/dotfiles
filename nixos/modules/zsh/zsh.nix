@@ -7,8 +7,8 @@
 	  programs.zsh = {
 	    enable = true;
 	    enableCompletion = true;
-	    enableAutosuggestions = true;
-	    enableSyntaxHighlighting= true;
+	    autosuggestion.enable = true;
+	    syntaxHighlighting.enable = true;
 
         defaultKeymap = "emacs";
 

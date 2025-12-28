@@ -12,8 +12,6 @@ in {
     };
 
     git-email = mkOption {
-      type = types.string;
-      default = false;
       description = "Global git email";
     };
   };

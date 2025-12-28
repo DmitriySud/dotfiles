@@ -45,16 +45,16 @@
 
   in {
     nixosConfigurations = {
-      desktop-pc      = mkNixos ./envs/desktop-pc;
-      laptop-personal = mkNixos ./envs/laptop-personal;
-      laptop-work     = mkNixos ./envs/laptop-work;
+      desktop-personal = mkNixos ./envs/desktop-personal;
+      laptop-personal  = mkNixos ./envs/laptop-personal;
+      laptop-work      = mkNixos ./envs/laptop-work;
     };
 
     homeConfigurations = {
-      "${user}-desktop-personal"= mkHome ./envs/desktop-pc;
-      "${user}-laptop-personal" = mkHome ./envs/laptop-personal;
-      "${user}-laptop-work"     = mkHome ./envs/laptop-work;
-      "${user}-remote-ssh-work" = mkHome ./envs/laptop-work;
+      "${user}-desktop-personal" = mkHome ./envs/desktop-personal;
+      "${user}-laptop-personal"  = mkHome ./envs/laptop-personal;
+      "${user}-laptop-work"      = mkHome ./envs/laptop-work;
+      "${user}-remote-ssh-work"  = mkHome ./envs/laptop-work;
     };
   };
 }
