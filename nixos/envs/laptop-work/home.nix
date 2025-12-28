@@ -1,8 +1,10 @@
 { config, lib, pkgs, ... }:
 {
     imports = [
-        ../home-base.nix
+        ../home-desktop.nix
     ];
+
+    my.home-base.git-email = "dmitriy.sudakov2001@gmail.com";
     my.home-base.enableBrightness = true;
 
     my.hyprland = {

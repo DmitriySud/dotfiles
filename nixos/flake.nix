@@ -51,9 +51,10 @@
     };
 
     homeConfigurations = {
-      "${user}-desktop-pc"      = mkHome ./envs/desktop-pc;
+      "${user}-desktop-personal"= mkHome ./envs/desktop-pc;
       "${user}-laptop-personal" = mkHome ./envs/laptop-personal;
       "${user}-laptop-work"     = mkHome ./envs/laptop-work;
+      "${user}-remote-ssh-work" = mkHome ./envs/laptop-work;
     };
   };
 }
