@@ -24,5 +24,7 @@
             "9, monitor:DP-1"
             "10, monitor:DP-1"
         ];
+
+        hypridle.can-suspend = false;
     };
 }

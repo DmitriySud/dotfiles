@@ -3,9 +3,14 @@
 let
   cfg = config.my.hyprland;
 in {
-  options.my.hyprland.hypridle.enable =
-    lib.mkEnableOption "Hypridle service" // {
-    default = true;
+  options.my.hyprland.hypridle = {
+    enable = lib.mkEnableOption "Hypridle service" // {
+      default = true;
+    };
+    can-suspend = lib.mkOption {
+      type    = lib.types.bool;
+      default = true;
+    };
   };
 
   config = lib.mkIf (cfg.enable && cfg.hypridle.enable) {
@@ -24,8 +29,8 @@ in {
             on-timeout = "hyprctl dispatch dpms off";
             on-resume = "hyprctl dispatch dpms on";
           }
-          { timeout = 900; on-timeout = "systemctl suspend"; }
-        ];
+          
+        ] ++ lib.optional cfg.hypridle.can-suspend { timeout = 900; on-timeout = "systemctl suspend"; };
       };
     };
   };
