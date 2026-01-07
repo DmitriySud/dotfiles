@@ -27,4 +27,6 @@
             "10, monitor:eDP-1"
         ];
     };
+
+    my.alacritty.fontSize = 15.0;
 }

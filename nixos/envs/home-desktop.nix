@@ -1,16 +1,21 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, sops-nix, ... }:
+
 with lib;
 {
   imports = [
+    sops-nix.homeManagerModules.sops
+
     ./home-terminal.nix
     ../modules/firefox
     ../modules/alacritty
     ../modules/hyprland
+    ../modules/sops
     ../modules/shadowsocks/shadowsocks.nix   
   ];
 
   config = {
     services.shadowsocks-local.enable = true;
+    my.alacritty.enable = true;
 
     fonts.fontconfig.enable = true;
 
@@ -22,7 +27,6 @@ with lib;
       pulseaudio
       zathura
     
-      sops
       age
 
     ] ++ lib.optional config.my.home-base.enableBrightness pkgs.brightnessctl;
