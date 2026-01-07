@@ -27,6 +27,7 @@ with lib;
       pulseaudio
       zathura
     
+      sops
       age
 
     ] ++ lib.optional config.my.home-base.enableBrightness pkgs.brightnessctl;

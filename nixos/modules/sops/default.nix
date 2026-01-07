@@ -6,7 +6,8 @@
   sops.secrets =  {
     shadowsocks-config = {
       sopsFile = ../../secrets/config.json;
-      format = "binary";
+      format = "json";
+      key = "";
       mode = "0400";
     };
   };
