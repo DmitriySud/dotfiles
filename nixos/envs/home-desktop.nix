@@ -21,6 +21,10 @@ with lib;
       mission-center
       pulseaudio
       zathura
+    
+      sops
+      age
+
     ] ++ lib.optional config.my.home-base.enableBrightness pkgs.brightnessctl;
 
     my.hyprland.enableBrightness = config.my.home-base.enableBrightness;

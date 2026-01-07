@@ -2,6 +2,8 @@
 
 let
 	cfg = config.services.shadowsocks-local;
+
+  configFile = config.sops.secrets."shadowsocks-config".path;
 in
 {
 	options.services.shadowsocks-local = {
@@ -13,8 +15,6 @@ in
 			shadowsocks-rust
 		];
 
-		# xdg.configFile."shadowsocks/config.json".source = ./config.json;
-
 		systemd.user.services.shadowsocks-local = {
 			Unit = {
 				Description = "Shadowsocks Local Proxy";
@@ -22,7 +22,7 @@ in
 			};
 
 			Service = {
-				ExecStart = "${pkgs.shadowsocks-rust}/bin/sslocal -c /home/dsudakov/repos/dotfiles/nixos/modules/shadowsocks/config.json";
+				ExecStart = "${pkgs.shadowsocks-rust}/bin/sslocal -c ${configFile}";
 				Restart = "on-failure";
 				RestartSec = 5;
 			};

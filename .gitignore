@@ -15,5 +15,3 @@ generated/
 !stow/byobu/.byobu/.reuse-session
 !stow/byobu/.byobu/color.tmux
 
-/nixos/modules/shadowsocks/config.json
-

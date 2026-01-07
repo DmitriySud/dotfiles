@@ -1,0 +1,7 @@
+keys:
+  - &primary age1t4edfzxrysffldx8yy39ggr5zp4qu54mj2x5r8l820nc8zr48fesn9rxke
+creation_rules:
+  - path_regex: secrets/config\.json$
+    key_groups:
+      - age: 
+        - *primary
