@@ -35,7 +35,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit allowed-unfree-packages user; };
+            home-manager.extraSpecialArgs = { inherit user sops-nix; };
             home-manager.users.${user} = import (envPath + "/home.nix");
           }
 
@@ -46,7 +46,7 @@
     mkHome = envPath:
       home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.${system};
-        extraSpecialArgs = { inherit allowed-unfree-packages user; };
+        extraSpecialArgs = { inherit user sops-nix; };
         modules = [ (envPath + "/home.nix") ];
       };
 

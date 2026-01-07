@@ -5,7 +5,7 @@ with  lib;
 
   options.my.alacritty = {
     enable = mkEnableOption "Alacritty";
-    fondSize = mkOption {
+    fontSize = mkOption {
       type = types.float;
       default = 11.5;
       description = "alacritty font size";

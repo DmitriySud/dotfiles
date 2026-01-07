@@ -3,7 +3,7 @@
 let
 	cfg = config.services.shadowsocks-local;
 
-  configFile = config.sops.secrets."shadowsocks-config".path;
+  configFile = config.sops.secrets.shadowsocks-config.path;
 in
 {
 	options.services.shadowsocks-local = {
@@ -18,7 +18,7 @@ in
 		systemd.user.services.shadowsocks-local = {
 			Unit = {
 				Description = "Shadowsocks Local Proxy";
-				After = [ "network-online.target" ];
+				After = [ "sops-nix.service" "network-online.target" ];
 			};
 
 			Service = {
