@@ -71,7 +71,7 @@ in {
           "$mod, Q, killactive,"
           "$mod, F, fullscreen"
           "$mod SHIFT, E, exit,"
-          "$mod SHIFT, I, exec, hyprlock"
+          "$mod SHIFT, I, exec, lock"
           "$mod, h, movefocus, l"
           "$mod, l, movefocus, r"
           "$mod, k, movefocus, u"

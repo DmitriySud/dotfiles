@@ -45,10 +45,12 @@ in {
       };
     };
 
-    home.file.".local/bin/lock".text = ''
+    home.packages = [
+      (pkgs.writeShellScriptBin "lock" ''
         #!/bin/sh
-        hyprlock
-    '';
+        hyprctl switchxkblayout all 0 && hyprlock
+      '')
+    ];
   };
 }
 
