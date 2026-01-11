@@ -44,3 +44,5 @@ source @p10kTheme@
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 source @goto@
+
+alias ffzf='fzf | xargs cat | wl-copy'
