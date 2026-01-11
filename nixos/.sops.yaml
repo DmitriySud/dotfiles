@@ -1,7 +1,9 @@
 keys:
-  - &primary age1t4edfzxrysffldx8yy39ggr5zp4qu54mj2x5r8l820nc8zr48fesn9rxke
+  - &laptop-personal age1t4edfzxrysffldx8yy39ggr5zp4qu54mj2x5r8l820nc8zr48fesn9rxke
+  - &desktop-personal age1jcef3l8lkgp490xrxrkkzhvmpj0xc57sfyar4qzhrrpkqg2afcdssvyxsg
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json)$
     key_groups:
       - age: 
-        - *primary
+        - *laptop-personal
+        - *desktop-personal
