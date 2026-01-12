@@ -12,9 +12,11 @@ in
 	};
 
 	config = lib.mkIf cfg.enable {
+    users.mutableUsers = false;
+
 		users.users.${cfg.userName} = {
 			isNormalUser = true;
-			initialPassword = "12345";
+			hashedPasswordFile = config.sops.secrets.main-user-password.path;
 			description = "main user";
 			extraGroups = [ "wheel" "networkmanager" ];
 			shell = pkgs.zsh;

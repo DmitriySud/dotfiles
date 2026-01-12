@@ -3,7 +3,10 @@
 {
   system.stateVersion = "25.11"; # Did you read the comment?
 
-  imports = [ ./main-user.nix ];
+  imports = [ 
+    ./../modules/sops
+    ./main-user.nix 
+  ];
 
   main-user.enable = true;
   main-user.userName = "dsudakov";
