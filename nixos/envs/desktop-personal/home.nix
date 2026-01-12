@@ -4,7 +4,7 @@
         ../home-desktop.nix
     ];
 
-    my.home-base.git-email = "dmitriy.sudakov2001@gmail.com";
+    my.home-base.git-email = "dmitriy.sudakov2001@yandex.ru";
 
     my.hyprland = {
         enable = true;
