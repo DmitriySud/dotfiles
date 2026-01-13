@@ -3,13 +3,10 @@
 with lib;
 {
   imports = [
-    sops-nix.homeManagerModules.sops
-
     ./home-terminal.nix
     ../modules/firefox
     ../modules/alacritty
     ../modules/hyprland
-    ../modules/sops
     ../modules/shadowsocks/shadowsocks.nix   
   ];
 
