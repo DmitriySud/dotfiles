@@ -18,7 +18,7 @@
       };
 
       main-user-password = {
-        needForUsers = true;
+        neededForUsers = true;
 
         sopsFile = ../../secrets/user.json;
         format = "json";
@@ -27,7 +27,7 @@
       };
 
       root-password = {
-        needForUsers = true;
+        neededForUsers = true;
 
         sopsFile = ../../secrets/user.json;
         format = "json";

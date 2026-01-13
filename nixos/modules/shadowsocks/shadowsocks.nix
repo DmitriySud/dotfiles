@@ -3,7 +3,7 @@
 let
 	cfg = config.services.shadowsocks-local;
 
-  configFile = config.sops.secrets.shadowsocks-config.path;
+  configFile = "/run/secrets/shadowsocks-config";
 in
 {
 	options.services.shadowsocks-local = {
