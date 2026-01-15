@@ -3,6 +3,7 @@
   imports = [
     ./home-base.nix
     ../modules/nvim          
+    ../modules/byobu
     ../modules/zsh/zsh.nix  
   ];
 

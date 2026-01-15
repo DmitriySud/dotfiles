@@ -10,8 +10,3 @@ __pycache__/
 
 generated/
 
-/stow/byobu/.byobu
-!stow/byobu/.byobu/.tmux.conf
-!stow/byobu/.byobu/.reuse-session
-!stow/byobu/.byobu/color.tmux
-
