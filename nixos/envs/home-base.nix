@@ -4,6 +4,10 @@ with lib;
 let 
   cfg = config.my.home-base;
 in {
+  imports = [
+    ../modules/syncthing
+  ]
+
   options.my.home-base = {
     enableBrightness = mkOption {
       type = types.bool;
@@ -17,6 +21,8 @@ in {
   };
 
   config = {
+    my.syncthing.enable = true;
+
     home.username = "dsudakov";
     home.homeDirectory = "/home/dsudakov";
     home.stateVersion = "25.11";
