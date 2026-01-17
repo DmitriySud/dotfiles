@@ -26,6 +26,23 @@ in
           localDiscoveryEnabled = true;
           natEnabled = true;
         };
+
+        devices = {
+          desktop-personal.id = "YGZZGDV-LFSMJOD-OVR6FU6-J7BNAKD-ZGGMTOT-WDHMID6-HNO25CI-PDZGVAO";
+          laptop-personal.id = "VRD6P5Y-WY4NNTO-DUEEKOG-TVMVD4R-HGOCC3S-SED45M6-QLTHDDP-2NYQ6QR";
+        };
+
+        folders = {
+          "goto-state" = {
+            path = "${cfg.storage-dir}/goto";
+            devices = [ "desktop-personal" "laptop-personal" ];
+            type = "sendreceive";
+            versioning = {
+              type = "simple";
+              params.keep = "10";
+            };
+          };
+        };
       };
     };
   };
