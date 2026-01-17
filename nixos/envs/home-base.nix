@@ -6,7 +6,7 @@ let
 in {
   imports = [
     ../modules/syncthing
-  ]
+  ];
 
   options.my.home-base = {
     enableBrightness = mkOption {
@@ -22,6 +22,7 @@ in {
 
   config = {
     my.syncthing.enable = true;
+    my.syncthing.storage-dir = "${config.home.homeDirectory}/.local/state/sync"; 
 
     home.username = "dsudakov";
     home.homeDirectory = "/home/dsudakov";

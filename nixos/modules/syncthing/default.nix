@@ -6,8 +6,8 @@ in
 {
   options.my.syncthing = {
     enable = lib.mkEnableOption "Enable syncthing service";
-    storage-path = lib.mkOption {
-      type = lib.types.string;
+    storage-dir = lib.mkOption {
+      type = lib.types.path;
       description = "storage path of syncthing";
     };
   };

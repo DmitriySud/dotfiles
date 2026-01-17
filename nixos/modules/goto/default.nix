@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  storageDir   = "${config.my.syncthing.storage-path}/goto";
+  storageDir   = "${config.my.syncthing.storage-dir}/goto";
   gotoDb   = "${storageDir}/db";
   cfg = config.my.goto;
 in
@@ -13,6 +13,12 @@ in
       default = config.my.syncthing.enable;
       description = "use goto-db from syncthing";
     };
+    
+    shellIntegration = lib.mkOption {
+      type = lib.types.lines;
+      readOnly = true;
+      description = "Shell integration snippet for goto";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -23,13 +29,13 @@ in
 
     home.activation.initGotoState =
       lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        mkdir -p ${stateDir}
+        mkdir -p ${storageDir}
         touch ${gotoDb}
       '';
 
     #### Symlink ~/.config/goto → writable state file
     home.file.".config/goto".source =
-      lib.file.mkOutOfStoreSymlink gotoDb;
+      config.lib.file.mkOutOfStoreSymlink gotoDb;
   };
 }
 
