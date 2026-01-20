@@ -61,11 +61,11 @@
   ];
 
   services.pipewire = {
-  	enable = true;
-	alsa.enable = true;
-	pulse.enable = true;
-	jack.enable = true;
-	wireplumber.enable = true;
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+    jack.enable = true;
+    wireplumber.enable = true;
   };
 
   hardware.graphics = {
@@ -87,6 +87,13 @@
     gdm-password.enableGnomeKeyring = true;
   };
   services.dbus.packages = [ pkgs.gnome-keyring ];
+
+  services.udev.packages = with pkgs; [ 
+    qmk
+    qmk-udev-rules # the only relevant
+    qmk_hid
+    vial
+  ];
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
@@ -117,9 +124,10 @@
   services.xserver.enable = true;
 
   services.displayManager.gdm = {
-  	enable = true;
-	wayland = true;
+    enable = true;
+    wayland = true;
   };
+
 
 }
 
