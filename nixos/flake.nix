@@ -15,53 +15,67 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, sops-nix, ... }@inputs : let
-  	system = builtins.currentSystem;
-    user = "dsudakov";
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      sops-nix,
+      ...
+    }@inputs:
+    let
+      system = builtins.currentSystem;
+      user = "dsudakov";
+      pkgs = nixpkgs.legacyPackages.${system};
 
-    allowed-unfree-packages = [
+      allowed-unfree-packages = [
         "nvidia-x11"
         "nvidia-settings"
         "nvidia-persistenced"
-    ];
+      ];
 
-    mkNixos = envPath:
-      nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = { inherit allowed-unfree-packages user; };
-        modules = [
-          (envPath + "/configuration.nix")
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit user sops-nix; };
-            home-manager.users.${user} = import (envPath + "/home.nix");
-          }
+      mkNixos =
+        envPath:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit allowed-unfree-packages user; };
+          modules = [
+            (envPath + "/configuration.nix")
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit user sops-nix; };
+              home-manager.users.${user} = import (envPath + "/home.nix");
+            }
 
-          sops-nix.nixosModules.sops
-        ];
+            sops-nix.nixosModules.sops
+          ];
+        };
+
+      mkHome =
+        envPath:
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = { inherit user sops-nix; };
+          modules = [ (envPath + "/home.nix") ];
+        };
+
+    in
+    {
+      nixosConfigurations = {
+        desktop-personal = mkNixos ./envs/desktop-personal;
+        laptop-personal = mkNixos ./envs/laptop-personal;
+        laptop-work = mkNixos ./envs/laptop-work;
       };
 
-    mkHome = envPath:
-      home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
-        extraSpecialArgs = { inherit user sops-nix; };
-        modules = [ (envPath + "/home.nix") ];
+      homeConfigurations = {
+        "${user}-desktop-personal" = mkHome ./envs/desktop-personal;
+        "${user}-laptop-personal" = mkHome ./envs/laptop-personal;
+        "${user}-laptop-work" = mkHome ./envs/laptop-work;
+        "${user}-remote-ssh-work" = mkHome ./envs/remote-ssh-work;
       };
 
-  in {
-    nixosConfigurations = {
-      desktop-personal = mkNixos ./envs/desktop-personal;
-      laptop-personal  = mkNixos ./envs/laptop-personal;
-      laptop-work      = mkNixos ./envs/laptop-work;
+      apps.${system}.nixfmt = import ./apps/nixfmt.nix { inherit pkgs; };
     };
-
-    homeConfigurations = {
-      "${user}-desktop-personal" = mkHome ./envs/desktop-personal;
-      "${user}-laptop-personal"  = mkHome ./envs/laptop-personal;
-      "${user}-laptop-work"      = mkHome ./envs/laptop-work;
-      "${user}-remote-ssh-work"  = mkHome ./envs/remote-ssh-work;
-    };
-  };
 }
