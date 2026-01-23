@@ -35,6 +35,7 @@
         indent-blankline-nvim
         nvim-treesitter
         neo-tree-nvim
+        comment-nvim
       ];
       extraPackages = with pkgs.tree-sitter-grammars; [
         tree-sitter-bash

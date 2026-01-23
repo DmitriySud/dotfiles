@@ -6,4 +6,5 @@ return {
     autopairs = require('settings.plugins.autopairs'),
     ibl = require('settings.plugins.ibl'),
     neotree = require('settings.plugins.neo-tree'),
+    comment = require('settings.plugins.comment'),
 }
