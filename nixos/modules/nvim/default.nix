@@ -26,7 +26,6 @@
         vim-startify
         plenary-nvim
         telescope-nvim
-        nerdtree
         vim-easymotion
         nvim-autopairs
         coc-nvim
@@ -35,6 +34,7 @@
         lualine-nvim
         indent-blankline-nvim
         nvim-treesitter
+        neo-tree-nvim
       ];
       extraPackages = with pkgs.tree-sitter-grammars; [
         tree-sitter-bash

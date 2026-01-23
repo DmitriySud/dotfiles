@@ -22,7 +22,6 @@ set autoread
 au CursorHold * checktime
 
 "mapping
-map <C-n> :NERDTreeToggle<CR>
 map <Leader> <Plug>(easymotion-prefix)
 inoremap <C-o> <esc>o
 imap <C-l> <esc>A{<CR>

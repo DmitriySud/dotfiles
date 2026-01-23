@@ -21,7 +21,6 @@ in {
   };
 
   config = {
-    my.syncthing.enable = true;
     my.syncthing.storage-dir = "${config.home.homeDirectory}/.local/state/sync"; 
 
     home.username = "dsudakov";

@@ -11,6 +11,8 @@ with lib;
   ];
 
   config = {
+    my.syncthing.enable = true;
+
     services.shadowsocks-local.enable = true;
     my.alacritty.enable = true;
 
