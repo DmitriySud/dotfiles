@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.my.hyprland;
-in {
+in
+{
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       waybar
@@ -22,4 +28,3 @@ in {
     ];
   };
 }
-

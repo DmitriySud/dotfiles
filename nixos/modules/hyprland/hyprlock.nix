@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.my.hyprland;
@@ -6,25 +11,29 @@ let
     url = "https://raw.githubusercontent.com/DmitriySud/dotfiles/master/pictures/lockscreen.png";
     sha256 = "sha256:0nbi3yygax6ay6pgz07vxdwxw960js2b0kk9fj99vvgvksz1p2ns";
   };
-in {
-  options.my.hyprland.hyprlock.enable =
-    lib.mkEnableOption "hyprlock service" // {
+in
+{
+  options.my.hyprland.hyprlock.enable = lib.mkEnableOption "hyprlock service" // {
     default = true;
   };
-
 
   config = lib.mkIf (cfg.enable && cfg.hyprlock.enable) {
     programs.hyprlock = {
       enable = true;
       settings = {
         general.no_fade_in = false;
-        background = [{
-          path = lockscreen_img;
-          blur_size = 1;
-          blur_passes = 3;
-        }];
+        background = [
+          {
+            path = lockscreen_img;
+            blur_size = 1;
+            blur_passes = 3;
+          }
+        ];
         input-field = {
-          size = { width = 200; height = 50; };
+          size = {
+            width = 200;
+            height = 50;
+          };
           outline_thickness = 3;
           dots_size = 0.33;
           dots_spacing = 0.15;
@@ -53,4 +62,3 @@ in {
     ];
   };
 }
-

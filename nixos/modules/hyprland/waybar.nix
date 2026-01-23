@@ -1,8 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.my.hyprland;
-in {
+in
+{
 
   config = lib.mkIf cfg.enable {
     programs.waybar = {
@@ -14,9 +20,17 @@ in {
           position = "top";
           modules-left = [ "hyprland/workspaces" ];
           modules-center = [ "clock" ];
-          modules-right = [ "cpu" "memory" "network" "pulseaudio" ]
-                            ++ lib.optionals cfg.enableBrightness ["backlight"] 
-                            ++ [ "battery" "tray" ];
+          modules-right = [
+            "cpu"
+            "memory"
+            "network"
+            "pulseaudio"
+          ]
+          ++ lib.optionals cfg.enableBrightness [ "backlight" ]
+          ++ [
+            "battery"
+            "tray"
+          ];
           cpu.format = "   {usage}%";
           memory.format = "   {used}GiB";
           network = {
@@ -34,7 +48,11 @@ in {
               phone = "󰄜";
               portable = "󰄜";
               car = "󰄋";
-              default = [ "󰕿" "󰖀" "󰕾" ];
+              default = [
+                "󰕿"
+                "󰖀"
+                "󰕾"
+              ];
             };
             scroll-step = 5;
             on-click = "pavucontrol";
@@ -42,11 +60,20 @@ in {
           backlight = {
             device = "intel_backlight";
             format = "  {icon}  {percent}%  ";
-            format-icons = ["" ""];
+            format-icons = [
+              ""
+              ""
+            ];
           };
           battery = {
             format = "{icon}   {capacity}%";
-            format-icons = [ "" "" "" "" "" ];
+            format-icons = [
+              ""
+              ""
+              ""
+              ""
+              ""
+            ];
           };
           clock = {
             format = "{:%H:%M    %Y-%m-%d    }";
@@ -83,4 +110,3 @@ in {
     };
   };
 }
-

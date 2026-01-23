@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.my.hyprland;
@@ -6,12 +11,11 @@ let
     url = "https://raw.githubusercontent.com/DmitriySud/dotfiles/master/pictures/wallpaper.png";
     sha256 = "sha256:1yj2g2hqxkprap8g2fzp8385z8lx5pi45x1xib3g8dc3c9sy5v9b";
   };
-in {
-  options.my.hyprland.hyprpaper.enable =
-    lib.mkEnableOption "hyprpaper service" // {
+in
+{
+  options.my.hyprland.hyprpaper.enable = lib.mkEnableOption "hyprpaper service" // {
     default = true;
   };
-
 
   config = lib.mkIf (cfg.enable && cfg.hyprpaper.enable) {
     services.hyprpaper.enable = true;
@@ -22,4 +26,3 @@ in {
     '';
   };
 }
-

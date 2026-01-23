@@ -1,11 +1,17 @@
-{ config, lib,  pkgs, allowed-unfree-packages, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  allowed-unfree-packages,
+  ...
+}:
 
 {
   system.stateVersion = "25.11"; # Did you read the comment?
 
-  imports = [ 
+  imports = [
     ./../modules/sops
-    ./main-user.nix 
+    ./main-user.nix
   ];
 
   main-user.enable = true;
@@ -17,7 +23,6 @@
     options = "--delete-older-than 30d";
   };
 
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -25,39 +30,42 @@
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Europe/Moscow";
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   i18n.defaultLocale = "en_US.UTF-8";
 
   programs.zsh.enable = true;
   environment.sessionVariables = {
-  	NIXOS_OZONE_WL = "1";
-	WLR_NO_HARDWARE_CURSORS = "1";
+    NIXOS_OZONE_WL = "1";
+    WLR_NO_HARDWARE_CURSORS = "1";
   };
 
-  programs.hyprland.enable = true; 
+  programs.hyprland.enable = true;
   programs.xwayland.enable = true;
 
-  security.pam.services.hyprlock = {};
+  security.pam.services.hyprlock = { };
 
   services.dbus.enable = true;
   security.polkit.enable = true;
 
   xdg.portal = {
-  	enable = true;
-	wlr.enable = true;
-	extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    enable = true;
+    wlr.enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   fonts.packages = with pkgs; [
-  	noto-fonts
-	noto-fonts-color-emoji
-	nerd-fonts.fira-code
+    noto-fonts
+    noto-fonts-color-emoji
+    nerd-fonts.fira-code
   ];
 
   services.pipewire = {
@@ -74,8 +82,8 @@
   };
 
   hardware.bluetooth = {
-  	enable = true;
-	powerOnBoot = true;
+    enable = true;
+    powerOnBoot = true;
   };
 
   programs.ssh.startAgent = false;
@@ -88,7 +96,7 @@
   };
   services.dbus.packages = [ pkgs.gnome-keyring ];
 
-  services.udev.packages = with pkgs; [ 
+  services.udev.packages = with pkgs; [
     qmk
     qmk-udev-rules # the only relevant
     qmk_hid
@@ -98,7 +106,7 @@
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
-    neovim 
+    neovim
     wget
     gnome-keyring
   ];
@@ -115,9 +123,9 @@
 
   services.logind = {
     settings = {
-        Login.HandleLidSwitchDocked = "ignore";
-        Login.HandlLidSwitch = "suspend";
-        Login.HandlPowerKey = "suspend";
+      Login.HandleLidSwitchDocked = "ignore";
+      Login.HandlLidSwitch = "suspend";
+      Login.HandlPowerKey = "suspend";
     };
   };
 
@@ -128,6 +136,4 @@
     wayland = true;
   };
 
-
 }
-

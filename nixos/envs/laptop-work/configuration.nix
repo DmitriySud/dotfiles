@@ -1,10 +1,13 @@
-{ config, lib,  pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports =
-    [ 
-      ./hardware-configuration.nix
-      ../configuration-base.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../configuration-base.nix
+  ];
 }
-

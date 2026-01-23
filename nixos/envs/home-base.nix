@@ -1,9 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
-let 
+let
   cfg = config.my.home-base;
-in {
+in
+{
   imports = [
     ../modules/syncthing
   ];
@@ -21,7 +27,7 @@ in {
   };
 
   config = {
-    my.syncthing.storage-dir = "${config.home.homeDirectory}/.local/state/sync"; 
+    my.syncthing.storage-dir = "${config.home.homeDirectory}/.local/state/sync";
 
     home.username = "dsudakov";
     home.homeDirectory = "/home/dsudakov";
@@ -42,12 +48,12 @@ in {
     programs.git = {
       enable = true;
       settings = {
-        user.name  = "Dmitriy Sudakov";
+        user.name = "Dmitriy Sudakov";
         user.email = cfg.git-email;
 
         pull.rebase = false;
         pull.ff = "only";
-        
+
         core.editor = "nvim";
 
         #merge.tool = vimdiff;
@@ -66,4 +72,3 @@ in {
     programs.home-manager.enable = true;
   };
 }
-

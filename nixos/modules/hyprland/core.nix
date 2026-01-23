@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.my.hyprland;
@@ -6,22 +11,25 @@ let
     lib.optional cfg.hypridle.enable pkgs.hypridle
     ++ lib.optional cfg.hyprpaper.enable pkgs.hyprpaper
     ++ lib.optional cfg.hyprlock.enable pkgs.hyprlock;
-  
-  brightnessControlBinds = [] ++ lib.optionals cfg.enableBrightness [
-        ", XF86MonBrightnessDown, exec, brightnessctl s 10%-"
-        ", XF86MonBrightnessUp, exec, brightnessctl s +10%"
-  ];
-in {
+
+  brightnessControlBinds =
+    [ ]
+    ++ lib.optionals cfg.enableBrightness [
+      ", XF86MonBrightnessDown, exec, brightnessctl s 10%-"
+      ", XF86MonBrightnessUp, exec, brightnessctl s +10%"
+    ];
+in
+{
   options.my.hyprland = {
     enable = lib.mkEnableOption "Hyprland stack";
 
     monitors = lib.mkOption {
-      type    = lib.types.listOf lib.types.str;
+      type = lib.types.listOf lib.types.str;
       default = [ "eDP-1,preferred,0x0,1" ];
     };
 
     workspaces = lib.mkOption {
-      type    = lib.types.listOf lib.types.str;
+      type = lib.types.listOf lib.types.str;
       default = [
         "1, monitor:eDP-1"
         "2, monitor:eDP-1"
@@ -30,18 +38,21 @@ in {
 
     extraBinds = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [];
+      default = [ ];
     };
 
     enableBrightness = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = "Enable brightness control";
+      type = lib.types.bool;
+      default = false;
+      description = "Enable brightness control";
     };
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [ hyprland hyprshot ];
+    home.packages = with pkgs; [
+      hyprland
+      hyprshot
+    ];
 
     wayland.windowManager.hyprland = {
       enable = true;
@@ -49,12 +60,10 @@ in {
       xwayland.enable = true;
       plugins = hyprPlugins;
 
-
-
       settings = {
-        exec-once = [ 
-            "nm-applet" 
-            "telegram-desktop" 
+        exec-once = [
+          "nm-applet"
+          "telegram-desktop"
         ];
         input = {
           kb_layout = "us,ru";
@@ -113,14 +122,14 @@ in {
           ",XF86AudioRaiseVolume, exec, pactl -- set-sink-volume 0 +10%"
           ",XF86AudioMute, exec, pactl -- set-sink-mute 0 toggle"
           ",XF86AudioMicMute, exec, pactl -- set-source-mute 0 toggle"
-        ] 
+        ]
         ++ brightnessControlBinds
         ++ cfg.extraBinds;
 
-        monitor   = cfg.monitors;
+        monitor = cfg.monitors;
         workspace = cfg.workspaces ++ [
-            "3, name: Telegram"
-            "3, on-created-empty: telegram-desktop"
+          "3, name: Telegram"
+          "3, on-created-empty: telegram-desktop"
         ];
         windowrule = [
           "workspace 3, class: ^(org.telegram.desktop)$"

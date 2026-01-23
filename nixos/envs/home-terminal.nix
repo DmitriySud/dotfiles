@@ -1,10 +1,15 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ./home-base.nix
-    ../modules/nvim          
+    ../modules/nvim
     ../modules/byobu
-    ../modules/zsh/zsh.nix  
+    ../modules/zsh/zsh.nix
     ../modules/goto
   ];
 

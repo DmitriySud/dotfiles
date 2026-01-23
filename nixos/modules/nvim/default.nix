@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   options.my.nvim.enable = lib.mkEnableOption "Enable my neovim";
@@ -6,10 +11,10 @@
   config = lib.mkIf config.my.nvim.enable {
 
     home.packages = with pkgs; [
-      ripgrep             # for telescope or grep
-      fd                  # for fzf/telescope
+      ripgrep # for telescope or grep
+      fd # for fzf/telescope
       fzf
-      nodejs              # needed for coc
+      nodejs # needed for coc
       clang-tools
       pyright
     ];
@@ -64,4 +69,3 @@
     };
   };
 }
-

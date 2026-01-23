@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.my.byobu;
@@ -19,4 +24,3 @@ in
     home.file.".byobu/.tmux.conf".source = ./files/.tmux.conf;
   };
 }
-

@@ -1,13 +1,17 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.my.hyprland;
 in
 {
-  options.my.hyprland.swaync.enable =
-    lib.mkEnableOption "swaync notification daemon" // {
-      default = true;
-    };
+  options.my.hyprland.swaync.enable = lib.mkEnableOption "swaync notification daemon" // {
+    default = true;
+  };
 
   options.my.hyprland.swaync.settings = lib.mkOption {
     type = lib.types.attrs;
@@ -37,21 +41,20 @@ in
     home.packages = [ pkgs.swaynotificationcenter ];
 
     services.swaync = {
-        enable = true;
-        settings = cfg.swaync.settings;
-        style = ''
-          * {
-            font-family: ${cfg.swaync.settings.style.font};
-          }
+      enable = true;
+      settings = cfg.swaync.settings;
+      style = ''
+        * {
+          font-family: ${cfg.swaync.settings.style.font};
+        }
 
-          .notification {
-            margin: ${toString cfg.swaync.settings.style.margin.top}px
-                     ${toString cfg.swaync.settings.style.margin.right}px
-                     ${toString cfg.swaync.settings.style.margin.bottom}px
-                     ${toString cfg.swaync.settings.style.margin.left}px;
-          }
-        '';
+        .notification {
+          margin: ${toString cfg.swaync.settings.style.margin.top}px
+                   ${toString cfg.swaync.settings.style.margin.right}px
+                   ${toString cfg.swaync.settings.style.margin.bottom}px
+                   ${toString cfg.swaync.settings.style.margin.left}px;
+        }
+      '';
     };
   };
 }
-

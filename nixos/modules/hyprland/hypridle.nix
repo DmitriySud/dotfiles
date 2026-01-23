@@ -1,14 +1,20 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.my.hyprland;
-in {
+in
+{
   options.my.hyprland.hypridle = {
     enable = lib.mkEnableOption "Hypridle service" // {
       default = true;
     };
     can-suspend = lib.mkOption {
-      type    = lib.types.bool;
+      type = lib.types.bool;
       default = true;
     };
   };
@@ -23,16 +29,22 @@ in {
           after_sleep_cmd = "hyprctl dispatch dpms on";
         };
         listener = [
-          { timeout = 300; on-timeout = "loginctl lock-session"; }
+          {
+            timeout = 300;
+            on-timeout = "loginctl lock-session";
+          }
           {
             timeout = 600;
             on-timeout = "hyprctl dispatch dpms off";
             on-resume = "hyprctl dispatch dpms on";
           }
-          
-        ] ++ lib.optional cfg.hypridle.can-suspend { timeout = 900; on-timeout = "systemctl suspend"; };
+
+        ]
+        ++ lib.optional cfg.hypridle.can-suspend {
+          timeout = 900;
+          on-timeout = "systemctl suspend";
+        };
       };
     };
   };
 }
-

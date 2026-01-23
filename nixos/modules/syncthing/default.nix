@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.my.syncthing;
@@ -36,9 +41,9 @@ in
         folders = {
           "goto-state" = {
             path = "${cfg.storage-dir}/goto";
-            devices = [ 
-              "desktop-personal" 
-              "laptop-personal" 
+            devices = [
+              "desktop-personal"
+              "laptop-personal"
               "laptop-work"
             ];
             type = "sendreceive";

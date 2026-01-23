@@ -1,4 +1,10 @@
-{ config, lib, pkgs, sops-nix, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  sops-nix,
+  ...
+}:
 
 with lib;
 {
@@ -7,7 +13,7 @@ with lib;
     ../modules/firefox
     ../modules/alacritty
     ../modules/hyprland
-    ../modules/shadowsocks/shadowsocks.nix   
+    ../modules/shadowsocks/shadowsocks.nix
   ];
 
   config = {
@@ -18,18 +24,21 @@ with lib;
 
     fonts.fontconfig.enable = true;
 
-    home.packages = with pkgs; [
-      chromium
-      telegram-desktop
-      gnome-keyring
-      mission-center
-      pulseaudio
-      zathura
-    
-      sops
-      age
+    home.packages =
+      with pkgs;
+      [
+        chromium
+        telegram-desktop
+        gnome-keyring
+        mission-center
+        pulseaudio
+        zathura
 
-    ] ++ lib.optional config.my.home-base.enableBrightness pkgs.brightnessctl;
+        sops
+        age
+
+      ]
+      ++ lib.optional config.my.home-base.enableBrightness pkgs.brightnessctl;
 
     my.hyprland.enableBrightness = config.my.home-base.enableBrightness;
 
@@ -42,8 +51,10 @@ with lib;
 
     services.gnome-keyring = {
       enable = true;
-      components = [ "pkcs11" "secrets" ];
+      components = [
+        "pkcs11"
+        "secrets"
+      ];
     };
   };
 }
-

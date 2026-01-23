@@ -1,15 +1,20 @@
-{ config, lib,  pkgs, allowed-unfree-packages, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  allowed-unfree-packages,
+  ...
+}:
 
 {
 
   nixpkgs.config = {
     allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) allowed-unfree-packages;
   };
-  imports =
-    [ 
-      ./hardware-configuration.nix
-      ../configuration-base.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ../configuration-base.nix
+  ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
@@ -24,8 +29,7 @@
     lshw
   ];
 
-
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
     modesetting.enable = true;
@@ -37,4 +41,3 @@
 
   };
 }
-
