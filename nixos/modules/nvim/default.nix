@@ -23,7 +23,6 @@
       vimAlias = true;
 
       plugins = with pkgs.vimPlugins; [
-        vim-startify
         plenary-nvim
         telescope-nvim
         vim-easymotion
@@ -36,6 +35,7 @@
         nvim-treesitter
         neo-tree-nvim
         comment-nvim
+        alpha-nvim
       ];
       extraPackages = with pkgs.tree-sitter-grammars; [
         tree-sitter-bash

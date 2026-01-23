@@ -7,4 +7,5 @@ return {
     ibl = require('settings.plugins.ibl'),
     neotree = require('settings.plugins.neo-tree'),
     comment = require('settings.plugins.comment'),
+    dash = require('settings.plugins.dashboard'),
 }
