@@ -9,6 +9,7 @@ let
   cfg = config.my.zsh;
 
   gotoIntegration = lib.optionalString (config.my.goto.enable) config.my.goto.shellIntegration;
+  dumpIntegration = builtins.readFile ./dump.zsh;
 in
 {
   options.my.zsh.enable = lib.mkEnableOption "Enable custom Zsh";
@@ -30,7 +31,13 @@ in
           }
         )
         + "\n"
-        + gotoIntegration;
+        + gotoIntegration
+        + "\n"
+        + dumpIntegration;
+
+      envExtra = ''
+        DUMP_DIR=$HOME/dump
+      '';
 
       oh-my-zsh = {
         enable = true;
