@@ -36,6 +36,7 @@ in
       ];
     };
 
+
     extraBinds = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ ];
@@ -138,6 +139,12 @@ in
           "tile, class: ^(org.telegram.desktop)$"
           "maximize, class: ^(org.telegram.desktop)$"
         ];
+
+        animations = {
+          enabled = true;
+          # Disable workspace animations
+          animation = "workspaces, 0, 1, default";
+        };
 
         decoration = {
           rounding = 4;
