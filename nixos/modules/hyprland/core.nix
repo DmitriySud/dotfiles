@@ -7,6 +7,7 @@
 
 let
   cfg = config.my.hyprland;
+  xkbExtra = "${config.xdg.configHome}/xkb";
   hyprPlugins =
     lib.optional cfg.hypridle.enable pkgs.hypridle
     ++ lib.optional cfg.hyprpaper.enable pkgs.hyprpaper
@@ -67,8 +68,8 @@ in
           "telegram-desktop"
         ];
         input = {
-          kb_layout = "us,ru";
-          kb_options = "grp:caps_toggle";
+          kb_file = config.my.xkbPunct.kbFile;
+          
           follow_mouse = 1;
           touchpad.natural_scroll = false;
         };
@@ -159,6 +160,10 @@ in
           gaps_out = 5;
         };
       };
+
+      env = [
+        "XKB_CONFIG_EXTRA_PATH,${xkbExtra}"
+      ];
     };
 
     home.sessionVariables = {

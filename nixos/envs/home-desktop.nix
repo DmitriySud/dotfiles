@@ -13,6 +13,7 @@ with lib;
     ../modules/firefox
     ../modules/alacritty
     ../modules/hyprland
+    ../modules/xkb
     ../modules/shadowsocks/shadowsocks.nix
   ];
 
@@ -23,6 +24,9 @@ with lib;
     my.alacritty.enable = true;
 
     fonts.fontconfig.enable = true;
+    my.xkbPunct = {
+      enable = true;
+    };
 
     home.packages =
       with pkgs;
