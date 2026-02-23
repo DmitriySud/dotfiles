@@ -24,9 +24,6 @@ with lib;
     my.alacritty.enable = true;
 
     fonts.fontconfig.enable = true;
-    my.xkbPunct = {
-      enable = true;
-    };
 
     home.packages =
       with pkgs;

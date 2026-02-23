@@ -160,16 +160,16 @@ in
           gaps_out = 5;
         };
       };
-
-      env = [
-        "XKB_CONFIG_EXTRA_PATH,${xkbExtra}"
-      ];
     };
 
     home.sessionVariables = {
       XDG_CURRENT_DESKTOP = "Hyprland";
       XDG_SESSION_TYPE = "wayland";
       NIXOS_OZONE_WL = "1";
+    };
+
+    systemd.user.sessionVariables = {
+      XKB_CONFIG_EXTRA_PATH = config.my.xkbPunct.xkbExtraPath;
     };
   };
 }
