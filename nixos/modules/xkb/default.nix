@@ -34,19 +34,20 @@ in
     xdg.configFile."xkb/symbols/punct".text =
       ''
         partial alphanumeric_keys keypad_keys
-        xkb_symbols "custom" {
+        xkb_symbols "rucustom" {
+          include "ru(winkeys)"
 
-          // Numpad decimal: tap '.' ; Shift ','
-          // Applies to BOTH groups (EN/RU)
-          key ${k cfg.numpadDecimalKey} {
-            type[Group1] = "TWO_LEVEL",
-            symbols[Group1] = [ period, comma ],
-            type[Group2] = "TWO_LEVEL",
-            symbols[Group2] = [ period, comma ]
-          };
+          key <KPDL> { [ period, comma ] };
+        };
+        
+        xkb_symbols "uscustom" {
+          include "us"
 
-          key ${k cfg.commaKey}  { symbols[Group1] = [ NoSymbol, less    ] };
-          key ${k cfg.periodKey} { symbols[Group1] = [ NoSymbol, greater ] };
+          key <KPDL> { [ period, comma ] };
+
+          override key <AB08> { [ NoSymbol, less ] };
+
+          override key <AB09> { [ NoSymbol, greater ] };
         };
       '';
 
@@ -57,8 +58,7 @@ in
         xkb_types     { include "complete" };
         xkb_compat    { include "complete" };
 
-        // IMPORTANT: ru(winkeys):2 (not plain ru:2)
-        xkb_symbols   { include "pc+us+ru(winkeys):2+inet(evdev)+punct(custom)" };
+        xkb_symbols   { include "pc+punct(rucustom)+punct(uscustom)+inet(evdev)" };
 
         xkb_geometry  { include "pc(pc105)" };
       };
