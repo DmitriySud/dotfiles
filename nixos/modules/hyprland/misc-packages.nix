@@ -25,6 +25,7 @@ in
       blueman
       pavucontrol
       pamixer
+      vial
     ];
   };
 }
