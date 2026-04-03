@@ -12,6 +12,7 @@ in
 {
   imports = [
     ../modules/syncthing
+    ../modules/passage
   ];
 
   options.my.home-base = {
@@ -28,6 +29,9 @@ in
 
   config = {
     my.syncthing.storage-dir = "${config.home.homeDirectory}/.local/state/sync";
+
+    my.passage.enable = true;
+    my.passage.identityFile = "${config.home.homeDirectory}/.config/age/keys.txt";
 
     home.username = "dsudakov";
     home.homeDirectory = "/home/dsudakov";
@@ -70,5 +74,6 @@ in
     };
 
     programs.home-manager.enable = true;
+
   };
 }
