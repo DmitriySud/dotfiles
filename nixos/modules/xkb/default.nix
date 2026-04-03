@@ -62,6 +62,10 @@ in
             symbols[Group2] = [ apostrophe, quotedbl ]
           };
 
+          replace key <AC10> {
+            symbols[Group2] = [ semicolon, colon ]
+          };
+
           replace key <KP1> {
             symbols[Group1] = [ NoSymbol, NoSymbol ],
             symbols[Group2] = [ Cyrillic_ha, Cyrillic_HA ]

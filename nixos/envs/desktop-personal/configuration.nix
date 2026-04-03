@@ -40,4 +40,6 @@
     package = config.boot.kernelPackages.nvidiaPackages.latest;
 
   };
+
+  virtualisation.docker.enable = true;
 }
