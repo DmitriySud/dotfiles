@@ -41,6 +41,7 @@
         neo-tree-nvim
         comment-nvim
         alpha-nvim
+        gitsigns-nvim
       ];
       extraPackages = with pkgs.tree-sitter-grammars; [
         tree-sitter-bash

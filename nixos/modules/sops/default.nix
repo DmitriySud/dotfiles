@@ -6,11 +6,6 @@
 }:
 
 {
-  home.packages = [ 
-    pkgs.sops 
-    pkgs.age 
-  ];
-
   sops = {
     age = {
       keyFile = "/var/lib/sops-nix/age/keys.txt";

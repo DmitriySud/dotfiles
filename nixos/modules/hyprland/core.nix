@@ -67,12 +67,21 @@ in
           "nm-applet"
           "telegram-desktop"
         ];
-        input = {
-          kb_file = config.my.xkbPunct.kbFile;
-          
-          follow_mouse = 1;
-          touchpad.natural_scroll = false;
-        };
+        input = lib.mkMerge [
+          (lib.mkIf config.my.xkbPunct.enable {
+            kb_file = config.my.xkbPunct.kbFile;
+          })
+
+          (lib.mkIf (!config.my.xkbPunct.enable) {
+            kb_layout = "us,ru";
+            kb_options = "grp:caps_toggle";
+          })
+
+          {
+            follow_mouse = 1;
+            touchpad.natural_scroll = false;
+          }
+        ];
 
         "$mod" = "SUPER";
 
