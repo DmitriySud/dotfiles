@@ -3,7 +3,7 @@
 let
   cfg = config.my.passage;
 
-  passwordStoreDir = "${config.home.homeDirectory}/.local/share/passage";
+  passwordStoreDir = "${config.home.homeDirectory}/repos/dotfiles/nixos/passes";
 in
 {
   options.my.passage = {
@@ -15,13 +15,9 @@ in
 
   config = {
     home.packages = with pkgs; [
-      (pkgs.callPackage (pkgs.fetchFromGitHub {
-        owner = "FiloSottile";
-        repo = "passage";
-        rev = "1.7.4a1";
-        hash = "sha256-CPRM+8+iijRWUejlgfTvv60Kmcc+4M+Cwyi0uOMXHT0=";
-      }) {})
-      age
+      pass
+      gnupg
+
       ripgrep
       fzf
       tree
@@ -30,10 +26,15 @@ in
     # Environment variables for passage
     home.sessionVariables = {
       PASSWORD_STORE_DIR = passwordStoreDir;
-      PASSAGE_IDENTITIES_FILE = cfg.identityFile;
     };
 
-    # Ensure directories exist
-    home.file.".local/share/passage/.keep".text = "";
+    # GPG agent (for "unlock once per session")
+    services.gpg-agent = {
+      enable = true;
+      defaultCacheTtl = 28800; # 8 hours
+      maxCacheTtl = 28800;
+      pinentry.package = pkgs.pinentry-curses;
+      enableSshSupport = true;
+    };
   };
 }
