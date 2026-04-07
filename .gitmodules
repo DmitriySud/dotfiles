@@ -1,0 +1,3 @@
+[submodule "nixos/passes"]
+	path = nixos/passes
+	url = git@github.com:DmitriySud/passes.git
