@@ -65,3 +65,4 @@ vim.api.nvim_set_keymap(
   { noremap = true, silent = true }
 )
 
+vim.keymap.set("v", "<leader>w", ":w !wl-copy<CR>", { silent = true })
