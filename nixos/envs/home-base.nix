@@ -41,14 +41,6 @@ in
       SSH_ASKPASS_REQUIRE = "prefer";
     };
 
-    home.file.".ssh/config".text = ''
-      Host *
-        CanonicalDomains hprtrk.com
-        CanonicalizeHostname yes
-        StrictHostKeyChecking no
-        ForwardAgent yes
-    '';
-
     programs.git = {
       enable = true;
       settings = {
