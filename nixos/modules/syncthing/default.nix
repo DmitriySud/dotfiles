@@ -35,6 +35,9 @@ in
         devices = {
           desktop-personal.id = "YGZZGDV-LFSMJOD-OVR6FU6-J7BNAKD-ZGGMTOT-WDHMID6-HNO25CI-PDZGVAO";
           laptop-personal.id = "VRD6P5Y-WY4NNTO-DUEEKOG-TVMVD4R-HGOCC3S-SED45M6-QLTHDDP-2NYQ6QR";
+
+          ipad.id = "YXISP57-ZESQORK-LHB5NR5-ABUREB2-JCJYXHH-X2ACRVK-CZPZQVU-7RBLOAB";
+          iphone.id = "K276L4Z-UUONVJO-6B22J2X-4ON2AIZ-KJC36FA-FVMB2LL-OM4E6AU-UBFI3QB";
         };
 
         folders = {
@@ -44,6 +47,18 @@ in
               "desktop-personal"
               "laptop-personal"
               "laptop-work"
+            ];
+            type = "sendreceive";
+            versioning = {
+              type = "simple";
+              params.keep = "10";
+            };
+          };
+          "obsidian" = {
+            path = "${cfg.storage-dir}/obsidian";
+            devices = [
+              "desktop-personal"
+              "ipad"
             ];
             type = "sendreceive";
             versioning = {
