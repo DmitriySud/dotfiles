@@ -28,6 +28,7 @@ in
   };
 
   config = {
+    my.syncthing.enable = true;
     my.syncthing.storage-dir = "${config.home.homeDirectory}/.local/state/sync";
 
     my.passage.enable = true;

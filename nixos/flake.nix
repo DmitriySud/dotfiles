@@ -32,6 +32,7 @@
         "nvidia-x11"
         "nvidia-settings"
         "nvidia-persistenced"
+        "obsidian"
       ];
 
       mkNixos =

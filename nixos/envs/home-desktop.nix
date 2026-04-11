@@ -18,8 +18,6 @@ with lib;
   ];
 
   config = {
-    my.syncthing.enable = false;
-
     services.shadowsocks-local.enable = true;
     my.alacritty.enable = true;
 
@@ -34,6 +32,7 @@ with lib;
         mission-center
         pulseaudio
         zathura
+        obsidian
 
       ]
       ++ lib.optional config.my.home-base.enableBrightness pkgs.brightnessctl;

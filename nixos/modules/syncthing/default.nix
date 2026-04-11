@@ -46,7 +46,6 @@ in
             devices = [
               "desktop-personal"
               "laptop-personal"
-              "laptop-work"
             ];
             type = "sendreceive";
             versioning = {
@@ -59,6 +58,7 @@ in
             devices = [
               "desktop-personal"
               "ipad"
+              "iphone"
             ];
             type = "sendreceive";
             versioning = {
