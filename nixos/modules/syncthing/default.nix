@@ -57,6 +57,7 @@ in
             path = "${cfg.storage-dir}/obsidian";
             devices = [
               "desktop-personal"
+              "laptop-personal"
               "ipad"
               "iphone"
             ];
