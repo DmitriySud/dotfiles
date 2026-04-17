@@ -7,6 +7,7 @@
 {
   imports = [
     ../home-desktop.nix
+    ../../modules/obsidian-backup
   ];
 
   my.xkbPunct.enable = true;
@@ -33,4 +34,13 @@
 
     hypridle.can-suspend = false;
   };
+  services.obsidianBackup = {
+    enable = true;
+    sourceDir = "${config.home.homeDirectory}/.local/sync/obsidian";
+    repoDir = "${config.home.homeDirectory}/repos/obsidian-backup";
+    interval = "7d";
+    maxBackups = 2;
+    sshKeyPath = "${config.home.homeDirectory}/.ssh/id_ed25519_gh";
+  };
+
 }

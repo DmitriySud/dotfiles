@@ -29,6 +29,7 @@ in
         "docker"
       ];
       shell = pkgs.zsh;
+      linger = true;
     };
 
     users.users.root = {
