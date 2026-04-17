@@ -82,8 +82,13 @@ let
       }
 
       setup_git_ssh() {
+        export GIT_TERMINAL_PROMPT=0
         ${optionalString (cfg.sshKeyPath != null) ''
-          export GIT_SSH_COMMAND="ssh -i ${escapeShellArg cfg.sshKeyPath} -o IdentitiesOnly=yes"
+        export GIT_SSH_COMMAND="ssh -F /dev/null -i ${escapeShellArg cfg.sshKeyPath} \
+                  -o IdentitiesOnly=yes \
+                  -o IdentityAgent=none \
+                  -o BatchMode=yes \
+                  -o PreferredAuthentications=publickey"
         ''}
       }
 
@@ -99,7 +104,7 @@ let
         systemd-run --user \
           --unit=obsidian-backup-retry \
           --on-active="$''${delay_hours}h" \
-          ${backupScript}/bin/obsidian-backup
+          systemctl --user start obsidian-backup.service
 
         notify \
           "Obsidian backup failed" \
@@ -119,27 +124,41 @@ let
           return 1
         fi
 
-        tar -C "$SOURCE_DIR" -czf "$TMP_ARCHIVE" .
+        tar \
+          --exclude='./.stfolder' \
+          --exclude='./.stversions' \
+          --exclude='./.trash' \
+          -C "$SOURCE_DIR" \
+          -czf "$TMP_ARCHIVE" .
         mv "$TMP_ARCHIVE" "$FINAL_ARCHIVE"
 
         cd "$REPO_DIR"
 
         ${
           optionalString (cfg.maxBackups != null) ''
-            if ls "$BACKUP_DIR"/*.tar.gz >/dev/null 2>&1; then
-              ls -1t "$BACKUP_DIR"/*.tar.gz | tail -n +$(( ${toString cfg.maxBackups} + 1 )) | xargs -r rm -f
-            fi
+            find "$BACKUP_DIR" -maxdepth 1 -type f -name '*.tar.gz' -printf '%T@ %p\n' \
+              | sort -nr \
+              | tail -n +$(( ${toString cfg.maxBackups} + 1 )) \
+              | cut -d' ' -f2- \
+              | xargs -r rm -f --
           ''
         }
 
-        git add "${cfg.backupSubdir}"
+        git add ${escapeShellArg cfg.backupSubdir}
 
         if ! git diff --cached --quiet; then
-          git commit -m "Obsidian backup $TIMESTAMP"
+          if ! git commit -m "Obsidian backup $TIMESTAMP"; then
+            echo "git commit failed" >&2
+            return 1
+          fi
         fi
 
         setup_git_ssh
-        git push
+
+        if ! git_push_output="$(git push --porcelain origin HEAD 2>&1)"; then
+          echo "git push failed: $git_push_output" >&2
+          return 1
+        fi
 
         clear_retry_count
 
@@ -159,6 +178,8 @@ let
         schedule_retry
         exit 1
       fi
+
+      echo "$output"
     '';
   };
 

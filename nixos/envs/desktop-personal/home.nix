@@ -36,11 +36,11 @@
   };
   services.obsidianBackup = {
     enable = true;
-    sourceDir = "${config.home.homeDirectory}/.local/sync/obsidian";
+    sourceDir = "${config.home.homeDirectory}/.local/state/sync/obsidian";
     repoDir = "${config.home.homeDirectory}/repos/obsidian-backup";
     interval = "7d";
     maxBackups = 2;
-    sshKeyPath = "${config.home.homeDirectory}/.ssh/id_ed25519_gh";
+    sshKeyPath = "${config.home.homeDirectory}/.ssh/id_ed25519_obsidian_backup";
   };
 
 }
