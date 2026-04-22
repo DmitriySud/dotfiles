@@ -36,5 +36,23 @@ in
       pinentry.package = pkgs.pinentry-curses;
       enableSshSupport = false;
     };
+
+    programs.gpg = {
+      enable = true;
+      publicKeys = [
+        {
+          source = ./pubkeys/laptop-personal.pub;
+          trust = "ultimate";
+        }
+
+        {
+          source = ./pubkeys/desktop-personal.pub;
+          trust = "ultimate";
+        }
+      ];
+
+      mutableKeys = false;
+      mutableTrust = false;
+    }
   };
 }
