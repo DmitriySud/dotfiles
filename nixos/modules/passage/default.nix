@@ -53,6 +53,6 @@ in
 
       mutableKeys = false;
       mutableTrust = false;
-    }
+    };
   };
 }
