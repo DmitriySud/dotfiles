@@ -15,6 +15,7 @@ with lib;
     ../modules/hyprland
     ../modules/xkb
     ../modules/shadowsocks/shadowsocks.nix
+    ../modules/passes/wofi-searcher.nix
   ];
 
   config = {
@@ -53,5 +54,7 @@ with lib;
         "secrets"
       ];
     };
+
+    my.passWofi.enable = true;
   };
 }

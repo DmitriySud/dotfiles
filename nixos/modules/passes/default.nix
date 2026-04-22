@@ -1,14 +1,14 @@
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.my.passage;
+  cfg = config.my.passes;
 
   passwordStoreDir = "${config.home.homeDirectory}/repos/dotfiles/nixos/passes";
   reencryptPassScript = ./reencrypt-pass.sh;
 in
 {
-  options.my.passage = {
-    enable = lib.mkEnableOption "Enable passage service";
+  options.my.passes = {
+    enable = lib.mkEnableOption "Enable passes service";
     identityFile = lib.mkOption {
       type = lib.types.path;
     };
@@ -24,7 +24,7 @@ in
       tree
     ];
 
-    # Environment variables for passage
+    # Environment variables for passes
     home.sessionVariables = {
       PASSWORD_STORE_DIR = passwordStoreDir;
     };
