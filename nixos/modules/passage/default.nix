@@ -4,6 +4,7 @@ let
   cfg = config.my.passage;
 
   passwordStoreDir = "${config.home.homeDirectory}/repos/dotfiles/nixos/passes";
+  reencryptPassScript = ./reencrypt-pass.sh;
 in
 {
   options.my.passage = {
@@ -53,6 +54,10 @@ in
 
       mutableKeys = false;
       mutableTrust = false;
+    };
+
+    home.shellAliases = {
+      pass-reencrypt = "${reencryptPassScript}";
     };
   };
 }
