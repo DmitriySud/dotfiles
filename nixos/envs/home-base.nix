@@ -33,6 +33,7 @@ in
 
     my.passes.enable = true;
     my.passes.identityFile = "${config.home.homeDirectory}/.config/age/keys.txt";
+    my.passes.passwordStoreDir = "${config.home.homeDirectory}/repos/dotfiles/nixos/passes";
 
     home.username = "dsudakov";
     home.homeDirectory = "/home/dsudakov";

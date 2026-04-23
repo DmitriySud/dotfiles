@@ -34,8 +34,9 @@
 
     hypridle.can-suspend = false;
   };
+
   services.obsidianBackup = {
-    enable = true;
+    enable = false;
     sourceDir = "${config.home.homeDirectory}/.local/state/sync/obsidian";
     repoDir = "${config.home.homeDirectory}/repos/obsidian-backup";
     interval = "7d";

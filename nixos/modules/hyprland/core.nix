@@ -19,6 +19,17 @@ let
       ", XF86MonBrightnessDown, exec, brightnessctl s 10%-"
       ", XF86MonBrightnessUp, exec, brightnessctl s +10%"
     ];
+  passWofiSubmap = lib.optionalString config.my.passWofi.enable ''
+    bind = $mod, P, submap, pass-wofi
+
+    submap = pass-wofi, reset
+    bind = , P, exec, pass-pass
+    bind = , L, exec, pass-login
+    bind = , O, exec, pass-pass-by-login
+    bind = , Escape, submap, reset
+    bind = , catchall, submap, reset
+    submap = reset
+  '';
 in
 {
   options.my.hyprland = {
@@ -133,9 +144,16 @@ in
           ",XF86AudioRaiseVolume, exec, pactl -- set-sink-volume 0 +10%"
           ",XF86AudioMute, exec, pactl -- set-sink-mute 0 toggle"
           ",XF86AudioMicMute, exec, pactl -- set-source-mute 0 toggle"
+
+          "$mod, F12, exec, sh -c 'env > /tmp/hypr-env.txt'"
         ]
         ++ brightnessControlBinds
         ++ cfg.extraBinds;
+
+        env = []
+        ++ lib.optional 
+              config.my.passes.enable 
+              "PASSWORD_STORE_DIR,${config.my.passes.passwordStoreDir}";
 
         monitor = cfg.monitors;
         workspace = cfg.workspaces ++ [
@@ -169,6 +187,10 @@ in
           gaps_out = 5;
         };
       };
+
+      extraConfig = ''
+        ${passWofiSubmap}
+      '';
     };
 
     home.sessionVariables = {

@@ -3,13 +3,15 @@
 let
   cfg = config.my.passes;
 
-  passwordStoreDir = "${config.home.homeDirectory}/repos/dotfiles/nixos/passes";
   reencryptPassScript = ./reencrypt-pass.sh;
 in
 {
   options.my.passes = {
     enable = lib.mkEnableOption "Enable passes service";
     identityFile = lib.mkOption {
+      type = lib.types.path;
+    };
+    passwordStoreDir = lib.mkOption {
       type = lib.types.path;
     };
   };
@@ -26,7 +28,7 @@ in
 
     # Environment variables for passes
     home.sessionVariables = {
-      PASSWORD_STORE_DIR = passwordStoreDir;
+      PASSWORD_STORE_DIR = cfg.passwordStoreDir;
     };
 
     # GPG agent (for "unlock once per session")
@@ -34,8 +36,8 @@ in
       enable = true;
       defaultCacheTtl = 28800; # 8 hours
       maxCacheTtl = 28800;
-      pinentry.package = pkgs.pinentry-curses;
       enableSshSupport = false;
+      pinentry.package = pkgs.pinentry-qt;
     };
 
     programs.gpg = {

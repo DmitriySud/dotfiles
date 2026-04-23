@@ -200,7 +200,6 @@ def mode_password_by_entry(store_dir: Path, timeout_seconds: int) -> int:
     entry = parse_entry(selected)
     write_last_entry(entry.name)
     copy_to_clipboard(entry.password, timeout_seconds=timeout_seconds)
-    notify("pass", "Password copied")
     return 0
 
 
@@ -281,5 +280,6 @@ if __name__ == "__main__":
     try:
         raise SystemExit(main())
     except RuntimeError as exc:
+        notify("pass", str(exc))
         print(str(exc), file=sys.stderr)
         raise SystemExit(1)
