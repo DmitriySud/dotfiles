@@ -1,11 +1,17 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.my.passWofi;
 
   passWofiPy = ./pass-wofi.py;
 
-  mkPassWofiCommand = name: mode:
+  mkPassWofiCommand =
+    name: mode:
     pkgs.writeShellScriptBin name ''
       export PASS_WOFI_CLIPBOARD_TIMEOUT=${toString cfg.clipboardTimeout}
       exec ${config.home.homeDirectory}/.local/bin/pass-wofi.py ${mode} "$@"
@@ -35,7 +41,7 @@ in
         libnotify
         pass
         gnupg
-        (python3.withPackages (_: []))
+        (python3.withPackages (_: [ ]))
       ])
       ++ [
         (mkPassWofiCommand "pass-pass" "password-by-entry")

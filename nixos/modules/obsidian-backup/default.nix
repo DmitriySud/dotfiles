@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (lib)
@@ -7,7 +12,8 @@ let
     mkOption
     types
     optionalString
-    escapeShellArg;
+    escapeShellArg
+    ;
 
   cfg = config.services.obsidianBackup;
 
@@ -84,11 +90,11 @@ let
       setup_git_ssh() {
         export GIT_TERMINAL_PROMPT=0
         ${optionalString (cfg.sshKeyPath != null) ''
-        export GIT_SSH_COMMAND="ssh -F /dev/null -i ${escapeShellArg cfg.sshKeyPath} \
-                  -o IdentitiesOnly=yes \
-                  -o IdentityAgent=none \
-                  -o BatchMode=yes \
-                  -o PreferredAuthentications=publickey"
+          export GIT_SSH_COMMAND="ssh -F /dev/null -i ${escapeShellArg cfg.sshKeyPath} \
+                    -o IdentitiesOnly=yes \
+                    -o IdentityAgent=none \
+                    -o BatchMode=yes \
+                    -o PreferredAuthentications=publickey"
         ''}
       }
 
@@ -134,15 +140,13 @@ let
 
         cd "$REPO_DIR"
 
-        ${
-          optionalString (cfg.maxBackups != null) ''
-            find "$BACKUP_DIR" -maxdepth 1 -type f -name '*.tar.gz' -printf '%T@ %p\n' \
-              | sort -nr \
-              | tail -n +$(( ${toString cfg.maxBackups} + 1 )) \
-              | cut -d' ' -f2- \
-              | xargs -r rm -f --
-          ''
-        }
+        ${optionalString (cfg.maxBackups != null) ''
+          find "$BACKUP_DIR" -maxdepth 1 -type f -name '*.tar.gz' -printf '%T@ %p\n' \
+            | sort -nr \
+            | tail -n +$(( ${toString cfg.maxBackups} + 1 )) \
+            | cut -d' ' -f2- \
+            | xargs -r rm -f --
+        ''}
 
         git add ${escapeShellArg cfg.backupSubdir}
 

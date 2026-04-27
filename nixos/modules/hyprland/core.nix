@@ -48,7 +48,6 @@ in
       ];
     };
 
-
     extraBinds = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ ];
@@ -150,10 +149,9 @@ in
         ++ brightnessControlBinds
         ++ cfg.extraBinds;
 
-        env = []
-        ++ lib.optional 
-              config.my.passes.enable 
-              "PASSWORD_STORE_DIR,${config.my.passes.passwordStoreDir}";
+        env =
+          [ ]
+          ++ lib.optional config.my.passes.enable "PASSWORD_STORE_DIR,${config.my.passes.passwordStoreDir}";
 
         monitor = cfg.monitors;
         workspace = cfg.workspaces ++ [
