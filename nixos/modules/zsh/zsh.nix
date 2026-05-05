@@ -46,6 +46,10 @@ in
           "history"
         ];
       };
+
+      shellAliases = {
+        genpass="xkcdpass --numwords 3 --delimiter - --case capitalize | sed 's/$/7/' | wl-copy";
+      };
     };
 
     home.packages = with pkgs; [
@@ -53,6 +57,8 @@ in
       ripgrep
       bat
       fd
+
+      xkcdpass
 
       zsh-fzf-history-search
       zsh-powerlevel10k
