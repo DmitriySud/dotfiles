@@ -30,6 +30,8 @@ let
     bind = , catchall, submap, reset
     submap = reset
   '';
+  groupWorkspaceScript = ".config/hypr/scripts/group-workspace.sh";
+  groupWorkspaceScriptPath = "~/${groupWorkspaceScript}";
 in
 {
   options.my.hyprland = {
@@ -62,9 +64,16 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
+      jq
       hyprland
       hyprshot
     ];
+
+    home.file.${groupWorkspaceScript} = {
+      executable = true;
+      source = ./scripts/group-wrokspace.sh;
+    };
+
 
     wayland.windowManager.hyprland = {
       enable = true;
@@ -130,6 +139,16 @@ in
           "$mod SHIFT, 8, movetoworkspace, 8"
           "$mod SHIFT, 9, movetoworkspace, 9"
           "$mod SHIFT, 0, movetoworkspace, 10"
+
+          "$mod ALT, G, exec, ${groupWorkspaceScriptPath}"
+          "$mod, G, togglegroup"
+          "$mod, TAB, changegroupactive, f"
+          "$mod ALT, TAB, changegroupactive, b"
+          "$mod ALT, h, movewindoworgroup, l"
+          "$mod ALT, l, movewindoworgroup, r"
+          "$mod ALT, k, movewindoworgroup, u"
+          "$mod ALT, j, movewindoworgroup, d"
+
           "$mod CTRL, h, resizeactive, -50 0"
           "$mod CTRL, l, resizeactive,  50 0"
           "$mod CTRL, k, resizeactive,   0 -50"

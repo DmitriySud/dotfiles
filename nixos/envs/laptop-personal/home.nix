@@ -9,6 +9,10 @@
     ../home-desktop.nix
   ];
 
+  nixpkgs.config = {
+    allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "obsidian" ];
+  };
+
   my.home-base.git-email = "dmitriy.sudakov2001@yandex.ru";
   my.home-base.enableBrightness = true;
   my.xkbPunct.enable = false;
