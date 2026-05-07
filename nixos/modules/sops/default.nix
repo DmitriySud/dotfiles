@@ -6,8 +6,8 @@
 }:
 
 {
-  home.packages = [
-    pkgs.sops
+  environment.systemPackages = with pkgs; [
+    sops
   ];
 
   sops = {
