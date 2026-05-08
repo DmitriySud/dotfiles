@@ -17,6 +17,7 @@
       nodejs # needed for coc
       clang-tools
       pyright
+      typos-lsp
     ];
 
     programs.neovim = {
@@ -67,6 +68,7 @@
 
       # recursively copy your Lua folder
       ".config/nvim/lua".source = ./lua;
+      ".config/typos/typos.toml".source = ./typos.toml;
     };
   };
 }

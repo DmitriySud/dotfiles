@@ -1,18 +1,42 @@
 {
-    "signature.enable": true,
-    "signature.target": "float",
+  "signature.enable": true,
+  "signature.target": "float",
 
-    "languageserver": {
-      "clangd": {
-        "command": "clangd",
-        "rootPatterns": ["compile_flags.txt", "compile_commands.json", ".git/"],
-        "filetypes": ["c", "cc", "cpp", "h", "hh", "hpp", "objc", "objcpp"]
-      },
-      "pyright": {
-        "command": "pyright-langserver",
-        "args": ["--stdio"],
-        "filetypes": ["python"],
-        "trace.server": "verbose"
+  "languageserver": {
+    "clangd": {
+      "command": "clangd",
+      "rootPatterns": ["compile_flags.txt", "compile_commands.json", ".git/"],
+      "filetypes": ["c", "cc", "cpp", "h", "hh", "hpp", "objc", "objcpp"]
+    },
+    "pyright": {
+      "command": "pyright-langserver",
+      "args": ["--stdio"],
+      "filetypes": ["python"],
+      "trace.server": "verbose"
+    },
+    "typos": {
+      "command": "typos-lsp",
+      "filetypes": [
+        "markdown",
+        "text",
+        "gitcommit",
+        "lua",
+        "nix",
+        "python",
+        "cpp",
+        "c",
+        "json",
+        "yaml",
+        "toml"
+      ],
+      "rootPatterns": [
+        "typos.toml",
+        "_typos.toml",
+        ".git/"
+      ],
+      "initializationOptions": {
+        "diagnosticSeverity": "Info"
       }
     }
+  }
 }

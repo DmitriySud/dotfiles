@@ -1,0 +1,13 @@
+[default]
+locale = "en-us"
+
+[default.extend-words]
+nvim = "nvim"
+neovim = "neovim"
+dyusudakov = "dyusudakov"
+arcadia = "arcadia"
+bidderstack = "bidderstack"
+pyright = "pyright"
+clangd = "clangd"
+lualine = "lualine"
+catppuccin = "catppuccin"
