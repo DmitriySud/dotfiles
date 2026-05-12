@@ -21,6 +21,8 @@ with lib;
   config = {
     services.shadowsocks-local.enable = true;
     my.alacritty.enable = true;
+    my.totp.enableWofi = true;
+    my.passWofi.enable = true;
 
     fonts.fontconfig.enable = true;
 
@@ -55,6 +57,5 @@ with lib;
       ];
     };
 
-    my.passWofi.enable = true;
   };
 }
