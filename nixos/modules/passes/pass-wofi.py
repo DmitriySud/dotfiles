@@ -92,6 +92,9 @@ def write_last_entry(entry_name: str) -> None:
 def list_entry_names(store_dir: Path) -> list[str]:
     entries: list[str] = []
     for path in store_dir.rglob("*.gpg"):
+        if "totp" in path.parts:
+            continue
+
         if ".git" in path.parts:
             continue
         rel = path.relative_to(store_dir)
