@@ -25,7 +25,6 @@ with lib;
 
     services.shadowsocks-local.enable = true;
     my.alacritty.enable = true;
-    my.totp.enableWofi = true;
     my.passWofi.enable = true;
 
     fonts.fontconfig.enable = true;

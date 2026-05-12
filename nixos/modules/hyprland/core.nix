@@ -26,7 +26,7 @@ let
     bind = , P, exec, pass-pass
     bind = , L, exec, pass-login
     bind = , O, exec, pass-pass-by-login
-    bind = , A, exec, otp-wofi
+    bind = , A, exec, totp-entry
     bind = , Escape, submap, reset
     bind = , catchall, submap, reset
     submap = reset

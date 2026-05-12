@@ -47,6 +47,15 @@ def notify(summary: str, body: str = "") -> None:
         stderr=subprocess.DEVNULL,
     )
 
+def entry_has_totp(entry_name: str) -> bool:
+    raw = pass_show(entry_name)
+
+    for line in raw.splitlines():
+        if line.strip().startswith("totp:"):
+            value = line.split(":", 1)[1].strip()
+            return bool(value)
+
+    return False
 
 def shutil_which(name: str) -> str | None:
     for directory in os.environ.get("PATH", "").split(":"):
@@ -92,9 +101,6 @@ def write_last_entry(entry_name: str) -> None:
 def list_entry_names(store_dir: Path) -> list[str]:
     entries: list[str] = []
     for path in store_dir.rglob("*.gpg"):
-        if "totp" in path.parts:
-            continue
-
         if ".git" in path.parts:
             continue
         rel = path.relative_to(store_dir)
@@ -250,12 +256,28 @@ def mode_password_by_login(store_dir: Path, timeout_seconds: int) -> int:
     notify("pass", "Password copied")
     return 0
 
+def mode_totp_by_entry(store_dir: Path, timeout_seconds: int) -> int:
+    names = list_entry_names(store_dir)
+    names = [name for name in names if entry_has_totp(name)]
+    names = move_last_first(names, read_last_entry())
+
+    selected = wofi_pick(names, "2fa")
+    if not selected:
+        return 0
+
+    code = run_checked(["gopass", "otp", "--password", selected]).strip()
+
+    write_last_entry(selected)
+    copy_to_clipboard(code, timeout_seconds=timeout_seconds)
+    notify("pass", "2FA code copied")
+    return 0
+
 
 def main() -> int:
     if len(sys.argv) != 2:
         print(
             f"usage: {Path(sys.argv[0]).name} "
-            "<password-by-entry|login-by-entry|password-by-login>",
+            "<password-by-entry|login-by-entry|password-by-login|totp-by-entry>",
             file=sys.stderr,
         )
         return 2
@@ -274,6 +296,8 @@ def main() -> int:
         return mode_login_by_entry(store_dir, timeout_seconds)
     if mode == "password-by-login":
         return mode_password_by_login(store_dir, timeout_seconds)
+    if mode == "totp-by-entry":
+        return mode_totp_by_entry(store_dir, timeout_seconds)
 
     print(f"unknown mode: {mode}", file=sys.stderr)
     return 2

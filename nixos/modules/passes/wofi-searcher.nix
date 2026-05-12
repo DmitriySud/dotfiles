@@ -47,6 +47,7 @@ in
         (mkPassWofiCommand "pass-pass" "password-by-entry")
         (mkPassWofiCommand "pass-login" "login-by-entry")
         (mkPassWofiCommand "pass-pass-by-login" "password-by-login")
+        (mkPassWofiCommand "totp-entry" "totp-by-entry")
       ];
   };
 }

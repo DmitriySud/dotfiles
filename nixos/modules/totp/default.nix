@@ -9,22 +9,6 @@ let
     text = builtins.readFile ./scripts/otp-add.sh;
   };
 
-  otpWofi = pkgs.writeShellApplication {
-    name = "otp-wofi";
-    runtimeInputs = [
-      cfg.package
-      pkgs.wofi
-      pkgs.wl-clipboard
-      pkgs.libnotify
-      pkgs.coreutils
-      pkgs.findutils
-      pkgs.gnused
-    ];
-    text = ''
-      export OTP_PREFIX="${cfg.prefix}"
-      ${builtins.readFile ./scripts/otp-wofi.sh}
-    '';
-  };
 in
 {
   options.my.totp = {
@@ -41,17 +25,9 @@ in
       default = "totp";
       description = "Password-store prefix used by otp-wofi.";
     };
-
-    enableWofi = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Install otp-wofi launcher.";
-    };
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages =
-      [ cfg.package otpAdd ]
-      ++ lib.optionals cfg.enableWofi [ otpWofi ];
+    home.packages = [ cfg.package otpAdd ];
   };
 }
