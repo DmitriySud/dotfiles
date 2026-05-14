@@ -61,6 +61,16 @@ in
               "ipad"
               "iphone"
             ];
+
+            ignorePatterns = [
+              "/.obsidian/workspace.json"
+              "/.obsidian/workspace-mobile.json"
+
+              "/.obsidian/*.sync-conflict-*"
+
+              "/.obsidian/cache"
+            ];
+
             type = "sendreceive";
             versioning = {
               type = "simple";
