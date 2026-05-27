@@ -31,6 +31,9 @@
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
+  programs.appimage.enable = true;
+  programs.appimage.binfmt = true;
+
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
