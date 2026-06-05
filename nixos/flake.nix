@@ -13,6 +13,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -21,6 +25,7 @@
       nixpkgs,
       home-manager,
       sops-nix,
+      disko,
       ...
     }@inputs:
     let
@@ -36,7 +41,7 @@
       ];
 
       mkNixos =
-        envPath:
+        envPath: system:
         nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit allowed-unfree-packages user; };
@@ -65,9 +70,9 @@
     in
     {
       nixosConfigurations = {
-        desktop-personal = mkNixos ./envs/desktop-personal;
-        laptop-personal = mkNixos ./envs/laptop-personal;
-        laptop-work = mkNixos ./envs/laptop-work;
+        desktop-personal = mkNixos ./envs/desktop-personal "x86_64-linux";
+        laptop-personal = mkNixos ./envs/laptop-personal "x86_64-linux";
+        laptop-work = mkNixos ./envs/laptop-work "x86_64-linux";
       };
 
       homeConfigurations = {
