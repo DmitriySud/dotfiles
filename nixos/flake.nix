@@ -82,6 +82,7 @@
         desktop-personal = mkNixos ./envs/desktop-personal "x86_64-linux";
         laptop-personal = mkNixos ./envs/laptop-personal "x86_64-linux";
         laptop-work = mkNixos ./envs/laptop-work "x86_64-linux";
+        vps-personal = mkNixos ./envs/vps-personal "x86_64-linux";
       };
 
       homeConfigurations = {
@@ -89,6 +90,7 @@
         "${user}-laptop-personal" = mkHome ./envs/laptop-personal;
         "${user}-laptop-work" = mkHome ./envs/laptop-work;
         "${user}-remote-ssh-work" = mkHome ./envs/remote-ssh-work;
+        "${dsudakov}-vps-personal" = mkHome ./envs/vps-personal;
       };
 
       apps.${system}.nixfmt = import ./apps/nixfmt.nix { inherit pkgs; };
