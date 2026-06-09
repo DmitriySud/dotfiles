@@ -55,6 +55,7 @@
           specialArgs = { inherit allowed-unfree-packages user; };
           modules = [
             (envPath + "/configuration.nix")
+            { nixpkgs.overlays = [incyOverlay ]; }
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
