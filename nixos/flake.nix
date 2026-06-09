@@ -31,7 +31,15 @@
     let
       system = builtins.currentSystem;
       user = "dsudakov";
-      pkgs = nixpkgs.legacyPackages.${system};
+      incyOverlay = final: prev: {
+        incy = final.callPackage ./packages/incy/default.nix {};
+      };
+
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ incyOverlay ];
+        config.allowUnfree = true;
+      };
 
       allowed-unfree-packages = [
         "nvidia-x11"

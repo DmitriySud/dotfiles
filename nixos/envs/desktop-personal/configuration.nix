@@ -17,6 +17,7 @@
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelModules = [ "tun" ];
 
   hardware.graphics = {
     enable = true;
