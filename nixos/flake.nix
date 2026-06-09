@@ -56,6 +56,7 @@
           modules = [
             (envPath + "/configuration.nix")
             { nixpkgs.overlays = [incyOverlay ]; }
+            disko.nixosModules.disko
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -90,7 +91,7 @@
         "${user}-laptop-personal" = mkHome ./envs/laptop-personal;
         "${user}-laptop-work" = mkHome ./envs/laptop-work;
         "${user}-remote-ssh-work" = mkHome ./envs/remote-ssh-work;
-        "${dsudakov}-vps-personal" = mkHome ./envs/vps-personal;
+        "${user}-vps-personal" = mkHome ./envs/vps-personal;
       };
 
       apps.${system}.nixfmt = import ./apps/nixfmt.nix { inherit pkgs; };

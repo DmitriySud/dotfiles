@@ -10,16 +10,21 @@
     ./disko.nix
   ];
 
-  # --- Boot (UEFI / systemd-boot) ---
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = false; # cloud VM: don't touch NVRAM
+  # --- Boot (UEFI, no NVRAM dependency) ---
+  boot.loader.systemd-boot.enable = false;
+  boot.loader.grub = {
+    enable = true;
+    efiSupport = true;
+    efiInstallAsRemovable = true;   # writes to /EFI/BOOT/BOOTX64.EFI fallback path
+    device = "nodev";
+  };
+  boot.loader.efi.canTouchEfiVariables = false;
 
   # Minimal kernel modules for a KVM guest (no hardware-configuration.nix needed
   # since disko defines the filesystems and this is a known virtio guest).
   boot.initrd.availableKernelModules = [ 
     "ahci" "xhci_pci" "virtio_pci" "virtio_scsi" "sr_mod" "virtio_blk" 
   ];
-  boot.loader.grub.enable = false;
 
   services.qemuGuest.enable = true;
 
