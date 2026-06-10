@@ -2,6 +2,7 @@
   modulesPath,
   lib,
   pkgs,
+  user,
   ...
 } @ args:
 {
@@ -15,14 +16,9 @@
     efiSupport = true;
     efiInstallAsRemovable = true;
   };
-  services.openssh.enable = true;
-
-  environment.systemPackages = map lib.lowPrio [
-    pkgs.curl
-    pkgs.gitMinimal
-  ];
 
   services.qemuGuest.enable = true;
+  programs.zsh.enable = true;
 
   # --- Networking ---
   networking.hostName = "vps-personal";
@@ -45,12 +41,14 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIWey9vBfHJaC02LXMxnXqqSA8j2mXTeQlCGvYDQjiyg ya_cloud"
     ];
+    shell = pkgs.zsh;
   };
   security.sudo.wheelNeedsPassword = false;
 
   # Root key login (the example installed with root keys; keep for parity/recovery).
-  users.users.root.openssh.authorizedKeys.keys =
-    config.users.users.${user}.openssh.authorizedKeys.keys;
+  users.users.root.openssh.authorizedKeys.keys =[
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIWey9vBfHJaC02LXMxnXqqSA8j2mXTeQlCGvYDQjiyg ya_cloud"
+  ];
 
   # --- Basics ---
   time.timeZone = "Europe/Moscow";

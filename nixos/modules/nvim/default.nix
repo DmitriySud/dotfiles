@@ -6,7 +6,13 @@
 }:
 
 {
-  options.my.nvim.enable = lib.mkEnableOption "Enable my neovim";
+  options.my.nvim = {
+    enable = lib.mkEnableOption "Enable my neovim";
+    light = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+    };
+  };
 
   config = lib.mkIf config.my.nvim.enable {
 
@@ -14,6 +20,7 @@
       ripgrep # for telescope or grep
       fd # for fzf/telescope
       fzf
+    ] ++ lib.optionals (!config.my.nvim.light) [
       nodejs # needed for coc
       clang-tools
       pyright
@@ -32,19 +39,21 @@
         plenary-nvim
         telescope-nvim
         vim-easymotion
-        nvim-autopairs
-        coc-nvim
-        nvim-web-devicons
         catppuccin-nvim
         lualine-nvim
+        nvim-autopairs
         indent-blankline-nvim
-        nvim-treesitter
         neo-tree-nvim
         comment-nvim
         alpha-nvim
         gitsigns-nvim
+        nvim-web-devicons
+      ] ++ lib.optionals (!config.my.nvim.light) [
+        coc-nvim
+        nvim-treesitter
       ];
-      extraPackages = with pkgs.tree-sitter-grammars; [
+      extraPackages = with pkgs.tree-sitter-grammars; [] 
+      ++ lib.optionals (!config.my.nvim.light) [
         tree-sitter-bash
         tree-sitter-json
         tree-sitter-lua

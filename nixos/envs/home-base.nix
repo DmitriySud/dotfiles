@@ -72,6 +72,22 @@ in
       };
     };
 
+    programs.ssh = {
+      enable = true;
+      matchBlocks = {
+        "lastochka" = {
+          hostname = "158.160.196.209";
+          user = "dsudakov";
+          identityFile = "~/.ssh/id_ed25519_ya_cloud";
+        };
+
+        "github.com" = {
+          user = "git";
+          identityFile = "~/.ssh/id_ed25519_gh";
+        };
+      };
+    };
+
     programs.home-manager.enable = true;
 
   };
