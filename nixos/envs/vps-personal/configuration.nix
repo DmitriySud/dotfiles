@@ -1,29 +1,25 @@
 {
-  config,
+  modulesPath,
   lib,
   pkgs,
-  user,
   ...
-}:
+} @ args:
 {
   imports = [
-    ./disko.nix
+    (modulesPath + "/installer/scan/not-detected.nix")
+    (modulesPath + "/profiles/qemu-guest.nix")
+    ./hardware-configuration.nix
+    ./disk-config.nix
   ];
-
-  # --- Boot (UEFI, no NVRAM dependency) ---
-  boot.loader.systemd-boot.enable = false;
   boot.loader.grub = {
-    enable = true;
     efiSupport = true;
-    efiInstallAsRemovable = true;   # writes to /EFI/BOOT/BOOTX64.EFI fallback path
-    device = "nodev";
+    efiInstallAsRemovable = true;
   };
-  boot.loader.efi.canTouchEfiVariables = false;
+  services.openssh.enable = true;
 
-  # Minimal kernel modules for a KVM guest (no hardware-configuration.nix needed
-  # since disko defines the filesystems and this is a known virtio guest).
-  boot.initrd.availableKernelModules = [ 
-    "ahci" "xhci_pci" "virtio_pci" "virtio_scsi" "sr_mod" "virtio_blk" 
+  environment.systemPackages = map lib.lowPrio [
+    pkgs.curl
+    pkgs.gitMinimal
   ];
 
   services.qemuGuest.enable = true;
@@ -43,10 +39,6 @@
   };
 
   # --- User ---
-  # NOTE: your other envs likely set the user up via ../main-user.nix.
-  # I can't see that file, so I'm defining the user inline here.
-  # If main-user.nix is parametrized and safe for a fresh system, swap this
-  # block for:  imports = [ ../main-user.nix ];  and move the key there.
   users.users.${user} = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
@@ -54,15 +46,14 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIWey9vBfHJaC02LXMxnXqqSA8j2mXTeQlCGvYDQjiyg ya_cloud"
     ];
   };
-
   security.sudo.wheelNeedsPassword = false;
 
-  # Same key for root — useful for nixos-anywhere and recovery.
+  # Root key login (the example installed with root keys; keep for parity/recovery).
   users.users.root.openssh.authorizedKeys.keys =
     config.users.users.${user}.openssh.authorizedKeys.keys;
 
   # --- Basics ---
-  time.timeZone = "Etc/UTC";
+  time.timeZone = "Europe/Moscow";
   environment.systemPackages = with pkgs; [ vim git curl ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
