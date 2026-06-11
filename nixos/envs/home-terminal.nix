@@ -17,6 +17,7 @@
     my.zsh.enable = true;
     my.goto.enable = true;
     my.nvim.enable = true;
+    my.byobu.enable = true;
 
     home.packages = with pkgs; [
       jq

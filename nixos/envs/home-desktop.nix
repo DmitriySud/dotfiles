@@ -23,7 +23,8 @@ with lib;
       allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "obsidian" ];
     };
 
-    services.shadowsocks-local.enable = true;
+    services.shadowsocks-local.enable = false;
+    my.incy.enable = true;
     my.alacritty.enable = true;
     my.passWofi.enable = true;
 

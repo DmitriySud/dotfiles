@@ -11,7 +11,6 @@
   ];
 
   my.xkbPunct.enable = true;
-  my.incy.enable = true;
   my.home-base.git-email = "dmitriy.sudakov2001@yandex.ru";
 
   my.hyprland = {
