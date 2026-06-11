@@ -54,6 +54,7 @@
   time.timeZone = "Europe/Moscow";
   environment.systemPackages = with pkgs; [ vim git curl ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.trusted-users = [ "root" "dsudakov" ];
 
   system.stateVersion = "25.11";
 }

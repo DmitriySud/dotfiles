@@ -27,7 +27,6 @@ let
       gzip
       git
       systemd
-      libnotify
       hostname
       openssh
     ];
@@ -50,9 +49,7 @@ let
       notify() {
         local title="$1"
         local body="$2"
-        if command -v notify-send >/dev/null 2>&1; then
-          notify-send "$title" "$body"
-        fi
+        echo "$title": "$body"
       }
 
       cleanup() {
