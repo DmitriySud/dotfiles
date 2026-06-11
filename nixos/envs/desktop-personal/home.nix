@@ -7,7 +7,6 @@
 {
   imports = [
     ../home-desktop.nix
-    ../../modules/incy
   ];
 
   my.xkbPunct.enable = true;

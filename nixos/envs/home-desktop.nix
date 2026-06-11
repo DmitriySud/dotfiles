@@ -14,6 +14,7 @@ with lib;
     ../modules/alacritty
     ../modules/hyprland
     ../modules/xkb
+    ../modules/incy
     ../modules/shadowsocks/shadowsocks.nix
     ../modules/passes/wofi-searcher.nix
   ];
