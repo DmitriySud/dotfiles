@@ -38,6 +38,7 @@ in
 
           ipad.id = "YXISP57-ZESQORK-LHB5NR5-ABUREB2-JCJYXHH-X2ACRVK-CZPZQVU-7RBLOAB";
           iphone.id = "K276L4Z-UUONVJO-6B22J2X-4ON2AIZ-KJC36FA-FVMB2LL-OM4E6AU-UBFI3QB";
+          vps-personal.id = "Z6BXCCY-IEGF3D5-WWX6X6C-6LO6GWP-QXBHHAT-DFS2DO2-UMPEPOQ-ZQFMIAZ";
         };
 
         folders = {
@@ -46,6 +47,7 @@ in
             devices = [
               "desktop-personal"
               "laptop-personal"
+              "vps-personal"
             ];
             type = "sendreceive";
             versioning = {
@@ -60,6 +62,7 @@ in
               "laptop-personal"
               "ipad"
               "iphone"
+              "vps-personal"
             ];
 
             ignorePatterns = [
