@@ -40,15 +40,15 @@
     extraGroups = [ "wheel" ];
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIWey9vBfHJaC02LXMxnXqqSA8j2mXTeQlCGvYDQjiyg ya_cloud"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDqt/kmEk7YmqvWVPpxRV4unO1mCqzFzqPN+DThvzt7O laptop-personal"
     ];
     shell = pkgs.zsh;
   };
   security.sudo.wheelNeedsPassword = false;
 
   # Root key login (the example installed with root keys; keep for parity/recovery).
-  users.users.root.openssh.authorizedKeys.keys =[
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIWey9vBfHJaC02LXMxnXqqSA8j2mXTeQlCGvYDQjiyg ya_cloud"
-  ];
+  users.users.root.openssh.authorizedKeys.keys = 
+    users.users.${user}.openssh.authorizedKeys.keys;;
 
   # --- Basics ---
   time.timeZone = "Europe/Moscow";
