@@ -1,5 +1,6 @@
 {
   modulesPath,
+  config,
   lib,
   pkgs,
   user,
@@ -48,7 +49,7 @@
 
   # Root key login (the example installed with root keys; keep for parity/recovery).
   users.users.root.openssh.authorizedKeys.keys = 
-    users.users.${user}.openssh.authorizedKeys.keys;;
+    config.users.users.${user}.openssh.authorizedKeys.keys;
 
   # --- Basics ---
   time.timeZone = "Europe/Moscow";
