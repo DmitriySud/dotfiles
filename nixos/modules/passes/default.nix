@@ -9,6 +9,7 @@ let
   cfg = config.my.passes;
 
   reencryptPassScript = ./reencrypt-pass.sh;
+  generateKeyScript = ./generate-key.sh;
 in
 {
   options.my.passes = {
@@ -65,6 +66,7 @@ in
 
     home.shellAliases = {
       pass-reencrypt = "${reencryptPassScript}";
+      gpg-genkey = "${generateKeyScript}";
     };
   };
 }
