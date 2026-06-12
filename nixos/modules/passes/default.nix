@@ -68,5 +68,7 @@ in
       pass-reencrypt = "${reencryptPassScript}";
       gpg-genkey = "${generateKeyScript}";
     };
+
+    home.file.".gnupg/common.conf".text = "";
   };
 }
