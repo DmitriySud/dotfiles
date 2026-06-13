@@ -39,6 +39,9 @@ in
           ipad.id = "YXISP57-ZESQORK-LHB5NR5-ABUREB2-JCJYXHH-X2ACRVK-CZPZQVU-7RBLOAB";
           iphone.id = "K276L4Z-UUONVJO-6B22J2X-4ON2AIZ-KJC36FA-FVMB2LL-OM4E6AU-UBFI3QB";
           vps-personal.id = "Z6BXCCY-IEGF3D5-WWX6X6C-6LO6GWP-QXBHHAT-DFS2DO2-UMPEPOQ-ZQFMIAZ";
+
+          laptop-katya.id = "HGLMOAI-66GUJJ6-45UZAVG-GH6ALTY-USTAVAR-IA3WUPZ-NELD5LM-3XOFPQ6";
+          ipad-katya.id = "YIIJEIK-O5OPJCI-6K2FWPW-ESEYPN3-MWBVPAC-6VBT5M4-6PNURZB-O4XOVAJ";
         };
 
         folders = {
@@ -72,6 +75,21 @@ in
               "/.obsidian/*.sync-conflict-*"
 
               "/.obsidian/cache"
+            ];
+
+            type = "sendreceive";
+            versioning = {
+              type = "simple";
+              params.keep = "10";
+            };
+          };
+
+          "katin-obsidian" = {
+            path = "${cfg.storage-dir}/katin-obsidian";
+            devices = [
+              "laptop-katya"
+              "ipad-katya"
+              "vps-personal"
             ];
 
             type = "sendreceive";
