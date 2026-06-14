@@ -7,32 +7,185 @@
 
 let
   cfg = config.my.hyprland;
-  xkbExtra = "${config.xdg.configHome}/xkb";
+
   hyprPlugins =
     lib.optional cfg.hypridle.enable pkgs.hypridle
     ++ lib.optional cfg.hyprpaper.enable pkgs.hyprpaper
     ++ lib.optional cfg.hyprlock.enable pkgs.hyprlock;
 
-  brightnessControlBinds =
-    [ ]
-    ++ lib.optionals cfg.enableBrightness [
-      ", XF86MonBrightnessDown, exec, brightnessctl s 10%-"
-      ", XF86MonBrightnessUp, exec, brightnessctl s +10%"
-    ];
-  passWofiSubmap = lib.optionalString config.my.passWofi.enable ''
-    bind = $mod, P, submap, pass-wofi
-
-    submap = pass-wofi, reset
-    bind = , P, exec, pass-pass
-    bind = , L, exec, pass-login
-    bind = , O, exec, pass-pass-by-login
-    bind = , A, exec, totp-entry
-    bind = , Escape, submap, reset
-    bind = , catchall, submap, reset
-    submap = reset
-  '';
   groupWorkspaceScript = ".config/hypr/scripts/group-workspace.sh";
   groupWorkspaceScriptPath = "~/${groupWorkspaceScript}";
+
+  # --- input section ---
+  inputConfig =
+    if config.my.xkbPunct.enable then ''
+      input = {
+        kb_file = "${config.my.xkbPunct.kbFile}",
+        follow_mouse = 1,
+        touchpad = { natural_scroll = false },
+      },
+    '' else ''
+      input = {
+        kb_layout = "us,ru",
+        kb_options = "grp:caps_toggle",
+        follow_mouse = 1,
+        touchpad = { natural_scroll = false },
+      },
+    '';
+
+  # --- monitors: hl.monitor per entry ---
+  # Hyprlang "NAME,RES,POS,SCALE" -> hl.monitor parses the same string form.
+  monitorConfig = lib.concatMapStringsSep "\n" (m: ''hl.monitor("${m}")'') cfg.monitors;
+
+  # --- workspaces ---
+  workspaceConfig = lib.concatMapStringsSep "\n" (w: ''hl.workspace("${w}")'') (
+    cfg.workspaces
+    ++ [
+      "3, name: Telegram"
+      "3, on-created-empty: telegram-desktop"
+    ]
+  );
+
+  # --- brightness binds ---
+  brightnessControlBinds = lib.optionalString cfg.enableBrightness ''
+    hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl s 10%-"), { locked = true })
+    hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightnessctl s +10%"), { locked = true })
+  '';
+
+  # --- extra binds: each entry is "MOD + KEY" , a lua dispatcher string ---
+  # NOTE: extraBinds now expects pre-formatted hl.bind(...) lines (see options note below).
+  extraBindsConfig = lib.concatStringsSep "\n" cfg.extraBinds;
+
+  # --- env ---
+  envConfig =
+    lib.optionalString config.my.passes.enable
+      ''hl.env("PASSWORD_STORE_DIR", "${config.my.passes.passwordStoreDir}")'';
+
+  # --- pass-wofi submap ---
+  passWofiSubmap = lib.optionalString config.my.passWofi.enable ''
+    hl.bind("SUPER + P", hl.dsp.submap("pass-wofi"))
+
+    hl.define_submap("pass-wofi", function()
+      hl.bind("P", hl.dsp.exec_cmd("pass-pass"))
+      hl.bind("L", hl.dsp.exec_cmd("pass-login"))
+      hl.bind("O", hl.dsp.exec_cmd("pass-pass-by-login"))
+      hl.bind("A", hl.dsp.exec_cmd("totp-entry"))
+      hl.bind("escape", hl.dsp.submap("reset"))
+    end)
+  '';
+
+  hyprlandLua = ''
+    local mod = "SUPER"
+
+    -- ===== autostart (start-only) =====
+    hl.on("hyprland.start", function()
+      hl.exec_cmd("nm-applet")
+      hl.exec_cmd("telegram-desktop")
+    end)
+
+    -- ===== config blocks =====
+    hl.config({
+      ${inputConfig}
+      animations = {
+        enabled = true,
+        -- Disable workspace animations
+        animation = "workspaces, 0, 1, default",
+      },
+      decoration = {
+        rounding = 4,
+        border_part_of_window = false,
+        active_opacity = 1,
+        inactive_opacity = 0.9,
+      },
+      general = {
+        border_size = 3,
+        gaps_in = 2,
+        gaps_out = 5,
+      },
+    })
+
+    -- ===== monitors =====
+    ${monitorConfig}
+
+    -- ===== workspaces =====
+    ${workspaceConfig}
+
+    -- ===== window rules =====
+    hl.window_rule({ match = { class = "^(org.telegram.desktop)$" }, workspace = "3" })
+    hl.window_rule({ match = { class = "^(org.telegram.desktop)$" }, noborder = true })
+    hl.window_rule({ match = { class = "^(org.telegram.desktop)$" }, rounding = 0 })
+    hl.window_rule({ match = { class = "^(org.telegram.desktop)$" }, tile = true })
+    hl.window_rule({ match = { class = "^(org.telegram.desktop)$" }, maximize = true })
+
+    -- ===== core binds =====
+    hl.bind(mod .. " + RETURN", hl.dsp.exec_cmd("alacritty"))
+    hl.bind(mod .. " + SPACE",  hl.dsp.exec_cmd("wofi --show drun"))
+    hl.bind(mod .. " + Q",      hl.dsp.window.close())
+    hl.bind(mod .. " + F",      hl.dsp.window.fullscreen())
+    hl.bind(mod .. " + SHIFT + E", hl.dsp.exit())
+    hl.bind(mod .. " + SHIFT + I", hl.dsp.exec_cmd("lock"))
+
+    -- ===== focus =====
+    hl.bind(mod .. " + h", hl.dsp.window.movefocus("l"))
+    hl.bind(mod .. " + l", hl.dsp.window.movefocus("r"))
+    hl.bind(mod .. " + k", hl.dsp.window.movefocus("u"))
+    hl.bind(mod .. " + j", hl.dsp.window.movefocus("d"))
+
+    -- ===== move window =====
+    hl.bind(mod .. " + SHIFT + h", hl.dsp.window.movewindow("l"))
+    hl.bind(mod .. " + SHIFT + l", hl.dsp.window.movewindow("r"))
+    hl.bind(mod .. " + SHIFT + k", hl.dsp.window.movewindow("u"))
+    hl.bind(mod .. " + SHIFT + j", hl.dsp.window.movewindow("d"))
+
+    -- ===== workspaces switch / move =====
+    for i = 1, 10 do
+      local key = (i == 10) and "0" or tostring(i)
+      hl.bind(mod .. " + " .. key,           hl.dsp.workspace(tostring(i)))
+      hl.bind(mod .. " + SHIFT + " .. key,   hl.dsp.movetoworkspace(tostring(i)))
+    end
+
+    -- ===== groups =====
+    hl.bind(mod .. " + ALT + G", hl.dsp.exec_cmd("${groupWorkspaceScriptPath}"))
+    hl.bind(mod .. " + G",       hl.dsp.togglegroup())
+    hl.bind(mod .. " + TAB",       hl.dsp.changegroupactive("f"))
+    hl.bind(mod .. " + ALT + TAB", hl.dsp.changegroupactive("b"))
+    hl.bind(mod .. " + ALT + h", hl.dsp.movewindoworgroup("l"))
+    hl.bind(mod .. " + ALT + l", hl.dsp.movewindoworgroup("r"))
+    hl.bind(mod .. " + ALT + k", hl.dsp.movewindoworgroup("u"))
+    hl.bind(mod .. " + ALT + j", hl.dsp.movewindoworgroup("d"))
+
+    -- ===== resize =====
+    hl.bind(mod .. " + CTRL + h", hl.dsp.window.resize({ x = -50, y = 0 }))
+    hl.bind(mod .. " + CTRL + l", hl.dsp.window.resize({ x = 50,  y = 0 }))
+    hl.bind(mod .. " + CTRL + k", hl.dsp.window.resize({ x = 0,   y = -50 }))
+    hl.bind(mod .. " + CTRL + j", hl.dsp.window.resize({ x = 0,   y = 50 }))
+
+    -- ===== screenshots =====
+    hl.bind(mod .. " + PRINT",       hl.dsp.exec_cmd("hyprshot -m output"))
+    hl.bind(mod .. " + SHIFT + PRINT", hl.dsp.exec_cmd("hyprshot -m region --clipboard-only --freeze"))
+    hl.bind("PRINT",                 hl.dsp.exec_cmd("hyprshot -m window"))
+
+    -- ===== keyboard layout =====
+    hl.bind("CTRL + ALT + 1", hl.dsp.exec_cmd("hyprctl switchxkblayout all 0"))
+    hl.bind("CTRL + ALT + 2", hl.dsp.exec_cmd("hyprctl switchxkblayout all 1"))
+
+    -- ===== audio =====
+    hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("pactl -- set-sink-volume 0 -10%"), { locked = true })
+    hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("pactl -- set-sink-volume 0 +10%"), { locked = true })
+    hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("pactl -- set-sink-mute 0 toggle"), { locked = true })
+    hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("pactl -- set-source-mute 0 toggle"), { locked = true })
+
+    hl.bind(mod .. " + F12", hl.dsp.exec_cmd("sh -c 'env > /tmp/hypr-env.txt'"))
+
+    ${brightnessControlBinds}
+    ${extraBindsConfig}
+
+    -- ===== env =====
+    ${envConfig}
+
+    -- ===== pass-wofi submap =====
+    ${passWofiSubmap}
+  '';
 in
 {
   options.my.hyprland = {
@@ -54,6 +207,7 @@ in
     extraBinds = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ ];
+      description = "Raw hl.bind(...) Lua lines appended to the config.";
     };
 
     enableBrightness = lib.mkOption {
@@ -75,140 +229,14 @@ in
       source = ./scripts/group-wrokspace.sh;
     };
 
-
     wayland.windowManager.hyprland = {
       enable = true;
       systemd.enable = true;
       xwayland.enable = true;
       plugins = hyprPlugins;
 
-      settings = {
-        exec-once = [
-          "nm-applet"
-          "telegram-desktop"
-        ];
-        input = lib.mkMerge [
-          (lib.mkIf config.my.xkbPunct.enable {
-            kb_file = config.my.xkbPunct.kbFile;
-          })
-
-          (lib.mkIf (!config.my.xkbPunct.enable) {
-            kb_layout = "us,ru";
-            kb_options = "grp:caps_toggle";
-          })
-
-          {
-            follow_mouse = 1;
-            touchpad.natural_scroll = false;
-          }
-        ];
-
-        "$mod" = "SUPER";
-
-        bind = [
-          "$mod, RETURN, exec, alacritty"
-          "$mod, SPACE, exec, wofi --show drun"
-          "$mod, Q, killactive,"
-          "$mod, F, fullscreen"
-          "$mod SHIFT, E, exit,"
-          "$mod SHIFT, I, exec, lock"
-          "$mod, h, movefocus, l"
-          "$mod, l, movefocus, r"
-          "$mod, k, movefocus, u"
-          "$mod, j, movefocus, d"
-          "$mod SHIFT, h, movewindow, l"
-          "$mod SHIFT, l, movewindow, r"
-          "$mod SHIFT, k, movewindow, u"
-          "$mod SHIFT, j, movewindow, d"
-          "$mod, 1, workspace, 1"
-          "$mod, 2, workspace, 2"
-          "$mod, 3, workspace, 3"
-          "$mod, 4, workspace, 4"
-          "$mod, 5, workspace, 5"
-          "$mod, 6, workspace, 6"
-          "$mod, 7, workspace, 7"
-          "$mod, 8, workspace, 8"
-          "$mod, 9, workspace, 9"
-          "$mod, 0, workspace, 10"
-          "$mod SHIFT, 1, movetoworkspace, 1"
-          "$mod SHIFT, 2, movetoworkspace, 2"
-          "$mod SHIFT, 3, movetoworkspace, 3"
-          "$mod SHIFT, 4, movetoworkspace, 4"
-          "$mod SHIFT, 5, movetoworkspace, 5"
-          "$mod SHIFT, 6, movetoworkspace, 6"
-          "$mod SHIFT, 7, movetoworkspace, 7"
-          "$mod SHIFT, 8, movetoworkspace, 8"
-          "$mod SHIFT, 9, movetoworkspace, 9"
-          "$mod SHIFT, 0, movetoworkspace, 10"
-
-          "$mod ALT, G, exec, ${groupWorkspaceScriptPath}"
-          "$mod, G, togglegroup"
-          "$mod, TAB, changegroupactive, f"
-          "$mod ALT, TAB, changegroupactive, b"
-          "$mod ALT, h, movewindoworgroup, l"
-          "$mod ALT, l, movewindoworgroup, r"
-          "$mod ALT, k, movewindoworgroup, u"
-          "$mod ALT, j, movewindoworgroup, d"
-
-          "$mod CTRL, h, resizeactive, -50 0"
-          "$mod CTRL, l, resizeactive,  50 0"
-          "$mod CTRL, k, resizeactive,   0 -50"
-          "$mod CTRL, j, resizeactive,   0  50"
-          "$mod, PRINT, exec, hyprshot -m output"
-          "$mod SHIFT, PRINT, exec, hyprshot -m region --clipboard-only --freeze"
-          ", PRINT, exec, hyprshot -m window"
-          "CTRL ALT, 1, exec, hyprctl switchxkblayout all 0"
-          "CTRL ALT, 2, exec, hyprctl switchxkblayout all 1"
-          ",XF86AudioLowerVolume, exec, pactl -- set-sink-volume 0 -10%"
-          ",XF86AudioRaiseVolume, exec, pactl -- set-sink-volume 0 +10%"
-          ",XF86AudioMute, exec, pactl -- set-sink-mute 0 toggle"
-          ",XF86AudioMicMute, exec, pactl -- set-source-mute 0 toggle"
-
-          "$mod, F12, exec, sh -c 'env > /tmp/hypr-env.txt'"
-        ]
-        ++ brightnessControlBinds
-        ++ cfg.extraBinds;
-
-        env =
-          [ ]
-          ++ lib.optional config.my.passes.enable "PASSWORD_STORE_DIR,${config.my.passes.passwordStoreDir}";
-
-        monitor = cfg.monitors;
-        workspace = cfg.workspaces ++ [
-          "3, name: Telegram"
-          "3, on-created-empty: telegram-desktop"
-        ];
-        windowrule = [
-          "workspace 3, class: ^(org.telegram.desktop)$"
-          "noborder, class: ^(org.telegram.desktop)$"
-          "rounding 0, class: ^(org.telegram.desktop)$"
-          "tile, class: ^(org.telegram.desktop)$"
-          "maximize, class: ^(org.telegram.desktop)$"
-        ];
-
-        animations = {
-          enabled = true;
-          # Disable workspace animations
-          animation = "workspaces, 0, 1, default";
-        };
-
-        decoration = {
-          rounding = 4;
-          border_part_of_window = false;
-          active_opacity = 1;
-          inactive_opacity = 0.9;
-        };
-
-        general = {
-          border_size = 3;
-          gaps_in = 2;
-          gaps_out = 5;
-        };
-      };
-
-      extraConfig = ''
-        ${passWofiSubmap}
-      '';
+      # All config is native Lua, passed through.
+      extraConfig = hyprlandLua;
     };
 
     home.sessionVariables = {
@@ -221,4 +249,4 @@ in
       XKB_CONFIG_EXTRA_PATH = config.my.xkbPunct.xkbExtraPath;
     };
   };
-}
+}:
