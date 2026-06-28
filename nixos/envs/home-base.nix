@@ -74,6 +74,8 @@ in
 
     programs.ssh = {
       enable = true;
+
+      addKeysToAgent = "4h";
       matchBlocks = {
         "lastochka" = {
           hostname = "158.160.196.209";
@@ -84,6 +86,7 @@ in
         "github.com" = {
           user = "git";
           identityFile = "~/.ssh/id_ed25519_gh";
+          identitiesOnly = true;
         };
       };
     };
