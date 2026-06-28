@@ -20,10 +20,6 @@ with lib;
   ];
 
   config = {
-    nixpkgs.config = {
-      allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "obsidian" ];
-    };
-
     services.shadowsocks-local.enable = false;
     my.incy.enable = true;
     my.alacritty.enable = true;

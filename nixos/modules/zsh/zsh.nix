@@ -33,7 +33,19 @@ in
         + "\n"
         + gotoIntegration
         + "\n"
-        + dumpIntegration;
+        + dumpIntegration
+        + ''
+          genpass() {
+            local p d pos i
+            p=$(xkcdpass --numwords 3 --delimiter - --case capitalize)
+            for i in 1 2; do
+              pos=$((RANDOM % (''${#p} + 1)))
+              d=$((RANDOM % 10))
+              p="''${p[1,pos]}''${d}''${p[pos+1,-1]}"
+            done
+            printf "%s" "$p" | wl-copy
+          }
+        '';
 
       envExtra = ''
         DUMP_DIR=$HOME/dump
@@ -47,9 +59,6 @@ in
         ];
       };
 
-      shellAliases = {
-        genpass="xkcdpass --numwords 3 --delimiter - --case capitalize | sed 's/$/7/' | wl-copy";
-      };
     };
 
     home.packages = with pkgs; [
