@@ -13,7 +13,7 @@ creation_rules:
       - age: 
         - *laptop-personal
         - *desktop-personal
-  - path_regex: secrets/server/*$
+  - path_regex: secrets/tgbot-.*\.json$
     key_groups:
       - age: 
         - *lastochka
