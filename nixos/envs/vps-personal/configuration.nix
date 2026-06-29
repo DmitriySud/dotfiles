@@ -12,7 +12,9 @@
     (modulesPath + "/profiles/qemu-guest.nix")
     ./hardware-configuration.nix
     ./disk-config.nix
-    ../../modules/sops
+
+    ../../modules/sops/default.nix
+    ../../modules/sops/server.nix
   ];
   boot.loader.grub = {
     efiSupport = true;

@@ -10,7 +10,9 @@
   system.stateVersion = "25.11"; # Did you read the comment?
 
   imports = [
-    ./../modules/sops
+    ./../modules/sops/default.nix
+    ./../modules/sops/desktop.nix
+
     ./main-user.nix
   ];
 
