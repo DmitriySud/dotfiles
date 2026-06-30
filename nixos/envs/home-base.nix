@@ -77,8 +77,8 @@ in
 
       addKeysToAgent = "4h";
       matchBlocks = {
-        "lastochka" = {
-          hostname = "158.160.196.209";
+        "martin" = {
+          hostname = "92570.koara.live";
           user = "dsudakov";
           identityFile = "~/.ssh/id_ed25519_ya_cloud";
         };

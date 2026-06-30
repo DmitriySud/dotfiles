@@ -8,11 +8,25 @@
     [ (modulesPath + "/profiles/qemu-guest.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "virtio_pci" "virtio_blk" ];
+  boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "sr_mod" "virtio_blk" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
+  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
+  # (the default) this is the recommended approach. When using systemd-networkd it's
+  # still possible to use this option, but it's recommended to use it in conjunction
+  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
+  networking.useDHCP = false;
+  systemd.network = {
+    enable = true;          # <-- this is what was missing
+    networks."10-ens3" = {
+      matchConfig.Name = "ens3";
+      address = [ "193.5.251.159/32" ];
+      routes = [
+        { Gateway = "10.0.0.1"; GatewayOnLink = true; }
+      ];
+    };
+  };
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
-
