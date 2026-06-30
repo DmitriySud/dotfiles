@@ -27,6 +27,7 @@
   # --- Networking ---
   networking.hostName = "vps-personal";
   networking.useDHCP = lib.mkDefault true;
+  networking.firewall.allowedTCPPorts = [ 8443 ];
 
   # --- SSH (key-only) ---
   services.openssh = {
