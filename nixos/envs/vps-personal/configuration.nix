@@ -54,7 +54,6 @@
   # Root key login (the example installed with root keys; keep for parity/recovery).
   users.users.root.openssh.authorizedKeys.keys = 
     config.users.users.${user}.openssh.authorizedKeys.keys;
-  users.users.root.password = "temp123";
 
   # --- Basics ---
   time.timeZone = "Europe/Moscow";
