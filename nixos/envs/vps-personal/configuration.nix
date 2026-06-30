@@ -13,8 +13,8 @@
     ./hardware-configuration.nix
     ./disk-config.nix
 
-    #../../modules/sops/default.nix
-    #../../modules/sops/server.nix
+    ../../modules/sops/default.nix
+    ../../modules/sops/server.nix
   ];
   boot.loader.grub = {
     efiSupport = true;
