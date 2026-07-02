@@ -62,4 +62,6 @@
   nix.settings.trusted-users = [ "root" "dsudakov" ];
 
   system.stateVersion = "25.11";
+
+  services.iam-alive-bot.enable = true;
 }

@@ -17,6 +17,14 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    
+    # This is a temporary hack because i use this repo 
+    # as a deploy tool for vps
+    userver-nix-tgbot = {
+      url = "github:DmitriySud/userver-nix-tgbot";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -26,6 +34,7 @@
       home-manager,
       sops-nix,
       disko,
+      userver-nix-tgbot,
       ...
     }@inputs:
     let
@@ -66,6 +75,7 @@
             }
 
             sops-nix.nixosModules.sops
+            userver-nix-tgbot.nixosModules.default
           ];
         };
 
