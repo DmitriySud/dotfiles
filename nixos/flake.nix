@@ -2,7 +2,7 @@
   description = "Nixos config flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/b6018f87da91d19d0ab4cf979885689b469cdd41";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -10,7 +10,7 @@
     };
 
     sops-nix = {
-      url = "github:Mic92/sops-nix";
+      url = "github:Mic92/sops-nix/56b24064fdcaedca53553b1a6d607fd23b613a24";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
