@@ -7,7 +7,6 @@
 
 let
   cfg = config.my.hyprland;
-  xkbExtra = "${config.xdg.configHome}/xkb";
   hyprPlugins =
     lib.optional cfg.hypridle.enable pkgs.hypridle
     ++ lib.optional cfg.hyprpaper.enable pkgs.hyprpaper
@@ -31,6 +30,13 @@ let
   '';
   groupWorkspaceScript = ".config/hypr/scripts/group-workspace.sh";
   groupWorkspaceScriptPath = "~/${groupWorkspaceScript}";
+
+  xkbConfig = if config.my.xkbPunct.enable then ''
+      kb_file = "${config.my.xkbPunct.kbFile}",
+  '' else ''
+      kb_layout = "us,ru",
+      kb_options = "grp:caps_toggle",
+  '';
 in
 {
   options.my.hyprland = {
@@ -76,23 +82,6 @@ in
       xwayland.enable = true;
       plugins = hyprPlugins;
 
-      # settings = {
-      #   exec-once = [
-      #     "nm-applet"
-      #     "telegram-desktop"
-      #   ];
-      #   input = lib.mkMerge [
-      #     (lib.mkIf config.my.xkbPunct.enable {
-      #       kb_file = config.my.xkbPunct.kbFile;
-      #     })
-      #
-      #     (lib.mkIf (!config.my.xkbPunct.enable) {
-      #       kb_layout = "us,ru";
-      #       kb_options = "grp:caps_toggle";
-      #     })
-      #   ];
-      # };
-      #
       extraConfig = ''
         local mod = "SUPER"
         hl.animation({
@@ -194,8 +183,7 @@ in
                     natural_scroll = false,
                 },
                 follow_mouse = 1,
-                kb_layout = "us,ru",
-                kb_options = "grp:caps_toggle",
+                ${xkbConfig}
             },
         })
       '';

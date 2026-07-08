@@ -14,22 +14,66 @@
 
   my.hyprland = {
     enable = true;
-    monitors = [
-      "DP-1, preferred, 0x0, 1"
-    ];
+    monitors = ''
+      hl.monitor({
+          output = "DP-1",
+          mode = "preferred",
+          position = "0x0",
+          scale = "1",
+      })
+    '';
 
-    workspaces = [
-      "1, monitor:DP-1"
-      "2, monitor:DP-1"
-      "3, monitor:DP-1"
-      "4, monitor:DP-1"
-      "5, monitor:DP-1"
-      "6, monitor:DP-1"
-      "7, monitor:DP-1"
-      "8, monitor:DP-1"
-      "9, monitor:DP-1"
-      "10, monitor:DP-1"
-    ];
+    workspaces = ''
+      hl.workspace_rule({
+          workspace = "1",
+          monitor = "DP-1",
+      })
+
+      hl.workspace_rule({
+          workspace = "2",
+          monitor = "DP-1",
+      })
+
+      hl.workspace_rule({
+          workspace = "3",
+          monitor = "DP-1",
+      })
+
+      hl.workspace_rule({
+          workspace = "4",
+          monitor = "DP-1",
+      })
+
+      hl.workspace_rule({
+          workspace = "5",
+          monitor = "DP-1",
+      })
+
+      hl.workspace_rule({
+          workspace = "6",
+          monitor = "DP-1",
+      })
+
+      hl.workspace_rule({
+          workspace = "7",
+          monitor = "DP-1",
+      })
+
+      hl.workspace_rule({
+          workspace = "8",
+          monitor = "DP-1",
+      })
+
+      hl.workspace_rule({
+          workspace = "9",
+          monitor = "DP-1",
+      })
+
+      hl.workspace_rule({
+          workspace = "10",
+          monitor = "DP-1",
+      })
+    '';
 
     hypridle.can-suspend = false;
   };
