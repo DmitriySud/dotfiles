@@ -2,12 +2,12 @@
 
 pkgs.stdenv.mkDerivation rec {
   pname = "incy";
-  version = "3.2.2";
+  version = "3.3.0";
 
   src = pkgs.fetchzip {
-    url = "https://github.com/INCY-DEV/incy-platforms/releases/download/desktop-v3.2.2/incy-linux-x64-portable.zip";
+    url = "https://github.com/INCY-DEV/incy-platforms/releases/download/desktop-v${version}/incy-linux-x64-portable.zip";
     # nix will print the correct hash on first build — paste it back here
-    hash = "sha256-O6OY+uZkyR+oe59wC0ZxuA+Ezvz/qwJuFp+gAdEljDI=";
+    hash = "sha256-iET6G5Pjx7p3wx9rId0lsAflyqHF4iMpsY6bidmiHns=";
     stripRoot = true;  # set to false if the zip has no single top-level dir
   };
 

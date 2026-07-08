@@ -75,7 +75,7 @@
       })
     '';
 
-    hypridle.can-suspend = false;
+    hypridle.can-suspend = true;
   };
 
 }
