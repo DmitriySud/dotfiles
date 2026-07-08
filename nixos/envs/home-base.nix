@@ -41,7 +41,7 @@ in
 
     home.username = "dsudakov";
     home.homeDirectory = "/home/dsudakov";
-    home.stateVersion = "25.11";
+    home.stateVersion = "26.05";
 
     home.sessionVariables = {
       SSH_ASKPASS_REQUIRE = "prefer";

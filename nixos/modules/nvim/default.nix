@@ -71,12 +71,12 @@
 
     # Deploy all nvim config files
     home.file = {
-      ".config/nvim/init.lua".source = ./init.lua;
+      # ".config/nvim/init.lua".source = ./init.lua;
       ".vimrc".source = ./vimrc;
       ".config/nvim/coc-settings.json".source = ./coc-settings.json;
 
       # recursively copy your Lua folder
-      ".config/nvim/lua".source = ./lua;
+      ".config/nvim/lua/".source = ./lua;
       ".config/typos/typos.toml".source = ./typos.toml;
     };
   };

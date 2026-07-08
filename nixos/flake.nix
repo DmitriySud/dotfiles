@@ -2,10 +2,10 @@
   description = "Nixos config flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/b6018f87da91d19d0ab4cf979885689b469cdd41";
+    nixpkgs.url = "github:NixOS/nixpkgs/0ad6f47ea4fe188f4bc8f0380f93ae8523337c6c";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -38,17 +38,11 @@
       ...
     }@inputs:
     let
-      system = builtins.currentSystem;
       user = "dsudakov";
       incyOverlay = final: prev: {
         incy = final.callPackage ./packages/incy/default.nix {};
       };
 
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [ incyOverlay ];
-        config.allowUnfree = true;
-      };
 
       allowed-unfree-packages = [
         "nvidia-x11"
@@ -80,9 +74,13 @@
         };
 
       mkHome =
-        envPath:
+        envPath: system:
         home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
+          pkgs = import nixpkgs {
+		inherit system;
+		overlays = [ incyOverlay ];
+		config.allowUnfree = true;
+	  };
           extraSpecialArgs = { inherit user sops-nix; };
           modules = [ (envPath + "/home.nix") ];
         };
@@ -97,13 +95,13 @@
       };
 
       homeConfigurations = {
-        "${user}-desktop-personal" = mkHome ./envs/desktop-personal;
-        "${user}-laptop-personal" = mkHome ./envs/laptop-personal;
-        "${user}-laptop-work" = mkHome ./envs/laptop-work;
-        "${user}-remote-ssh-work" = mkHome ./envs/remote-ssh-work;
-        "${user}-vps-personal" = mkHome ./envs/vps-personal;
+        "${user}-desktop-personal" = mkHome ./envs/desktop-personal "x86_64-linux";
+        "${user}-laptop-personal" = mkHome ./envs/laptop-personal "x86_64-linux";
+        "${user}-laptop-work" = mkHome ./envs/laptop-work "x86_64-linux";
+        "${user}-remote-ssh-work" = mkHome ./envs/remote-ssh-work "x86_64-linux";
+        "${user}-vps-personal" = mkHome ./envs/vps-personal "x86_64-linux";
       };
 
-      apps.${system}.nixfmt = import ./apps/nixfmt.nix { inherit pkgs; };
+#      apps.${system}.nixfmt = import ./apps/nixfmt.nix { inherit pkgs; };
     };
 }

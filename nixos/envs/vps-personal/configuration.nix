@@ -61,7 +61,7 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.settings.trusted-users = [ "root" "dsudakov" ];
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
 
   services.iam-alive-bot.enable = true;
 }

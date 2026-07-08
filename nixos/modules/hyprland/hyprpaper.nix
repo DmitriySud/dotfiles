@@ -18,11 +18,16 @@ in
   };
 
   config = lib.mkIf (cfg.enable && cfg.hyprpaper.enable) {
-    services.hyprpaper.enable = true;
-
-    xdg.configFile."hypr/hyprpaper.conf".text = ''
-      preload = ${mainscreen_img}
-      wallpaper = , ${mainscreen_img}
-    '';
+    services.hyprpaper = {
+    	enable = true;
+	settings = {
+		wallpaper = [
+			{
+				monitor = "";
+				path = "${mainscreen_img}";
+			}
+		];
+	};
+    };
   };
 }

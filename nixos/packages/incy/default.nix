@@ -20,14 +20,14 @@ pkgs.stdenv.mkDerivation rec {
     stdenv.cc.cc.lib
     zlib
     # X11 / GUI libs the bundled JRE + Compose need:
-    xorg.libX11
-    xorg.libXext
-    xorg.libXrender
-    xorg.libXtst
-    xorg.libXi
-    xorg.libXrandr
-    xorg.libXcursor
-    xorg.libXxf86vm
+    libx11
+    libxext
+    libxrender
+    libxtst
+    libxi
+    libxrandr
+    libxcursor
+    libxxf86vm
     wayland
     libxkbcommon
     libGL

@@ -30,10 +30,7 @@ in
           }
         ];
         input-field = {
-          size = {
-            width = 200;
-            height = 50;
-          };
+          size = "200, 50";
           outline_thickness = 3;
           dots_size = 0.33;
           dots_spacing = 0.15;
