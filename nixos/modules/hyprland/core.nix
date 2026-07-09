@@ -19,7 +19,7 @@ let
   passWofiSubmap = lib.optionalString config.my.passWofi.enable ''
     hl.bind(mod .. " + P", hl.dsp.submap("pass-wofi"))
 
-    hl.define_submap("pass-wofi, reset", function()
+    hl.define_submap("pass-wofi", "reset", function()
         hl.bind("P", hl.dsp.exec_cmd("pass-pass"))
         hl.bind("L", hl.dsp.exec_cmd("pass-login"))
         hl.bind("O", hl.dsp.exec_cmd("pass-pass-by-login"))
