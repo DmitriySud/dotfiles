@@ -49,6 +49,7 @@
         "nvidia-settings"
         "nvidia-persistenced"
         "obsidian"
+        "claude-code"
       ];
 
       mkNixos =

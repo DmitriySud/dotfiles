@@ -74,9 +74,10 @@ in
 
     programs.ssh = {
       enable = true;
-
-      addKeysToAgent = "4h";
-      matchBlocks = {
+      settings = {
+        "*" = {
+          AddKeysToAgent = "4h";
+        };
         "martin" = {
           hostname = "92570.koara.live";
           user = "dsudakov";

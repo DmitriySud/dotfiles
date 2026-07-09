@@ -7,10 +7,12 @@
 {
   imports = [
     ../home-desktop.nix
+    ../../modules/claude-code
   ];
 
   my.xkbPunct.enable = true;
   my.home-base.git-email = "dmitriy.sudakov2001@yandex.ru";
+  my.claude-code.enable = true;
 
   my.hyprland = {
     enable = true;
