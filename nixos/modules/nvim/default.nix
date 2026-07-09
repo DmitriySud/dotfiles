@@ -67,11 +67,12 @@
         tree-sitter-cmake
         tree-sitter-query
       ];
+
+      initLua = builtins.readFile ./init.lua;
     };
 
     # Deploy all nvim config files
     home.file = {
-      # ".config/nvim/init.lua".source = ./init.lua;
       ".vimrc".source = ./vimrc;
       ".config/nvim/coc-settings.json".source = ./coc-settings.json;
 

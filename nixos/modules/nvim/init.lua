@@ -6,10 +6,6 @@ vim.cmd('source ~/.vimrc')
 
 require('settings.plugins')
 
-local ts_select = require("nvim-treesitter.incremental_selection")
-
-vim.keymap.set("v", "<M-k>", ts_select.node_incremental, { silent = true })
-vim.keymap.set("v", "<M-j>", ts_select.node_decremental, { silent = true })
 vim.keymap.set('x', 'p', '"_dP', { noremap = true })
 
 vim.keymap.set("v", "<leader>s", "<Esc>/\\%V", { silent = false })

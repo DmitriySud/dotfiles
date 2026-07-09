@@ -58,5 +58,6 @@ with lib;
       ];
     };
 
+    programs.neovim.waylandSupport = true;
   };
 }
