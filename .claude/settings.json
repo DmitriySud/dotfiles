@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./nixos/secrets/**)",
+      "Read(./nixos/passes/**)",
+      "Edit(./nixos/secrets/**)",
+      "Edit(./nixos/passes/**)",
+      "Write(./nixos/secrets/**)",
+      "Write(./nixos/passes/**)"
+    ]
+  }
+}

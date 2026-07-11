@@ -103,6 +103,14 @@
         "${user}-vps-personal" = mkHome ./envs/vps-personal "x86_64-linux";
       };
 
+      devShells."x86_64-linux" = import ./devshells {
+        pkgs = import nixpkgs {
+          system = "x86_64-linux";
+          overlays = [ incyOverlay ];
+          config.allowUnfree = true;
+        };
+      };
+
 #      apps.${system}.nixfmt = import ./apps/nixfmt.nix { inherit pkgs; };
     };
 }

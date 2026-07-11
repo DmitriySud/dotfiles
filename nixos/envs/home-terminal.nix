@@ -11,6 +11,7 @@
     ../modules/byobu
     ../modules/zsh/zsh.nix
     ../modules/goto
+    ../modules/devshells
   ];
 
   config = {
@@ -18,6 +19,7 @@
     my.goto.enable = true;
     my.nvim.enable = true;
     my.byobu.enable = true;
+    my.devshells.enable = true;
 
     home.packages = with pkgs; [
       jq
