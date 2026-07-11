@@ -43,6 +43,7 @@
   users.users.${user} = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
+    linger = true;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIWey9vBfHJaC02LXMxnXqqSA8j2mXTeQlCGvYDQjiyg ya_cloud"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDqt/kmEk7YmqvWVPpxRV4unO1mCqzFzqPN+DThvzt7O laptop-personal"
@@ -63,5 +64,5 @@
 
   system.stateVersion = "26.05";
 
-  services.iam-alive-bot.enable = true;
+  services.iam-alive-bot.enable = false;
 }
