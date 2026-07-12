@@ -21,8 +21,8 @@
 
   nix.gc = {
     automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
+    dates = "monthly";
+    options = "--delete-older-than 60d";
   };
 
   # Use the systemd-boot EFI boot loader.

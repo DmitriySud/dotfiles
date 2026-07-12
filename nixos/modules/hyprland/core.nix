@@ -90,7 +90,7 @@ in
             speed = 1,
             bezier = "default",
         })
-        hl.bind(mod .. " + RETURN", hl.dsp.exec_cmd("alacritty"))
+        hl.bind(mod .. " + RETURN", hl.dsp.exec_cmd("alacritty -e byobu"))
         hl.bind(mod .. " + SPACE", hl.dsp.exec_cmd("wofi --show drun"))
         hl.bind(mod .. " + Q", hl.dsp.window.close())
         hl.bind(mod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
@@ -128,10 +128,10 @@ in
         hl.bind(mod .. " + G", hl.dsp.group.toggle())
         hl.bind(mod .. " + TAB", hl.dsp.group.next())
         hl.bind(mod .. " + ALT + TAB", hl.dsp.group.prev())
-        hl.bind(mod .. " + ALT + h", hl.dsp.window.move({ into_or_create_group = "l" }))
-        hl.bind(mod .. " + ALT + l", hl.dsp.window.move({ into_or_create_group = "r" }))
-        hl.bind(mod .. " + ALT + k", hl.dsp.window.move({ into_or_create_group = "u" }))
-        hl.bind(mod .. " + ALT + j", hl.dsp.window.move({ into_or_create_group = "d" }))
+        hl.bind(mod .. " + ALT + h", hl.dsp.window.move({ direction = "l", group_aware = true }))
+        hl.bind(mod .. " + ALT + l", hl.dsp.window.move({ direction = "r", group_aware = true }))
+        hl.bind(mod .. " + ALT + k", hl.dsp.window.move({ direction = "u", group_aware = true }))
+        hl.bind(mod .. " + ALT + j", hl.dsp.window.move({ direction = "d", group_aware = true }))
         hl.bind(mod .. " + CTRL + h", hl.dsp.window.resize({ x = -50, y = 0, relative = true }))
         hl.bind(mod .. " + CTRL + l", hl.dsp.window.resize({ x = 50, y = 0, relative = true }))
         hl.bind(mod .. " + CTRL + k", hl.dsp.window.resize({ x = 0, y = -50, relative = true }))
