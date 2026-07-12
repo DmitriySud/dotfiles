@@ -78,10 +78,10 @@
         envPath: system:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
-		inherit system;
-		overlays = [ incyOverlay ];
-		config.allowUnfree = true;
-	  };
+            inherit system;
+            overlays = [ incyOverlay ];
+            config.allowUnfree = true;
+          };
           extraSpecialArgs = { inherit user sops-nix; };
           modules = [ (envPath + "/home.nix") ];
         };

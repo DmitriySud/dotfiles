@@ -43,6 +43,8 @@ with lib;
 
     my.hyprland.enableBrightness = config.my.home-base.enableBrightness;
 
+    my.devshells.desktopEntries = true;
+
     xdg.mimeApps = {
       enable = true;
       defaultApplications = {
