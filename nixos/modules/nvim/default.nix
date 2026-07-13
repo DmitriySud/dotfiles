@@ -25,6 +25,8 @@
       clang-tools
       pyright
       typos-lsp
+      go # go toolchain
+      gopls # go language server
     ];
 
     programs.neovim = {
@@ -66,6 +68,7 @@
         tree-sitter-make
         tree-sitter-cmake
         tree-sitter-query
+        tree-sitter-go
       ];
 
       initLua = builtins.readFile ./init.lua;

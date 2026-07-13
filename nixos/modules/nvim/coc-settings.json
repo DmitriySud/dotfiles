@@ -14,6 +14,24 @@
       "filetypes": ["python"],
       "trace.server": "verbose"
     },
+    "gopls": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".git/"],
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "usePlaceholders": true,
+        "completeUnimported": true,
+        "codelenses": {
+          "gc_details": false,
+          "generate": true,
+          "regenerate_cgo": true,
+          "test": true,
+          "tidy": true,
+          "upgrade_dependency": true,
+          "vendor": true
+        }
+      }
+    },
     "typos": {
       "command": "typos-lsp",
       "filetypes": [
@@ -25,6 +43,7 @@
         "python",
         "cpp",
         "c",
+        "go",
         "json",
         "yaml",
         "toml"
