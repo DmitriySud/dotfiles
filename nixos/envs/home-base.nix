@@ -39,8 +39,8 @@ in
     my.totp.enable = true;
     my.totp.prefix = "totp";
 
-    home.username = "dsudakov";
-    home.homeDirectory = "/home/dsudakov";
+    home.username = "dyusudakov";
+    home.homeDirectory = "/home/dyusudakov";
     home.stateVersion = "26.05";
 
     home.sessionVariables = {

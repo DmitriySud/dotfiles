@@ -21,7 +21,7 @@ with lib;
 
   config = {
     services.shadowsocks-local.enable = false;
-    my.incy.enable = true;
+    my.incy.enable = false;
     my.alacritty.enable = true;
     my.passWofi.enable = true;
 
@@ -49,6 +49,11 @@ with lib;
       enable = true;
       defaultApplications = {
         "application/pdf" = "org.pwmt.zathura.desktop";
+        "text/html" = "yandex-browser.desktop";
+        "x-scheme-handler/http" = "yandex-browser.desktop";
+        "x-scheme-handler/https" = "yandex-browser.desktop";
+        "x-scheme-handler/about" = "yandex-browser.desktop";
+        "x-scheme-handler/unknown" = "yandex-browser.desktop";
       };
     };
 

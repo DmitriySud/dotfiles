@@ -148,6 +148,8 @@ in
         ${brightnessControlBinds}
 
         hl.env("PASSWORD_STORE_DIR", "/home/dsudakov/repos/dotfiles/nixos/passes")
+        hl.env("HYPRCURSOR_THEME", "Adwaita")
+        hl.env("HYPRCURSOR_SIZE", "24")
 
 
         hl.window_rule({

@@ -9,27 +9,87 @@
     ../home-desktop.nix
   ];
 
-  my.home-base.git-email = "dmitriy.sudakov2001@yandex.ru";
+  my.home-base.git-email = "dyusudakov@yandex-team.ru";
   my.home-base.enableBrightness = true;
 
   my.hyprland = {
     enable = true;
-    monitors = [
-      "eDP-1, preferred, 0x0, 1"
-      "HDMI-A-1, preffered, -2560x0, 1"
-    ];
+    monitors = ''
+      hl.monitor({
+          output = "eDP-1",
+          mode = "preferred",
+          position = "0x0",
+          scale = "2",
+      })
 
-    workspaces = [
-      "1, monitor:HDMI-A-1"
-      "2, monitor:HDMI-A-1"
-      "3, monitor:HDMI-A-1"
-      "4, monitor:HDMI-A-1"
-      "5, monitor:HDMI-A-1"
-      "6, monitor:eDP-1"
-      "7, monitor:eDP-1"
-      "8, monitor:eDP-1"
-      "9, monitor:eDP-1"
-      "10, monitor:eDP-1"
-    ];
+      hl.monitor({
+          output = "DP-4",
+          mode = "preferred",
+          position = "auto-right",
+          scale = "1",
+      })
+    '';
+
+    workspaces = ''
+      hl.workspace_rule({
+          workspace = "1",
+          monitor = "eDP-1",
+      })
+
+      hl.workspace_rule({
+          workspace = "2",
+          monitor = "eDP-1",
+      })
+
+      hl.workspace_rule({
+          workspace = "3",
+          monitor = "eDP-1",
+      })
+
+      hl.workspace_rule({
+          workspace = "4",
+          monitor = "eDP-1",
+      })
+
+      hl.workspace_rule({
+          workspace = "5",
+          monitor = "eDP-1",
+      })
+
+      hl.workspace_rule({
+          workspace = "6",
+          monitor = "DP-4",
+      })
+
+      hl.workspace_rule({
+          workspace = "7",
+          monitor = "DP-4",
+      })
+
+      hl.workspace_rule({
+          workspace = "8",
+          monitor = "DP-4",
+      })
+
+      hl.workspace_rule({
+          workspace = "9",
+          monitor = "DP-4",
+      })
+
+      hl.workspace_rule({
+          workspace = "10",
+          monitor = "DP-4",
+      })
+    '';
+
   };
+  my.alacritty.fontSize = 15.0;
+  home.pointerCursor = {
+    gtk.enable = true;
+    x11.enable = true;
+    package = pkgs.adwaita-icon-theme;
+    name = "Adwaita";
+    size = 32;
+  };
+
 }
