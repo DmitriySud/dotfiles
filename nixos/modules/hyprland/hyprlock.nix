@@ -7,12 +7,8 @@
 
 let
   cfg = config.my.hyprland;
-  lockscreen_img = builtins.fetchurl {
-    url = "https://raw.githubusercontent.com/DmitriySud/dotfiles/master/pictures/lockscreen.png";
-    sha256 = "sha256:0nbi3yygax6ay6pgz07vxdwxw960js2b0kk9fj99vvgvksz1p2ns";
-  };
-in
-{
+  lockscreen_img = "../../../pictures/lockscreen.png"; 
+in {
   options.my.hyprland.hyprlock.enable = lib.mkEnableOption "hyprlock service" // {
     default = true;
   };
@@ -30,7 +26,7 @@ in
           }
         ];
         input-field = {
-          size = "200, 50";
+          size = "500, 200";
           outline_thickness = 3;
           dots_size = 0.33;
           dots_spacing = 0.15;
@@ -51,11 +47,5 @@ in
       };
     };
 
-    home.packages = [
-      (pkgs.writeShellScriptBin "lock" ''
-        #!/bin/sh
-        hyprctl switchxkblayout all 0 && hyprlock
-      '')
-    ];
   };
 }

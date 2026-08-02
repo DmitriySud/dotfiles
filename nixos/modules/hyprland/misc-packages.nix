@@ -14,7 +14,7 @@ in
       waybar
       wofi
       hypridle
-      hyprlock
+      #hyprlock
       hyprpaper
       hyprshot
       wl-clipboard

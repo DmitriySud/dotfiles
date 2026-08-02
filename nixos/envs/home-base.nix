@@ -74,7 +74,16 @@ in
 
     programs.ssh = {
       enable = true;
+      extraConfig = ''
+        CanonicalDomains sdc.yandex.net ssh.sdc.yandex.net yp-c.yandex.net sas.yp-c.yandex.net vla.yp-c.yandex.net
+        CanonicalizeHostname yes
+      '';
       settings = {
+        "*.yandex.net" = {
+          "ForwardAgent" = "/home/dyusudakov/.skotty/sock/default.sock";
+          #IdentityAgent /home/dyusudakov/.skotty/sock/default.sock
+        };
+
         "*" = {
           AddKeysToAgent = "4h";
         };

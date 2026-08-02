@@ -4,16 +4,35 @@
   pkgs,
   ...
 }:
-{
+let 
+  ssh-devmachine-wrapper =
+    pkgs.writeShellScriptBin "lastochka-byobu" ''
+      if [ -z "''${__NIXOS_SET_ENVIRONMENT_DONE:-}" ] && [ -e /etc/set-environment ]; then
+        . /etc/set-environment
+      fi
+
+      ssh lastochka -t byobu
+    '';
+
+  switch-layout-and-lock-wrapper = 
+    pkgs.writeShellScriptBin "lock" ''
+      #!/bin/sh
+      hyprctl switchxkblayout all 0 && swaylock --image "$HOME/repos/dotfiles/pictures/lockscreen.png"
+    '';
+
+in {
   imports = [
     ../home-desktop.nix
   ];
 
   my.home-base.git-email = "dyusudakov@yandex-team.ru";
   my.home-base.enableBrightness = true;
+  my.firefox.proxy.enable = false;
 
   my.hyprland = {
     enable = true;
+    hyprlock.enable = false;
+
     monitors = ''
       hl.monitor({
           output = "eDP-1",
@@ -83,7 +102,7 @@
     '';
 
   };
-  my.alacritty.fontSize = 15.0;
+  my.alacritty.fontSize = 12.0;
   home.pointerCursor = {
     gtk.enable = true;
     x11.enable = true;
@@ -92,4 +111,17 @@
     size = 32;
   };
 
+  home.packages = [
+    switch-layout-and-lock-wrapper 
+    ssh-devmachine-wrapper
+  ];
+
+  xdg.desktopEntries.lastochka-byobu = {
+    name = "Lastochka Byobu";
+    comment = "Open SSH session to lastochka in byobu";
+    exec = "alacritty -e lastochka-byobu";
+    terminal = false;
+    type = "Application";
+    categories = [ "Network" "TerminalEmulator" ];
+  };
 }
