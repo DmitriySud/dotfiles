@@ -4,8 +4,40 @@
   lib,
   ...
 }:
+let 
+  treesitterMain = pkgs.fetchFromGitHub {
+    owner = "nvim-treesitter";
+    repo = "nvim-treesitter";
+    rev = "7248feaca45e4d944591497964bc19afa89ad1c6";
+    hash = "sha256-FQj0+qeaW9rLy3dUbGbUG4UYtnry7UBA1n9SM2qXLdk=";
+  };
 
-{
+  # grammars you want, from nixpkgs
+  grammars = pkgs.symlinkJoin {
+    name = "nvim-treesitter-grammars";
+    paths = with pkgs.vimPlugins.nvim-treesitter-parsers; [
+      bash json lua markdown python yaml cpp c nix
+      make cmake query go
+    ];
+  };
+
+  nvim-treesitter-main = pkgs.vimUtils.buildVimPlugin {
+    pname = "nvim-treesitter";
+    version = "main";
+    src = treesitterMain;
+    doCheck = false;
+
+    # Install grammars into the plugin's `parser/` directory so the
+    # main branch finds them on the runtimepath.
+    postInstall = ''
+      mkdir -p $out/parser
+      for so in ${grammars}/parser/*.so; do
+        ln -s "$so" "$out/parser/$(basename "$so")"
+      done
+    '';
+  };
+
+in {
   options.my.nvim = {
     enable = lib.mkEnableOption "Enable my neovim";
     light = lib.mkOption {
@@ -25,8 +57,6 @@
       clang-tools
       pyright
       typos-lsp
-      go # go toolchain
-      gopls # go language server
     ];
 
     programs.neovim = {
@@ -52,23 +82,12 @@
         nvim-web-devicons
       ] ++ lib.optionals (!config.my.nvim.light) [
         coc-nvim
-        nvim-treesitter
+        nvim-treesitter-main
       ];
-      extraPackages = with pkgs.tree-sitter-grammars; [] 
+      extraPackages = with pkgs; [] 
       ++ lib.optionals (!config.my.nvim.light) [
-        tree-sitter-bash
-        tree-sitter-json
-        tree-sitter-lua
-        tree-sitter-markdown
-        tree-sitter-python
-        tree-sitter-yaml
-        tree-sitter-cpp
-        tree-sitter-c
-        tree-sitter-nix
-        tree-sitter-make
-        tree-sitter-cmake
-        tree-sitter-query
-        tree-sitter-go
+        tree-sitter
+        gcc
       ];
 
       initLua = builtins.readFile ./init.lua;

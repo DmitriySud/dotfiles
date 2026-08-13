@@ -62,3 +62,5 @@ vim.api.nvim_set_keymap(
 )
 
 vim.keymap.set("v", "<leader>w", ":w !wl-copy<CR>", { silent = true })
+
+vim.opt.clipboard = "unnamedplus"

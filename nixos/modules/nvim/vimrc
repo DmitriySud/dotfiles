@@ -67,3 +67,11 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+if &diff
+  highlight DiffAdd    cterm=NONE ctermbg=22  ctermfg=NONE guibg=#143d14 guifg=NONE
+  highlight DiffDelete cterm=NONE ctermbg=52  ctermfg=NONE guibg=#3d1414 guifg=NONE
+  highlight DiffChange cterm=NONE ctermbg=23  ctermfg=NONE guibg=#14333d guifg=NONE
+  highlight DiffText   cterm=bold ctermbg=24 ctermfg=NONE guibg=#245b70 guifg=NONE
+endif
+

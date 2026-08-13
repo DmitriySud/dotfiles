@@ -19,9 +19,6 @@ in
 
         permissions = {
           allow = [
-            "Bash(git diff:*)"
-            "Bash(git log:*)"
-            "Bash(git status)"
             "Bash(rg:*)"
             "Bash(fd:*)"
             "Read(**)"
@@ -35,11 +32,14 @@ in
         };
 
         env = {
-          DISABLE_TELEMETRY = "1";
-          BASH_DEFAULT_TIMEOUT_MS = "120000";
-          HTTP_PROXY = "http://127.0.0.1:10808";
-          HTTPS_PROXY = "http://127.0.0.1:10808";
+          ANTHROPIC_BASE_URL= "https://api.eliza.yandex.net/raw/anthropic";
+          DISABLE_TELEMETRY= "1";
+          DISABLE_ERROR_REPORTING= "1";
+          DISABLE_BUG_COMMAND= "1";
         };
+        apiKeyHelper = "cat ~/.eliza/token";
+        alwaysThinkingEnabled= true;
+        hasCompletedOnboarding= true;
       };
 
       context = ''

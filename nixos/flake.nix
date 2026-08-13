@@ -99,7 +99,7 @@
         "${user}-desktop-personal" = mkHome ./envs/desktop-personal "x86_64-linux";
         "${user}-laptop-personal" = mkHome ./envs/laptop-personal "x86_64-linux";
         "dyusudakov-laptop-work" = mkHome ./envs/laptop-work "x86_64-linux";
-        "${user}-remote-ssh-work" = mkHome ./envs/remote-ssh-work "x86_64-linux";
+        "dyusudakov-remote-ssh-work" = mkHome ./envs/remote-ssh-work "x86_64-linux";
         "${user}-vps-personal" = mkHome ./envs/vps-personal "x86_64-linux";
       };
 
