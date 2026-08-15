@@ -81,11 +81,12 @@ in
       settings = {
         "*.yandex.net" = {
           "ForwardAgent" = "/home/dyusudakov/.skotty/sock/default.sock";
-          #IdentityAgent /home/dyusudakov/.skotty/sock/default.sock
+          # "IdentityAgent" = "/home/dyusudakov/.skotty/sock/default.sock";
         };
 
         "*" = {
           AddKeysToAgent = "4h";
+          ForwardAgent = "yes";
         };
         "martin" = {
           hostname = "92570.koara.live";

@@ -16,8 +16,24 @@ let
 
   switch-layout-and-lock-wrapper = 
     pkgs.writeShellScriptBin "lock" ''
-      #!/bin/sh
       hyprctl switchxkblayout all 0 && swaylock --image "$HOME/repos/dotfiles/pictures/lockscreen.png"
+    '';
+
+  ## not working; need to rewrite to lua
+  lid-open-wrapper = 
+    pkgs.writeShellScriptBin "lid-open" ''
+      LAPTOP_MONITOR="eDP-1"
+
+      hyprctl keyword monitor "$LAPTOP_MONITOR, preferred, 0x0, 2"
+    '';
+  lid-close-wrapper = 
+    pkgs.writeShellScriptBin "lid-open" ''
+      LAPTOP_MONITOR="eDP-1"
+      MONITOR_COUNT=$(hyprctl monitors all | grep -c "^Monitor ")
+
+      if [ "$MONITOR_COUNT" -gt 1 ]; then
+          hyprctl keyword monitor "$LAPTOP_MONITOR, disable"
+      fi
     '';
 
 in {
@@ -42,11 +58,13 @@ in {
       })
 
       hl.monitor({
-          output = "DP-4",
+          output = "DP-1",
           mode = "preferred",
-          position = "auto-right",
-          scale = "1",
+          position = "auto",
+          scale = "2",
+          mirror = "eDP-1"
       })
+
     '';
 
     workspaces = ''
@@ -102,7 +120,7 @@ in {
     '';
 
   };
-  my.alacritty.fontSize = 12.0;
+  my.alacritty.fontSize = 8.0;
   home.pointerCursor = {
     gtk.enable = true;
     x11.enable = true;

@@ -37,6 +37,34 @@ let
       kb_layout = "us,ru",
       kb_options = "grp:caps_toggle",
   '';
+
+  vpn-switch-wrapper = 
+    pkgs.writeShellScriptBin "vpn-switch" ''
+      #!/usr/bin/env bash
+      set -euo pipefail
+
+      if [[ $# -ne 1 ]]; then
+        echo "Usage: $0 <connection-name>"
+        exit 1
+      fi
+
+      CONN_NAME="$1"
+
+      # Check if the connection exists
+      if ! nmcli -t -f NAME connection show | grep -Fxq "$CONN_NAME"; then
+        echo "Connection not found: $CONN_NAME"
+        exit 1
+      fi
+
+      # Check if the connection is currently active/up
+      if nmcli -t -f NAME connection show --active | grep -Fxq "$CONN_NAME"; then
+        echo "Connection is up. Bringing it down..."
+        nmcli connection down "$CONN_NAME"
+      else
+        echo "Connection is down. Bringing it up..."
+        nmcli connection up "$CONN_NAME"
+      fi
+    '';
 in
 {
   options.my.hyprland = {
@@ -64,10 +92,12 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
-      jq
-      hyprland
-      hyprshot
+    home.packages = [
+      pkgs.jq
+      pkgs.hyprland
+      pkgs.hyprshot
+
+      vpn-switch-wrapper
     ];
 
     home.file.${groupWorkspaceScript} = {
@@ -83,6 +113,10 @@ in
       plugins = hyprPlugins;
 
       extraConfig = ''
+        hl.on("hyprland.start", function ()
+          hl.exec_cmd("skotty start")
+        end)
+
         local mod = "SUPER"
         hl.animation({
             leaf = "workspaces",
@@ -138,6 +172,7 @@ in
         hl.bind(mod .. " + CTRL + j", hl.dsp.window.resize({ x = 0, y = 50, relative = true }))
         hl.bind(mod .. " + PRINT", hl.dsp.exec_cmd("hyprshot -m output"))
         hl.bind(mod .. " + SHIFT + PRINT", hl.dsp.exec_cmd("hyprshot -m region --clipboard-only --freeze"))
+        hl.bind(mod .. " + v", hl.dsp.exec_cmd("vpn-switch 'YTeamVPN'"))
         hl.bind("PRINT", hl.dsp.exec_cmd("hyprshot -m window"))
         hl.bind("CTRL + ALT + 1", hl.dsp.exec_cmd("hyprctl switchxkblayout all 0"))
         hl.bind("CTRL + ALT + 2", hl.dsp.exec_cmd("hyprctl switchxkblayout all 1"))
