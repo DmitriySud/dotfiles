@@ -182,7 +182,7 @@ in
         hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("pactl -- set-source-mute 0 toggle"))
         ${brightnessControlBinds}
 
-        hl.env("PASSWORD_STORE_DIR", "/home/dsudakov/repos/dotfiles/nixos/passes")
+        hl.env("PASSWORD_STORE_DIR", "~/repos/dotfiles/nixos/passes")
         hl.env("HYPRCURSOR_THEME", "Adwaita")
         hl.env("HYPRCURSOR_SIZE", "24")
 
