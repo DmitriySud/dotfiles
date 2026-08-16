@@ -1,0 +1,12 @@
+[analytics]
+enabled = false
+
+[feedback]
+enabled = false
+
+[otel]
+log_user_prompt = false
+exporter = "none"
+trace_exporter = "none"
+metrics_exporter = "none"
+
