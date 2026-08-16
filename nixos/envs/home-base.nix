@@ -68,7 +68,6 @@ in
         #};
 
         color.ui = "auto";
-        core.sshCommand = "ssh -o IdentitiesOnly=yes -i ~/.ssh/id_ed25519_gh";
       };
     };
 

@@ -58,6 +58,11 @@ in
           source = ./pubkeys/desktop-personal.pub;
           trust = "ultimate";
         }
+
+        {
+          source = ./pubkeys/laptop-work.pub;
+          trust = "ultimate";
+        }
       ];
 
       mutableKeys = false;
