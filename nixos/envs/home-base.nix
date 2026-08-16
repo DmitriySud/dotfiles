@@ -39,8 +39,8 @@ in
     my.totp.enable = true;
     my.totp.prefix = "totp";
 
-    home.username = "dyusudakov";
-    home.homeDirectory = "/home/dyusudakov";
+    home.username = "dsudakov";
+    home.homeDirectory = "/home/dsudakov";
     home.stateVersion = "26.05";
 
     home.sessionVariables = {
@@ -79,7 +79,7 @@ in
       '';
       settings = {
         "*.yandex.net" = {
-          "ForwardAgent" = "/home/dyusudakov/.skotty/sock/default.sock";
+          "ForwardAgent" = "~/.skotty/sock/default.sock";
           # "IdentityAgent" = "/home/dyusudakov/.skotty/sock/default.sock";
         };
 

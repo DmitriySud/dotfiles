@@ -52,6 +52,7 @@ in
               "desktop-personal"
               "laptop-personal"
               "vps-work"
+              "laptop-work"
             ];
             type = "sendreceive";
             versioning = {
@@ -64,6 +65,7 @@ in
             devices = [
               "desktop-personal"
               "laptop-personal"
+              "laptop-work"
               "ipad"
               "iphone"
               "vps-work"
