@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/0ad6f47ea4fe188f4bc8f0380f93ae8523337c6c";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
@@ -31,6 +32,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       sops-nix,
       disko,
@@ -43,6 +45,11 @@
         incy = final.callPackage ./packages/incy/default.nix {};
       };
 
+      mkPkgsUnstable = system:
+        import nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+        };
 
       allowed-unfree-packages = [
         "nvidia-x11"
@@ -65,7 +72,10 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit user sops-nix; };
+              home-manager.extraSpecialArgs = {
+                inherit user sops-nix;
+                pkgsUnstable = mkPkgsUnstable system;
+              };
               home-manager.users.${user} = import (envPath + "/home.nix");
             }
 
@@ -82,7 +92,10 @@
             overlays = [ incyOverlay ];
             config.allowUnfree = true;
           };
-          extraSpecialArgs = { inherit user sops-nix; };
+          extraSpecialArgs = {
+            inherit user sops-nix;
+            pkgsUnstable = mkPkgsUnstable system;
+          };
           modules = [ (envPath + "/home.nix") ];
         };
 
