@@ -3,7 +3,7 @@
   config,
   lib,
   pkgs,
-  user,
+  username,
   ...
 } @ args:
 {
@@ -40,7 +40,7 @@
   };
 
   # --- User ---
-  users.users.${user} = {
+  users.users.${username} = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
     linger = true;
@@ -54,13 +54,13 @@
 
   # Root key login (the example installed with root keys; keep for parity/recovery).
   users.users.root.openssh.authorizedKeys.keys = 
-    config.users.users.${user}.openssh.authorizedKeys.keys;
+    config.users.users.${username}.openssh.authorizedKeys.keys;
 
   # --- Basics ---
   time.timeZone = "Europe/Moscow";
   environment.systemPackages = with pkgs; [ vim git curl ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.trusted-users = [ "root" "dsudakov" ];
+  nix.settings.trusted-users = [ "root" username ];
 
   system.stateVersion = "26.05";
 

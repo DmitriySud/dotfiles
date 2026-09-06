@@ -1,10 +1,10 @@
 # sops/secret-helpers.nix
-{ config }:
+{ config, username }:
 
 let
-  inherit (config.users.users.dsudakov) name group;
+  inherit (config.users.users.${username}) name group;
 in {
-  # Whole-file secret owned by dsudakov.
+  # Whole-file secret owned by the configured user.
   userFileSecret = sopsFile: {
     inherit sopsFile;
     format = "json";
@@ -14,7 +14,7 @@ in {
     inherit group;
   };
 
-  # Single-field secret owned by dsudakov.
+  # Single-field secret owned by the configured user.
   userFieldSecret = sopsFile: key: {
     inherit sopsFile key;
     format = "json";

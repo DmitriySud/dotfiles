@@ -3,6 +3,7 @@
   lib,
   pkgs,
   allowed-unfree-packages,
+  username,
   ...
 }:
 
@@ -17,7 +18,7 @@
   ];
 
   main-user.enable = true;
-  main-user.userName = "dsudakov";
+  main-user.userName = username;
 
   nix.gc = {
     automatic = true;

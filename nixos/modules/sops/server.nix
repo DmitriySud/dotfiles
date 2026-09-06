@@ -1,8 +1,8 @@
 # sops/server.nix
-{ config, ... }:
+{ config, username, ... }:
 
 let
-  inherit (import ./secret-helpers.nix { inherit config; })
+  inherit (import ./secret-helpers.nix { inherit config username; })
     userFileSecret userFieldSecret;
 in {
   sops.secrets = {

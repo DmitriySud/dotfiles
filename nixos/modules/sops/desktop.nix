@@ -1,8 +1,8 @@
 # sops/desktop.nix
-{ config, ... }:
+{ config, username, ... }:
 
 let
-  inherit (import ./secret-helpers.nix { inherit config; })
+  inherit (import ./secret-helpers.nix { inherit config username; })
     userFileSecret;
 in {
   sops.secrets = {

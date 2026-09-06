@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  username,
   ...
 }:
 
@@ -39,8 +40,8 @@ in
     my.totp.enable = true;
     my.totp.prefix = "totp";
 
-    home.username = "dsudakov";
-    home.homeDirectory = "/home/dsudakov";
+    home.username = username;
+    home.homeDirectory = "/home/${username}";
     home.stateVersion = "26.05";
 
     home.sessionVariables = {
@@ -80,7 +81,7 @@ in
       settings = {
         "*.yandex.net" = {
           "ForwardAgent" = "~/.skotty/sock/default.sock";
-          # "IdentityAgent" = "/home/dyusudakov/.skotty/sock/default.sock";
+          # "IdentityAgent" = "~/.skotty/sock/default.sock";
         };
 
         "*" = {

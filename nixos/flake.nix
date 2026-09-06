@@ -40,7 +40,8 @@
       ...
     }@inputs:
     let
-      user = "dsudakov";
+      personalUsername = "dsudakov";
+      workUsername = "dysudakov";
       incyOverlay = final: prev: {
         incy = final.callPackage ./packages/incy/default.nix {};
       };
@@ -60,10 +61,10 @@
       ];
 
       mkNixos =
-        envPath: system:
+        envPath: system: username:
         nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit allowed-unfree-packages user; };
+          specialArgs = { inherit allowed-unfree-packages username; };
           modules = [
             (envPath + "/configuration.nix")
             { nixpkgs.overlays = [incyOverlay ]; }
@@ -73,10 +74,10 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = {
-                inherit user sops-nix;
+                inherit username sops-nix;
                 pkgsUnstable = mkPkgsUnstable system;
               };
-              home-manager.users.${user} = import (envPath + "/home.nix");
+              home-manager.users.${username} = import (envPath + "/home.nix");
             }
 
             sops-nix.nixosModules.sops
@@ -85,7 +86,7 @@
         };
 
       mkHome =
-        envPath: system:
+        envPath: system: username:
         home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
             inherit system;
@@ -93,7 +94,7 @@
             config.allowUnfree = true;
           };
           extraSpecialArgs = {
-            inherit user sops-nix;
+            inherit username sops-nix;
             pkgsUnstable = mkPkgsUnstable system;
           };
           modules = [ (envPath + "/home.nix") ];
@@ -102,18 +103,18 @@
     in
     {
       nixosConfigurations = {
-        desktop-personal = mkNixos ./envs/desktop-personal "x86_64-linux";
-        laptop-personal = mkNixos ./envs/laptop-personal "x86_64-linux";
-        laptop-work = mkNixos ./envs/laptop-work "x86_64-linux";
-        vps-personal = mkNixos ./envs/vps-personal "x86_64-linux";
+        desktop-personal = mkNixos ./envs/desktop-personal "x86_64-linux" personalUsername;
+        laptop-personal = mkNixos ./envs/laptop-personal "x86_64-linux" personalUsername;
+        laptop-work = mkNixos ./envs/laptop-work "x86_64-linux" workUsername;
+        vps-personal = mkNixos ./envs/vps-personal "x86_64-linux" personalUsername;
       };
 
       homeConfigurations = {
-        "${user}-desktop-personal" = mkHome ./envs/desktop-personal "x86_64-linux";
-        "${user}-laptop-personal" = mkHome ./envs/laptop-personal "x86_64-linux";
-        "dyusudakov-laptop-work" = mkHome ./envs/laptop-work "x86_64-linux";
-        "dyusudakov-remote-ssh-work" = mkHome ./envs/remote-ssh-work "x86_64-linux";
-        "${user}-vps-personal" = mkHome ./envs/vps-personal "x86_64-linux";
+        desktop-personal = mkHome ./envs/desktop-personal "x86_64-linux" personalUsername;
+        laptop-personal = mkHome ./envs/laptop-personal "x86_64-linux" personalUsername;
+        laptop-work = mkHome ./envs/laptop-work "x86_64-linux" workUsername;
+        vps-work = mkHome ./envs/vps-work "x86_64-linux" workUsername;
+        vps-personal = mkHome ./envs/vps-personal "x86_64-linux" personalUsername;
       };
 
       devShells."x86_64-linux" = import ./devshells {
