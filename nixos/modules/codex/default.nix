@@ -1,7 +1,8 @@
-{ config, lib, pkgs, pkgsUnstable ? pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   cfg = config.my.codex;
+  codex = pkgs.callPackage ../../packages/codex { };
 in
 {
   options.my.codex = {
@@ -9,9 +10,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-
     home.packages = [
-      pkgsUnstable.codex
+      codex
     ];
     #home.file.".codex/config.toml".source = ./config.toml;
   };

@@ -41,7 +41,7 @@
     }@inputs:
     let
       personalUsername = "dsudakov";
-      workUsername = "dysudakov";
+      workUsername = "dyusudakov";
       incyOverlay = final: prev: {
         incy = final.callPackage ./packages/incy/default.nix {};
       };
