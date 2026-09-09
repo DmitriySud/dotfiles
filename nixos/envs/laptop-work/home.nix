@@ -58,11 +58,10 @@ in {
       })
 
       hl.monitor({
-          output = "DP-1",
+          output = "DP-4",
           mode = "preferred",
-          position = "auto",
-          scale = "2",
-          mirror = "eDP-1"
+          position = "auto-right",
+          scale = "1",
       })
 
     '';
@@ -132,12 +131,13 @@ in {
   home.packages = [
     switch-layout-and-lock-wrapper 
     ssh-devmachine-wrapper
+    pkgs.zoom-us
   ];
 
   xdg.desktopEntries.lastochka-byobu = {
     name = "Lastochka Byobu";
     comment = "Open SSH session to lastochka in byobu";
-    exec = "alacritty -e lastochka-byobu";
+    exec = "alacritty -o \"window.startup_mode='Fullscreen'\" -e lastochka-byobu";
     terminal = false;
     type = "Application";
     categories = [ "Network" "TerminalEmulator" ];

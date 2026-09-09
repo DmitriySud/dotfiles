@@ -37,7 +37,6 @@ with lib;
         pulseaudio
         zathura
         obsidian
-
       ]
       ++ lib.optional config.my.home-base.enableBrightness pkgs.brightnessctl;
 
