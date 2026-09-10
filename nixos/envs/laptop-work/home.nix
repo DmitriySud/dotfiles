@@ -11,8 +11,31 @@ let
         . /etc/set-environment
       fi
 
-      ssh lastochka -t byobu
+      trap 'exit 130' INT
+      trap 'exit 143' TERM
+      trap 'exit 129' HUP
+
+      while true; do
+        # Keep the transport independent of any existing SSH control master.
+        ssh -t \
+          -o ControlPath=none \
+          -o ServerAliveInterval=15 \
+          -o ServerAliveCountMax=3 \
+          -o ConnectTimeout=10 \
+          -o ConnectionAttempts=1 \
+          lastochka byobu
+        ssh_status=$?
+
+        # A normal Byobu detach or exit should close the launcher.
+        if [ "$ssh_status" -ne 255 ]; then
+          exit "$ssh_status"
+        fi
+
+        printf '\nSSH connection lost. Retrying in 5 seconds; press Ctrl+C to stop.\n'
+        sleep 5
+      done
     '';
+
 
   switch-layout-and-lock-wrapper = 
     pkgs.writeShellScriptBin "lock" ''
@@ -61,7 +84,7 @@ in {
           output = "DP-4",
           mode = "preferred",
           position = "auto-right",
-          scale = "1",
+          scale = "2",
       })
 
     '';
