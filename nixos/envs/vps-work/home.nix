@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  pkgsUnstable,
   ...
 }:
 {
@@ -9,6 +10,11 @@
     ../home-terminal.nix
     ../../modules/claude-code
     ../../modules/codex
+  ];
+
+  home.packages = [
+    pkgsUnstable.herdr
+    pkgs.glow
   ];
 
   my.home-base.git-email = "dyusudakov@yandex-team.ru";

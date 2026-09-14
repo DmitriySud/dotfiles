@@ -12,6 +12,7 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [
       codex
+      pkgs.bubblewrap
     ];
     #home.file.".codex/config.toml".source = ./config.toml;
   };
