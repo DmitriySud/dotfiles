@@ -5,7 +5,11 @@
   ...
 }:
 
-{
+let {
+
+  swaylockRescue = ".config/hypr/scripts/swaylock-rescue.sh";
+}
+in {
   imports = [
     ./core.nix
     ./hypridle.nix
@@ -15,4 +19,8 @@
     ./swaync.nix
     ./misc-packages.nix
   ];
+  home.file.${swaylockRescue} = {
+    executable = true;
+    source = ./scripts/swaylock-rescue.sh;
+  };
 }
