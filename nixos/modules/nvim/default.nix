@@ -80,6 +80,7 @@ in {
         alpha-nvim
         gitsigns-nvim
         nvim-web-devicons
+        markview-nvim
       ] ++ lib.optionals (!config.my.nvim.light) [
         coc-nvim
         nvim-treesitter-main
