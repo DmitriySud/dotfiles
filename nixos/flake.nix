@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/0ad6f47ea4fe188f4bc8f0380f93ae8523337c6c";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    pr-review = {
+      url = "path:/home/dyusudakov/repos/pr-review.nvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
@@ -37,6 +41,7 @@
       sops-nix,
       disko,
       userver-nix-tgbot,
+      pr-review,
       ...
     }@inputs:
     let
@@ -74,7 +79,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = {
-                inherit username sops-nix;
+                inherit username sops-nix pr-review;
                 pkgsUnstable = mkPkgsUnstable system;
               };
               home-manager.users.${username} = import (envPath + "/home.nix");
@@ -94,7 +99,7 @@
             config.allowUnfree = true;
           };
           extraSpecialArgs = {
-            inherit username sops-nix;
+            inherit username sops-nix pr-review;
             pkgsUnstable = mkPkgsUnstable system;
           };
           modules = [ (envPath + "/home.nix") ];

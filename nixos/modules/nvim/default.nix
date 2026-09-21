@@ -2,9 +2,11 @@
   config,
   pkgs,
   lib,
+  pr-review,
   ...
 }:
-let 
+let
+  reviewPackages = pr-review.packages.${pkgs.stdenv.hostPlatform.system};
   treesitterMain = pkgs.fetchFromGitHub {
     owner = "nvim-treesitter";
     repo = "nvim-treesitter";
@@ -52,6 +54,7 @@ in {
       ripgrep # for telescope or grep
       fd # for fzf/telescope
       fzf
+      reviewPackages.prepare-review
     ] ++ lib.optionals (!config.my.nvim.light) [
       nodejs # needed for coc
       clang-tools
@@ -68,6 +71,7 @@ in {
       vimAlias = true;
 
       plugins = with pkgs.vimPlugins; [
+        reviewPackages.pr-review-nvim
         plenary-nvim
         telescope-nvim
         vim-easymotion
@@ -96,6 +100,8 @@ in {
 
     # Deploy all nvim config files
     home.file = {
+      ".agents/skills/pr-review-report/SKILL.md".source =
+        "${reviewPackages.pr-review-codex-skill}/share/codex/skills/pr-review-report/SKILL.md";
       ".vimrc".source = ./vimrc;
       ".config/nvim/coc-settings.json".source = ./coc-settings.json;
 

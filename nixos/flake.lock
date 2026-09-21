@@ -91,12 +91,30 @@
         "type": "github"
       }
     },
+    "pr-review": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1789986971,
+        "narHash": "sha256-U8sCHxTReagO6K3gQ9ov/JvyEOdpUQh4neFckiZHX74=",
+        "path": "/home/dyusudakov/repos/pr-review.nvim",
+        "type": "path"
+      },
+      "original": {
+        "path": "/home/dyusudakov/repos/pr-review.nvim",
+        "type": "path"
+      }
+    },
     "root": {
       "inputs": {
         "disko": "disko",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "pr-review": "pr-review",
         "sops-nix": "sops-nix",
         "userver-nix-tgbot": "userver-nix-tgbot"
       }

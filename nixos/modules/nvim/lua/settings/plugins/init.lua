@@ -1,4 +1,5 @@
 return {
+    pr_review = require("settings.plugins.pr-review"),
     lualine = require('settings.plugins.lualine'),
     treesitter = require('settings.plugins.treesitter'),
     catppuccin = require('settings.plugins.catppuccin'),
