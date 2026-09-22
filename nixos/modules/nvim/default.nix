@@ -99,10 +99,17 @@ in {
       initLua = builtins.readFile ./init.lua;
     };
 
+    xdg.configFile."pr-review/knowledge-base.json".text = builtins.toJSON {
+      index = "${config.home.homeDirectory}/repos/ai/knowledge_base/_index.md";
+      updater = "${config.home.homeDirectory}/.codex/update_knowledge_base.py";
+    } + "\n";
+
     # Deploy all nvim config files
     home.file = {
-      ".agents/skills/pr-review-report/SKILL.md".source =
-        "${reviewPackages.pr-review-codex-skill}/share/codex/skills/pr-review-report/SKILL.md";
+      ".agents/skills/pr-review-report" = {
+        source = "${reviewPackages.pr-review-codex-skill}/share/codex/skills/pr-review-report";
+        recursive = true;
+      };
       ".vimrc".source = ./vimrc;
       ".config/nvim/coc-settings.json".source = ./coc-settings.json;
 
