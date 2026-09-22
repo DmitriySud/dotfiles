@@ -98,8 +98,8 @@
         ]
       },
       "locked": {
-        "lastModified": 1790072917,
-        "narHash": "sha256-axqoENHOPVLbgYf4ye/DAUyTFRfnMRo2w6qmFoKQzEs=",
+        "lastModified": 1790081599,
+        "narHash": "sha256-kVftRw1bPxb7l28MtLraWPUfhA3yrNBglisQ/zzmc70=",
         "path": "/home/dyusudakov/repos/pr-review.nvim",
         "type": "path"
       },
