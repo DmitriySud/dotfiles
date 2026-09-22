@@ -5,10 +5,10 @@
   ...
 }:
 
-let {
+let 
 
   swaylockRescue = ".config/hypr/scripts/swaylock-rescue.sh";
-}
+
 in {
   imports = [
     ./core.nix

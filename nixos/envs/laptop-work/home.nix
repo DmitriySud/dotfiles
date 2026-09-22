@@ -62,11 +62,13 @@ let
 in {
   imports = [
     ../home-desktop.nix
+    ../../modules/codex
   ];
 
   my.home-base.git-email = "dmitriy.sudakov2001@gmail.com";
   my.home-base.enableBrightness = true;
   my.firefox.proxy.enable = false;
+  my.codex.enable = true;
 
   my.hyprland = {
     enable = true;
