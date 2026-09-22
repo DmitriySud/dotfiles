@@ -1,0 +1,26 @@
+[
+  {
+    "address": "0xviewer",
+    "mapped": true,
+    "floating": false,
+    "monitor": 1,
+    "workspace": { "id": 6, "name": "6" },
+    "size": [960, 1020],
+    "class": "io.github.dyusudakov.MermaidViewer",
+    "initialClass": "io.github.dyusudakov.MermaidViewer",
+    "title": "Mermaid Viewer - Image",
+    "initialTitle": "Mermaid Viewer - Image",
+    "pid": 100
+  },
+  {
+    "address": "0xpeer",
+    "mapped": true,
+    "floating": false,
+    "monitor": 1,
+    "workspace": { "id": 6, "name": "6" },
+    "size": [960, 1020],
+    "class": "Alacritty",
+    "title": "Terminal",
+    "pid": 200
+  }
+]

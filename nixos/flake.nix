@@ -122,6 +122,15 @@
         vps-personal = mkHome ./envs/vps-personal "x86_64-linux" personalUsername;
       };
 
+      packages."x86_64-linux".mermaid-viewer =
+        let
+          pkgs = import nixpkgs {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+          };
+        in
+        pkgs.callPackage ./packages/mermaid-viewer/default.nix { };
+
       devShells."x86_64-linux" = import ./devshells {
         pkgs = import nixpkgs {
           system = "x86_64-linux";

@@ -1,0 +1,20 @@
+[
+  {
+    "id": 0,
+    "name": "eDP-1",
+    "width": 3840,
+    "height": 2400,
+    "scale": 2.0,
+    "transform": 0,
+    "focused": true
+  },
+  {
+    "id": 1,
+    "name": "DP-4",
+    "width": 3840,
+    "height": 2160,
+    "scale": 2.0,
+    "transform": 0,
+    "focused": false
+  }
+]

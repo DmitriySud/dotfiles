@@ -13,6 +13,7 @@ with lib;
     ../modules/firefox
     ../modules/alacritty
     ../modules/hyprland
+    ../modules/mermaid-viewer
     ../modules/xkb
     ../modules/incy
     ../modules/shadowsocks/shadowsocks.nix
@@ -23,6 +24,7 @@ with lib;
     services.shadowsocks-local.enable = false;
     my.incy.enable = false;
     my.alacritty.enable = true;
+    my.mermaidViewer.enable = true;
     my.passWofi.enable = true;
 
     fonts.fontconfig.enable = true;
