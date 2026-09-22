@@ -55,7 +55,6 @@ in {
       fd # for fzf/telescope
       fzf
       reviewPackages.pr-review
-      reviewPackages.prepare-review
     ] ++ lib.optionals (!config.my.nvim.light) [
       nodejs # needed for coc
       clang-tools
