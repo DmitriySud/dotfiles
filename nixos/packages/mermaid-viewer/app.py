@@ -89,9 +89,16 @@ class EditorWindow(Gtk.ApplicationWindow):
         root.append(actions)
 
         shortcuts = Gtk.ShortcutController()
+        shortcuts.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
         shortcuts.add_shortcut(
             Gtk.Shortcut.new(
                 Gtk.KeyvalTrigger.new(Gdk.KEY_Return, Gdk.ModifierType.CONTROL_MASK),
+                Gtk.CallbackAction.new(lambda *_args: self._render_shortcut(application)),
+            )
+        )
+        shortcuts.add_shortcut(
+            Gtk.Shortcut.new(
+                Gtk.KeyvalTrigger.new(Gdk.KEY_KP_Enter, Gdk.ModifierType.CONTROL_MASK),
                 Gtk.CallbackAction.new(lambda *_args: self._render_shortcut(application)),
             )
         )
@@ -101,6 +108,7 @@ class EditorWindow(Gtk.ApplicationWindow):
                 Gtk.CallbackAction.new(lambda *_args: self._cancel_shortcut()),
             )
         )
+        self.shortcut_controller = shortcuts
         self.add_controller(shortcuts)
         self.connect("close-request", self._on_close)
 

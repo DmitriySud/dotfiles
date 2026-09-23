@@ -44,6 +44,21 @@ def logical_monitor_width(monitor: dict[str, Any]) -> int:
     return round(width / scale)
 
 
+def split_ratio_for_viewer(
+    client: dict[str, Any],
+    monitor: dict[str, Any],
+    width_fraction: float,
+) -> float:
+    position = client["at"]
+    size = client["size"]
+    monitor_left = float(monitor.get("x", 0))
+    monitor_middle = monitor_left + logical_monitor_width(monitor) / 2
+    client_middle = float(position[0]) + float(size[0]) / 2
+    viewer_is_left = client_middle < monitor_middle
+    ratio = 2 * width_fraction if viewer_is_left else 2 * (1 - width_fraction)
+    return min(1.9, max(0.1, ratio))
+
+
 def resize_viewer(
     process_id: int,
     width_fraction: float,
@@ -97,11 +112,6 @@ def resize_viewer(
     if monitor is None:
         return False
 
-    try:
-        target_width = max(1, round(logical_monitor_width(monitor) * width_fraction))
-    except (KeyError, TypeError, ValueError, ZeroDivisionError):
-        return False
-
     root_result = _invoke(
         runner,
         [
@@ -119,25 +129,36 @@ def resize_viewer(
     if refreshed_client is None:
         return False
 
-    size = refreshed_client.get("size")
-    if not isinstance(size, list) or len(size) != 2:
-        return False
     try:
-        current_height = int(size[1])
-    except (TypeError, ValueError):
+        split_ratio = split_ratio_for_viewer(
+            refreshed_client,
+            monitor,
+            width_fraction,
+        )
+    except (IndexError, KeyError, TypeError, ValueError, ZeroDivisionError):
         return False
 
-    resize_result = _invoke(
+    focus_result = _invoke(
         runner,
         [
             hyprctl,
             "dispatch",
-            "hl.dsp.window.resize({ "
-            f'x = {target_width}, y = {current_height}, window = "address:{address}"'
-            " })",
+            f'hl.dsp.focus({{ window = "address:{address}" }})',
         ],
     )
-    return resize_result is not None and resize_result.returncode == 0
+    if focus_result is None or focus_result.returncode != 0:
+        return False
+
+    ratio_text = format(split_ratio, ".6g")
+    ratio_result = _invoke(
+        runner,
+        [
+            hyprctl,
+            "dispatch",
+            f'hl.dsp.layout("splitratio {ratio_text} exact")',
+        ],
+    )
+    return ratio_result is not None and ratio_result.returncode == 0
 
 
 def _invoke(

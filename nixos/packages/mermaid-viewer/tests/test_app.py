@@ -118,6 +118,15 @@ class ApplicationTest(unittest.TestCase):
         self.assertTrue(editor.get_visible())
         self.assertTrue(editor.error_label.get_visible())
 
+    def test_editor_shortcuts_capture_keys_before_text_view(self) -> None:
+        editor = self.application.editor
+        self.assertIsInstance(editor, app.EditorWindow)
+        self.assertEqual(
+            editor.shortcut_controller.get_propagation_phase(),
+            Gtk.PropagationPhase.CAPTURE,
+        )
+        self.assertEqual(editor.shortcut_controller.get_n_items(), 3)
+
     def test_cancel_closes_editor(self) -> None:
         editor = self.application.editor
         self.assertIsInstance(editor, app.EditorWindow)

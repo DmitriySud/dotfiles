@@ -46,36 +46,73 @@ class ResizeViewerTest(unittest.TestCase):
         clients = copy.deepcopy(self.clients if clients is None else clients)
         monitors = copy.deepcopy(self.monitors if monitors is None else monitors)
         return FakeRunner(
-            [result(clients), result(monitors), result(), result(clients), result()]
+            [
+                result(clients),
+                result(monitors),
+                result(),
+                result(clients),
+                result(),
+                result(),
+            ]
         )
 
-    def assert_target_width(self, monitor: dict[str, object], expected: int) -> None:
-        runner = self.successful_runner(monitors=[monitor])
+    def assert_left_split_ratio(self, monitor: dict[str, object]) -> None:
+        clients = copy.deepcopy(self.clients)
+        clients[0]["at"] = [monitor.get("x", 0), 0]
+        clients[0]["size"] = [100, 100]
+        runner = self.successful_runner(clients=clients, monitors=[monitor])
         self.assertTrue(resize_viewer(100, 0.25, runner=runner, sleeper=lambda _delay: None))
-        self.assertIn(f"x = {expected}", runner.arguments[-1][2])
+        self.assertEqual(
+            runner.arguments[-1][2],
+            'hl.dsp.layout("splitratio 0.5 exact")',
+        )
 
     def test_scale_one(self) -> None:
-        self.assert_target_width(
-            {"id": 1, "width": 2560, "height": 1440, "scale": 1, "transform": 0},
-            640,
+        self.assert_left_split_ratio(
+            {
+                "id": 1,
+                "x": 0,
+                "width": 2560,
+                "height": 1440,
+                "scale": 1,
+                "transform": 0,
+            },
         )
 
     def test_scale_one_and_a_half(self) -> None:
-        self.assert_target_width(
-            {"id": 1, "width": 3840, "height": 2160, "scale": 1.5, "transform": 0},
-            640,
+        self.assert_left_split_ratio(
+            {
+                "id": 1,
+                "x": 0,
+                "width": 3840,
+                "height": 2160,
+                "scale": 1.5,
+                "transform": 0,
+            },
         )
 
     def test_scale_two(self) -> None:
-        self.assert_target_width(
-            {"id": 1, "width": 3840, "height": 2160, "scale": 2, "transform": 0},
-            480,
+        self.assert_left_split_ratio(
+            {
+                "id": 1,
+                "x": 0,
+                "width": 3840,
+                "height": 2160,
+                "scale": 2,
+                "transform": 0,
+            },
         )
 
     def test_rotated_monitor_uses_transformed_width(self) -> None:
-        self.assert_target_width(
-            {"id": 1, "width": 1920, "height": 1080, "scale": 1.5, "transform": 1},
-            180,
+        self.assert_left_split_ratio(
+            {
+                "id": 1,
+                "x": 0,
+                "width": 1920,
+                "height": 1080,
+                "scale": 1.5,
+                "transform": 1,
+            },
         )
 
     def test_uses_viewer_monitor_instead_of_focused_monitor(self) -> None:
@@ -86,7 +123,10 @@ class ResizeViewerTest(unittest.TestCase):
 
         self.assertTrue(resize_viewer(100, 0.25, runner=runner, sleeper=lambda _delay: None))
 
-        self.assertIn("x = 480", runner.arguments[-1][2])
+        self.assertEqual(
+            runner.arguments[-1][2],
+            'hl.dsp.layout("splitratio 1.5 exact")',
+        )
 
     def test_selects_process_from_multiple_viewers_even_if_focus_changes(self) -> None:
         clients = copy.deepcopy(self.clients)
@@ -100,7 +140,7 @@ class ResizeViewerTest(unittest.TestCase):
 
         self.assertTrue(resize_viewer(100, 0.25, runner=runner, sleeper=lambda _delay: None))
 
-        self.assertIn("address:0xviewer", runner.arguments[-1][2])
+        self.assertIn("address:0xviewer", runner.arguments[-2][2])
 
     def test_waits_for_delayed_mapping(self) -> None:
         sleeps: list[float] = []
@@ -112,6 +152,7 @@ class ResizeViewerTest(unittest.TestCase):
                 result(self.monitors),
                 result(),
                 result(self.clients),
+                result(),
                 result(),
             ]
         )
@@ -133,6 +174,16 @@ class ResizeViewerTest(unittest.TestCase):
         self.assertFalse(resize_viewer(100, 0.25, runner=runner, sleeper=lambda _delay: None))
         self.assertEqual(len(runner.arguments), 4)
 
+    def test_malformed_refreshed_geometry_is_harmless(self) -> None:
+        clients = copy.deepcopy(self.clients)
+        clients[0]["at"] = []
+        runner = FakeRunner(
+            [result(self.clients), result(self.monitors), result(), result(clients)]
+        )
+
+        self.assertFalse(resize_viewer(100, 0.25, runner=runner, sleeper=lambda _delay: None))
+        self.assertEqual(len(runner.arguments), 4)
+
     def test_missing_hyprland_is_harmless(self) -> None:
         runner = FakeRunner([FileNotFoundError("hyprctl")])
         self.assertFalse(
@@ -145,6 +196,26 @@ class ResizeViewerTest(unittest.TestCase):
         )
         self.assertFalse(resize_viewer(100, 0.25, runner=runner, sleeper=lambda _delay: None))
         self.assertEqual(len(runner.arguments), 3)
+
+    def test_uses_refreshed_side_after_moving_viewer_to_root(self) -> None:
+        refreshed_clients = copy.deepcopy(self.clients)
+        refreshed_clients[0]["at"] = [0, 0]
+        runner = FakeRunner(
+            [
+                result(self.clients),
+                result(self.monitors),
+                result(),
+                result(refreshed_clients),
+                result(),
+                result(),
+            ]
+        )
+
+        self.assertTrue(resize_viewer(100, 0.25, runner=runner, sleeper=lambda _delay: None))
+        self.assertEqual(
+            runner.arguments[-1][2],
+            'hl.dsp.layout("splitratio 0.5 exact")',
+        )
 
 
 if __name__ == "__main__":
