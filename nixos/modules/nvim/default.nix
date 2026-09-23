@@ -36,6 +36,10 @@ let
       for so in ${grammars}/parser/*.so; do
         ln -s "$so" "$out/parser/$(basename "$so")"
       done
+      # The rewritten nvim-treesitter keeps its queries below runtime/, while
+      # Neovim looks for queries/<language> at each runtimepath root. Parsers
+      # alone start successfully but cannot produce any highlighting.
+      ln -s "$out/runtime/queries" "$out/queries"
     '';
   };
 
