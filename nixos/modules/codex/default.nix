@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgsUnstable, ... }:
 
 let
   cfg = config.my.codex;
@@ -11,7 +11,7 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      codex
+      pkgsUnstable.codex
       pkgs.bubblewrap
     ];
     #home.file.".codex/config.toml".source = ./config.toml;

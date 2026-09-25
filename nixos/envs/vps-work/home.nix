@@ -8,6 +8,7 @@
 {
   imports = [
     ../home-terminal.nix
+    ../../modules/earlyoom
     ../../modules/claude-code
     ../../modules/codex
   ];
@@ -21,4 +22,5 @@
   my.syncthing.enable = true;
   my.claude-code.enable = false;
   my.codex.enable = true;
+  my.earlyoom.enable = true;
 }

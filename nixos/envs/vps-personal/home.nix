@@ -7,6 +7,7 @@
 {
   imports = [
     ../home-terminal.nix
+    ../../modules/earlyoom
     ../../modules/obsidian-backup
   ];
 
@@ -14,6 +15,7 @@
   my.byobu.enable = true;
   my.syncthing.enable = true;
   my.nvim.light = true;
+  my.earlyoom.enable = true;
 
   services.obsidianBackup = {
     enable = true;
