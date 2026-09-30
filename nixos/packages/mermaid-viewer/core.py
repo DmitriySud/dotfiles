@@ -36,6 +36,9 @@ class RenderJob:
     puppeteer_config: str | None = field(
         default_factory=lambda: os.environ.get("MERMAID_VIEWER_PUPPETEER_CONFIG")
     )
+    mermaid_config: str | None = field(
+        default_factory=lambda: os.environ.get("MERMAID_VIEWER_CONFIG")
+    )
     background: str = "white"
     temporary_directory: Path = field(init=False)
     source_path: Path = field(init=False)
@@ -66,6 +69,8 @@ class RenderJob:
         ]
         if self.puppeteer_config:
             command.extend(["--puppeteerConfigFile", self.puppeteer_config])
+        if self.mermaid_config:
+            command.extend(["--configFile", self.mermaid_config])
 
         try:
             process = subprocess.Popen(

@@ -1,0 +1,15 @@
+{
+  "htmlLabels": false,
+  "flowchart": {
+    "defaultRenderer": "elk",
+    "curve": "linear",
+    "nodeSpacing": 80,
+    "rankSpacing": 100,
+    "padding": 20,
+    "wrappingWidth": 180
+  },
+  "elk": {
+    "mergeEdges": false,
+    "nodePlacementStrategy": "NETWORK_SIMPLEX"
+  }
+}

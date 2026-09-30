@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 import shutil
 import sys
@@ -49,6 +50,23 @@ class RenderJobTest(unittest.TestCase):
 
         self.assertEqual(result.read_bytes()[:8], b"\x89PNG\r\n\x1a\n")
         self.assertEqual(job.source_path.read_text(encoding="utf-8"), source)
+
+    def test_passes_global_mermaid_config_to_renderer(self) -> None:
+        config_path = FIXTURES / "mermaid-config.json"
+        with mock.patch.dict(
+            os.environ,
+            {"MERMAID_VIEWER_CONFIG": str(config_path)},
+            clear=False,
+        ):
+            job = self.make_job("flowchart LR\nA --> B")
+
+        job.render()
+
+        arguments = json.loads(
+            (job.temporary_directory / "arguments.json").read_text(encoding="utf-8")
+        )
+        config_index = arguments.index("--configFile")
+        self.assertEqual(arguments[config_index + 1], str(config_path))
 
     def test_rejects_empty_source(self) -> None:
         job = self.make_job(" \n\t")

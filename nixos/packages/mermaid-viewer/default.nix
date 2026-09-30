@@ -59,9 +59,12 @@ stdenv.mkDerivation {
     install -Dm644 hyprland.py $out/share/mermaid-viewer/hyprland.py
     install -Dm644 puppeteer-config.json \
       $out/share/mermaid-viewer/puppeteer-config.json
+    install -Dm644 mermaid-config.json \
+      $out/share/mermaid-viewer/mermaid-config.json
 
     makeWrapper ${lib.getExe pythonEnv} $out/bin/mermaid-viewer \
       --add-flags $out/share/mermaid-viewer/app.py \
+      --set MERMAID_VIEWER_CONFIG $out/share/mermaid-viewer/mermaid-config.json \
       --set MERMAID_VIEWER_PUPPETEER_CONFIG $out/share/mermaid-viewer/puppeteer-config.json \
       --prefix PATH : ${lib.makeBinPath [ hyprland mermaid-cli wl-clipboard ]}
 
