@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/0ad6f47ea4fe188f4bc8f0380f93ae8523337c6c";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/4975466d324710c576dc11ad614684e6bd8cad8e";
     pr-review = {
       url = "path:/home/dyusudakov/repos/pr-review.nvim";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -1,0 +1,256 @@
+--- a/goto.sh
++++ b/goto.sh
+@@ -43,7 +43,10 @@
+       _goto_cleanup "$@"
+       ;;
+     -r|--register) # Register an alias
+-      _goto_register_alias "$@"
++      _goto_register_alias static "$@"
++      ;;
++    -R|--register-dynamic) # Store a shell expression without evaluating it
++      _goto_register_alias dynamic "$@"
+       ;;
+     -u|--unregister) # Unregister an alias
+       _goto_unregister_alias "$@"
+@@ -95,6 +98,9 @@
+ OPTIONS:
+   -r, --register: registers an alias
+     goto -r|--register <alias> <directory>
++  -R, --register-dynamic: registers a trusted shell expression, evaluated on use
++    goto -R|--register-dynamic <alias> '<expression>'
++    Example: goto -R project '$PROJECTS_DIR/current'
+   -u, --unregister: unregisters an alias
+     goto -u|--unregister <alias>
+   -p, --push: pushes the current directory onto the stack, then performs goto
+@@ -111,6 +117,9 @@
+     goto -h|--help
+   -v, --version: displays the version of the goto script
+     goto -v|--version
++
++Dynamic expressions run only when navigating, pushing, or expanding an alias;
++listing, completion, registration, and cleanup do not evaluate them.
+ USAGE
+ }
+ 
+@@ -152,34 +161,30 @@
+ {
+   if [ "$#" -ne "1" ]; then
+     _goto_error "usage: goto -x|--expand <alias>"
+-    return
+-  fi
+-
+-  local resolved
+-
+-  resolved=$(_goto_find_alias_directory "$1")
+-  if [ -z "$resolved" ]; then
+-    _goto_error "alias '$1' does not exist"
+-    return
+-  fi
+-
+-  echo "$resolved"
++    return 1
++  fi
++
++  _goto_resolve_alias "$1"
+ }
+ 
+ # Lists duplicate directory aliases
+ _goto_find_duplicate()
+ {
+-  local duplicates=
+-
+-  duplicates=$(sed -n 's:[^ ]* '"$1"'$:&:p' "$GOTO_DB" 2>/dev/null)
+-  echo "$duplicates"
++  local entry
++  while IFS= read -r entry; do
++    if [ "${entry#* }" = "$1" ]; then
++      printf '%s\n' "$entry"
++    fi
++  done < "$GOTO_DB"
+ }
+ 
+ # Registers and alias.
+ _goto_register_alias()
+ {
++  local kind="$1"
++  shift
+   if [ "$#" -ne "2" ]; then
+-    _goto_error "usage: goto -r|--register <alias> <directory>"
++    _goto_error "usage: goto --register <alias> <directory> or --register-dynamic <alias> '<expression>'"
+     return 1
+   fi
+ 
+@@ -197,10 +202,19 @@
+   fi
+ 
+   local directory
+-  directory=$(_goto_expand_directory "$2")
+-  if [ -z "$directory" ]; then
+-    _goto_error "failed to register '$1' to '$2' - can't cd to directory"
+-    return 1
++  if [ -z "$2" ] || [[ "$2" == *$'\n'* ]]; then
++    _goto_error "the directory or expression must be a non-empty single line"
++    return 1
++  fi
++
++  if [ "$kind" = dynamic ]; then
++    directory="@dynamic:$2"
++  else
++    directory=$(_goto_expand_directory "$2")
++    if [ -z "$directory" ]; then
++      _goto_error "failed to register '$1' to '$2' - can't cd to directory"
++      return 1
++    fi
+   fi
+ 
+   local duplicate
+@@ -210,7 +224,7 @@
+   fi
+ 
+   # Append entry to file.
+-  echo "$1 $directory" >> "$GOTO_DB"
++  printf '%s %s\n' "$1" "$directory" >> "$GOTO_DB" || return 1
+   echo "Alias '$1' registered successfully."
+ }
+ 
+@@ -229,10 +243,15 @@
+     return 1
+   fi
+ 
+-  # shellcheck disable=SC2034
+-  local readonly GOTO_DB_TMP="$HOME/.goto_"
+-  # Delete entry from file.
+-  sed "/^$1 /d" "$GOTO_DB" > "$GOTO_DB_TMP" && mv "$GOTO_DB_TMP" "$GOTO_DB"
++  # Replace the actual database, preserving symlinks to writable state.
++  local database temporary
++  database=$(readlink -f -- "$GOTO_DB") || return 1
++  temporary=$(mktemp "${database}.XXXXXX") || return 1
++  if ! awk -v name="$1" '$1 != name' "$database" > "$temporary" ||
++     ! mv -- "$temporary" "$database"; then
++    rm -f -- "$temporary"
++    return 1
++  fi
+   echo "Alias '$1' unregistered successfully."
+ }
+ 
+@@ -244,9 +263,13 @@
+     return
+   fi
+ 
+-  { pushd . || return; } 1>/dev/null 2>&1
+-
+-  _goto_directory "$@"
++  local target
++  if [[ $1 =~ ^[[:alnum:]]+[a-zA-Z0-9_-]*$ ]]; then
++    target=$(_goto_resolve_alias "$1") || return 1
++  else
++    target="$1"
++  fi
++  builtin pushd "$target" >/dev/null
+ }
+ 
+ # Pops the top directory from the stack, then goto
+@@ -262,11 +285,18 @@
+     return
+   fi
+ 
+-  while IFS= read -r i && [ -n "$i" ]; do
+-    echo "Cleaning up: $i"
+-    _goto_unregister_alias "$i"
+-  done <<< "$(awk '{al=$1; $1=""; dir=substr($0,2);
+-                    system("[ ! -d \"" dir "\" ] && echo " al)}' "$GOTO_DB")"
++  local entry directory
++  while IFS= read -r entry; do
++    directory=${entry#* }
++    # Dynamic paths may only exist in another execution context.
++    case "$directory" in
++      @dynamic:*) continue ;;
++    esac
++    if [ ! -d "$directory" ]; then
++      printf 'Cleaning up: %s\n' "${entry%% *}"
++      _goto_unregister_alias "${entry%% *}" || return 1
++    fi
++  done < "$GOTO_DB"
+ }
+ 
+ # Changes to the given alias' directory
+@@ -289,10 +319,13 @@
+ # Fetches the alias directory.
+ _goto_find_alias_directory()
+ {
+-  local resolved
+-
+-  resolved=$(sed -n "s/^$1 \\(.*\\)/\\1/p" "$GOTO_DB" 2>/dev/null)
+-  echo "$resolved"
++  local entry
++  while IFS= read -r entry; do
++    if [ "${entry%% *}" = "$1" ]; then
++      printf '%s\n' "${entry#* }"
++      return
++    fi
++  done < "$GOTO_DB"
+ }
+ 
+ # Displays the given error.
+@@ -332,9 +365,26 @@
+     _goto_error "unregistered alias $1"
+     _goto_print_similar "$1"
+     return 1
+-  else
+-    echo "${resolved}"
+-  fi
++  fi
++
++  case "$resolved" in
++    @dynamic:*)
++      # Evaluate only explicitly registered code, in the caller's shell/cwd.
++      # The subshell contains changes to variables, cwd, and shell options.
++      resolved=$(
++        eval "resolved=\"${resolved#@dynamic:}\"" || exit 1
++        printf '%s\n' "$resolved"
++      ) || {
++        _goto_error "failed to evaluate alias '$1'"
++        return 1
++      }
++      if [ -z "$resolved" ] || [[ "$resolved" == *$'\n'* ]]; then
++        _goto_error "alias '$1' must resolve to one non-empty directory path"
++        return 1
++      fi
++      ;;
++  esac
++  printf '%s\n' "$resolved"
+ }
+ 
+ # Completes the goto function with the available commands
+@@ -343,7 +393,7 @@
+   local IFS=$' \t\n'
+ 
+   # shellcheck disable=SC2207
+-  COMPREPLY=($(compgen -W "-r --register -u --unregister -p --push -o --pop -l --list -x --expand -c --cleanup -v --version" -- "$1"))
++  COMPREPLY=($(compgen -W "-r --register -R --register-dynamic -u --unregister -p --push -o --pop -l --list -x --expand -c --cleanup -v --version" -- "$1"))
+ }
+ 
+ # Completes the goto function with the available aliases
+@@ -369,7 +419,7 @@
+       if ! [[ $(uname -s) =~ Darwin* ]]; then
+         matches[$i]=$(printf '%*s' "-$COLUMNS" "${matches[$i]}")
+ 
+-        COMPREPLY+=("$(compgen -W "${matches[$i]}")")
++        COMPREPLY+=("${matches[$i]}")
+       else
+         COMPREPLY+=("${matches[$i]// */}")
+       fi
+@@ -426,11 +476,12 @@
+   _goto_resolve_db
+   while IFS= read -r line; do
+     all_aliases+=("$line")
+-  done <<< "$(sed -e 's/ /:/g' $GOTO_DB 2>/dev/null)"
++  done <<< "$(sed -e 's/ /:/' "$GOTO_DB" 2>/dev/null)"
+ 
+   local state
+   local -a options=(
+     '(1)'{-r,--register}'[registers an alias]:register:->register'
++    '(1)'{-R,--register-dynamic}'[registers a shell expression evaluated on use]:register:->register'
+     '(- 1 2)'{-u,--unregister}'[unregisters an alias]:unregister:->unregister'
+     '(: -)'{-l,--list}'[lists aliases]'
+     '(*)'{-c,--cleanup}'[cleans up non existent directory aliases]'

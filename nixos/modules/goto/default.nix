@@ -8,6 +8,7 @@
 let
   storageDir = "${config.my.syncthing.storage-dir}/goto";
   gotoDb = "${storageDir}/db";
+  gotoPackage = pkgs.callPackage ./package.nix { };
   cfg = config.my.goto;
 in
 {
@@ -27,9 +28,9 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ pkgs.goto ];
+    home.packages = [ gotoPackage ];
 
-    my.goto.shellIntegration = builtins.readFile "${pkgs.goto}/share/goto.sh";
+    my.goto.shellIntegration = builtins.readFile "${gotoPackage}/share/goto.sh";
 
     home.activation.initGotoState = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       mkdir -p ${storageDir}
