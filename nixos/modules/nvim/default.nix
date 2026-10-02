@@ -7,6 +7,11 @@
 }:
 let
   reviewPackages = pr-review.packages.${pkgs.stdenv.hostPlatform.system};
+  reviewPlugin = reviewPackages.pr-review-nvim.override {
+    reviewModel = "gpt-6-sol";
+    reviewReasoningEffort = "xhigh";
+  };
+  reviewLauncher = reviewPackages.pr-review.override { plugin = reviewPlugin; };
   treesitterMain = pkgs.fetchFromGitHub {
     owner = "nvim-treesitter";
     repo = "nvim-treesitter";
@@ -58,7 +63,7 @@ in {
       ripgrep # for telescope or grep
       fd # for fzf/telescope
       fzf
-      reviewPackages.pr-review
+      reviewLauncher
     ] ++ lib.optionals (!config.my.nvim.light) [
       nodejs # needed for coc
       clang-tools
@@ -75,7 +80,7 @@ in {
       vimAlias = true;
 
       plugins = with pkgs.vimPlugins; [
-        reviewPackages.pr-review-nvim
+        reviewPlugin
         plenary-nvim
         telescope-nvim
         vim-easymotion
