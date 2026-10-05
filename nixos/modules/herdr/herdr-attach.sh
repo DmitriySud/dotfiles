@@ -6,7 +6,8 @@ rows=$(
     | [
         .pane_id,
         (.agent_status // "unknown"),
-        (.name // .agent // "unknown"),
+        (.agent // "unknown"),
+        (.name // "-"),
         (.foreground_cwd // .cwd // "-")
       ]
     | @tsv
@@ -27,7 +28,7 @@ if ! selected=$(
       --no-multi \
       --delimiter=$'\t' \
       --prompt='Herdr agent> ' \
-      --header=$'PANE\tSTATUS\tAGENT\tWORKING DIRECTORY'
+      --header=$'PANE\tSTATUS\tAGENT\tSESSION\tWORKING DIRECTORY'
 ); then
   exit 0
 fi
