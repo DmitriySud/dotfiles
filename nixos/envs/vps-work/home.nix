@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  pkgsUnstable,
   ...
 }:
 {
@@ -11,10 +10,10 @@
     ../../modules/earlyoom
     ../../modules/claude-code
     ../../modules/codex
+    ../../modules/herdr
   ];
 
   home.packages = [
-    pkgsUnstable.herdr
     pkgs.glow
   ];
 
@@ -23,4 +22,5 @@
   my.claude-code.enable = false;
   my.codex.enable = true;
   my.earlyoom.enable = true;
+  my.herdr.enable = true;
 }
