@@ -7,7 +7,7 @@ rows=$(
         .pane_id,
         (.agent_status // "unknown"),
         (.agent // "unknown"),
-        (.name // "-"),
+        (.terminal_title // "-"),
         (.foreground_cwd // .cwd // "-")
       ]
     | @tsv
