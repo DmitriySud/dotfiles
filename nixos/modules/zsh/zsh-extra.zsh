@@ -44,3 +44,21 @@ source @p10kTheme@
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 alias ffzf='fzf | xargs cat | wl-copy'
+alias wt='ya tool arc-wt'
+
+gowt() {
+  if (( $# != 1 )) || [[ -z "$1" ]]; then
+    print -u2 'Usage: gowt <worktree_name>'
+    return 1
+  fi
+
+  builtin cd -- "$HOME/arcadia-wt/$1"
+}
+
+_gowt() {
+  (( CURRENT == 2 )) || return 1
+
+  local -a worktrees=( "$HOME"/arcadia-wt/*(N-/) )
+  compadd -- "${worktrees[@]:t}"
+}
+compdef _gowt gowt
