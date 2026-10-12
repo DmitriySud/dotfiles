@@ -63,12 +63,14 @@ in {
   imports = [
     ../home-desktop.nix
     ../../modules/codex
+    ../../modules/herdr
   ];
 
   my.home-base.git-email = "dmitriy.sudakov2001@gmail.com";
   my.home-base.enableBrightness = true;
   my.firefox.proxy.enable = false;
   my.codex.enable = true;
+  my.herdr.enable = true;
 
   my.hyprland = {
     enable = true;
@@ -157,6 +159,8 @@ in {
     switch-layout-and-lock-wrapper 
     ssh-devmachine-wrapper
     pkgs.zoom-us
+
+    pkgs.slurp # Нужен для выбора области экрана в некоторых композиторах
   ];
 
   xdg.desktopEntries.lastochka-byobu = {
@@ -167,4 +171,13 @@ in {
     type = "Application";
     categories = [ "Network" "TerminalEmulator" ];
   };
+
+  programs.obs-studio = {
+    enable = true;
+    plugins = with pkgs.obs-studio-plugins; [
+      wlrobs           # Захват экрана для wlroots-композиторов (Sway, Hyprland)
+      obs-pipewire-audio-capture # Захват аудио через PipeWire
+    ];
+  };
+
 }

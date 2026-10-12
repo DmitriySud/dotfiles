@@ -80,8 +80,8 @@ in
       '';
       settings = {
         "*.yandex.net" = {
-          "ForwardAgent" = "~/.skotty/sock/default.sock";
-          # "IdentityAgent" = "~/.skotty/sock/default.sock";
+          "ForwardAgent" = "~/.skotty/sock/sudo.sock";
+          "IdentityAgent" = "~/.skotty/sock/default.sock";
         };
 
         "*" = {

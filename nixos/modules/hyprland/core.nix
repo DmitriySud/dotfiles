@@ -105,6 +105,22 @@ in
       source = ./scripts/group-wrokspace.sh;
     };
 
+    xdg.portal = {
+      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      config.hyprland.default = [ "hyprland" "gtk" ];
+    };
+
+    # Standalone Home Manager cannot rely on the host's systemd service search
+    # path including the Nix profile. NixOS registers these services itself.
+    xdg.configFile = lib.mkIf (!config.submoduleSupport.enable) {
+      "systemd/user/xdg-desktop-portal.service".source =
+        "${pkgs.xdg-desktop-portal}/share/systemd/user/xdg-desktop-portal.service";
+      "systemd/user/xdg-desktop-portal-hyprland.service".source =
+        "${config.wayland.windowManager.hyprland.finalPortalPackage}/share/systemd/user/xdg-desktop-portal-hyprland.service";
+      "systemd/user/xdg-desktop-portal-gtk.service".source =
+        "${pkgs.xdg-desktop-portal-gtk}/share/systemd/user/xdg-desktop-portal-gtk.service";
+    };
+
 
     wayland.windowManager.hyprland = {
       enable = true;
