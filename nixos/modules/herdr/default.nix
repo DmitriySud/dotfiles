@@ -27,5 +27,12 @@ in
       pkgsUnstable.herdr
       herdrAttach
     ];
+
+    xdg.configFile."herdr/config.toml".text = ''
+      onboarding = false
+
+      [terminal]
+      default_shell = "${pkgs.zsh}/bin/zsh"
+    '';
   };
 }
