@@ -3,7 +3,7 @@ local preview_fraction = 0.6
 
 require('telescope').setup {
     defaults = {
-        border = false,
+        border = true,
         layout_strategy = 'flex',
         layout_config = {
             -- No outer margins; leave Neovim's command/status/tab lines available.
@@ -19,8 +19,11 @@ require('telescope').setup {
                 preview_cutoff = 0,
             },
             vertical = {
-                preview_height = preview_fraction,
-                preview_cutoff = 0,
+                -- Share the height left after the prompt and three window borders.
+                preview_height = function(_, _, lines)
+                    return math.max(1, math.floor((lines - 7) * preview_fraction))
+                end,
+                preview_cutoff = 9,
             },
         },
     },
