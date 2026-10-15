@@ -1,0 +1,50 @@
+--- a/extrakto_plugin.py
++++ b/extrakto_plugin.py
+@@ -10,6 +10,7 @@
+ 
+ from collections import OrderedDict
+ from extrakto import Extrakto, get_lines
++from extrakto_files import capture_files
+ 
+ PLATFORM = platform.system()
+ PRJ_URL = "https://github.com/laktak/extrakto"
+@@ -66,7 +67,8 @@
+     p = subprocess.Popen(
+         command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=None
+     )
+-    p.stdin.write(data.encode("utf-8") + b"\n")
++    if data:
++        p.stdin.write(data.encode("utf-8") + b"\n")
+     p.stdin.close()
+     p.wait()
+     res = p.stdout.read().decode("utf-8").split("\n")
+@@ -325,7 +327,15 @@
+                 ]
+                 query, key, *selection = fzf_sel(
+                     fzf_cmd,
+-                    get_cap(mode, self.capture_panes()),
++                    (
++                        capture_files(
++                            self.trigger_pane,
++                            self.grab_area,
++                            self.get_capture_pane_start(),
++                        )
++                        if mode == "file"
++                        else get_cap(mode, self.capture_panes())
++                    ),
+                 )
+             except Exception as e:
+                 msg = (
+@@ -342,6 +352,12 @@
+                 if confirm != "n":
+                     self.copy(msg)
+                 sys.exit(0)
++
++            # An empty file list must not overwrite the clipboard or run an action.
++            if not selection and key in (
++                self.copy_key, self.insert_key, self.open_key, self.edit_key
++            ):
++                return 0
+ 
+             # selection will be without or with the filter name prefixing the entry
+             # "example quoted text here"
