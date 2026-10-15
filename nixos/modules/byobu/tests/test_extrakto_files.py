@@ -29,6 +29,10 @@ class FilesTest(unittest.TestCase):
         text = "ordinary words missing.txt missing/file.py sub https://example.com/README.md"
         self.assertEqual(get_files(text, self.cwd), [])
 
+    def test_duplicate_files_follow_their_lowest_screen_occurrence(self):
+        text = "README.md\nMakefile\nREADME.md\n.env\nMakefile\n"
+        self.assertEqual(get_files(text, self.cwd), ["README.md", ".env", "Makefile"])
+
     def test_quotes_escaped_spaces_punctuation_and_source_locations(self):
         text = r'''"file with spaces.txt" file\ with\ spaces.txt `README.md` (sub/file.py:12:3), Makefile. literal.'''
         self.assertEqual(

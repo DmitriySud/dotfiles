@@ -18,8 +18,13 @@
      p.stdin.close()
      p.wait()
      res = p.stdout.read().decode("utf-8").split("\n")
-@@ -325,7 +327,15 @@
+@@ -323,9 +325,20 @@
+                     f"--layout={self.fzf_layout}",
+                     "--no-info",
                  ]
++                if mode == "file":
++                    # Keep terminal position order even while narrowing the list.
++                    fzf_cmd.append("--no-sort")
                  query, key, *selection = fzf_sel(
                      fzf_cmd,
 -                    get_cap(mode, self.capture_panes()),
@@ -35,7 +40,7 @@
                  )
              except Exception as e:
                  msg = (
-@@ -342,6 +352,12 @@
+@@ -342,6 +355,12 @@
                  if confirm != "n":
                      self.copy(msg)
                  sys.exit(0)

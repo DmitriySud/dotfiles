@@ -41,7 +41,7 @@ in
       set -g @extrakto_key F
       set -g @extrakto_grab_area recent
       set -g @extrakto_filter_order file
-      set -g @extrakto_fzf_layout reverse
+      set -g @extrakto_fzf_layout default
       set -g @extrakto_clip_tool_run tmux_osc52
       run-shell "${extrakto.rtp}"
     '';

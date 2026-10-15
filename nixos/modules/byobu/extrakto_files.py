@@ -13,8 +13,8 @@ LOCATION = re.compile(r":\d+(?::\d+)?$")
 
 
 def get_files(text, cwd):
-    """Return unique file references, preserving their displayed path spelling."""
-    files = []
+    """Return files in screen order, keeping each file's lowest occurrence."""
+    files = {}
     checked = {}
     for match in TOKENS.finditer(text):
         token = next(value for value in match.groups() if value is not None)
@@ -29,9 +29,10 @@ def get_files(text, cwd):
                 except (OSError, ValueError):
                     checked[candidate] = False
             if checked[candidate]:
-                files.append(candidate)
+                files.pop(candidate, None)
+                files[candidate] = None
                 break
-    return list(dict.fromkeys(files))
+    return list(files)
 
 
 def capture_files(trigger_pane, grab_area, capture_start):
@@ -53,4 +54,5 @@ def capture_files(trigger_pane, grab_area, capture_start):
         cwd = tmux("display-message", "-p", "-t", pane, "#{pane_current_path}").rstrip("\n")
         text = tmux("capture-pane", "-pJS", capture_start, "-t", pane)
         files.extend(get_files(text, cwd))
+    # fzf's default layout places the first candidate at the bottom.
     return "\n".join(dict.fromkeys(reversed(files)))
