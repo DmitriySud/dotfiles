@@ -47,12 +47,12 @@ alias ffzf='fzf | xargs cat | wl-copy'
 alias wt='ya tool arc-wt'
 
 gowt() {
-  if (( $# != 1 )) || [[ -z "$1" ]]; then
-    print -u2 'Usage: gowt <worktree_name>'
+  if (( $# > 1 )) || [[ $# == 1 && -z "$1" ]]; then
+    print -u2 'Usage: gowt [worktree_name]'
     return 1
   fi
 
-  builtin cd -- "$HOME/arcadia-wt/$1"
+  builtin cd -- "$HOME/arcadia-wt/${1-}"
 }
 
 _gowt() {
